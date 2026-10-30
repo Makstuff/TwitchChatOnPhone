@@ -66,14 +66,15 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             manifestPlaceholders["applicationLabel"] = "@string/app_name"
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("release").takeIf { it.storeFile?.exists() == true } ?: signingConfigs.getByName("debug")
         }
         getByName("debug") {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             manifestPlaceholders["applicationLabel"] = "@string/app_name"
         }
         create("dank") {
-            initWith(getByName("debug"))
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             manifestPlaceholders["applicationLabel"] = "@string/app_name_dank"
             applicationIdSuffix = ".dank"
@@ -97,7 +98,7 @@ android {
     //noinspection WrongGradleMethod
     androidComponents {
         beforeVariants {
-            sourceSets.named("main") {
+            sourceSets.named(it.name) {
                 java.srcDir(File("build/generated/ksp/${it.name}/kotlin"))
             }
         }

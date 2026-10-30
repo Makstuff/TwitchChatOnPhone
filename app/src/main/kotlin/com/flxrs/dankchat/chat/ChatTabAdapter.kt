@@ -10,6 +10,7 @@ import com.flxrs.dankchat.preferences.model.ChannelWithRename
 class ChatTabAdapter(parentFragment: Fragment) : FragmentStateAdapter(parentFragment) {
 
     private val _channels = mutableListOf<ChannelWithRename>()
+    val currentChannels: List<ChannelWithRename> get() = _channels
 
     override fun createFragment(position: Int) = ChatFragment.newInstance(_channels[position].channel)
 

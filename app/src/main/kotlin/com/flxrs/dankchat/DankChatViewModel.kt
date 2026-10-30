@@ -9,6 +9,7 @@ import com.flxrs.dankchat.data.repo.chat.ChatRepository
 import com.flxrs.dankchat.data.repo.data.DataRepository
 import com.flxrs.dankchat.preferences.DankChatPreferenceStore
 import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsDataStore
+import com.flxrs.dankchat.preferences.stream.StreamsSettingsDataStore
 import com.flxrs.dankchat.utils.extensions.withoutOAuthPrefix
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.channels.Channel
@@ -26,6 +27,7 @@ class DankChatViewModel(
     private val chatRepository: ChatRepository,
     private val dankChatPreferenceStore: DankChatPreferenceStore,
     private val appearanceSettingsDataStore: AppearanceSettingsDataStore,
+    private val streamsSettingsDataStore: StreamsSettingsDataStore,
     private val authApiClient: AuthApiClient,
     private val dataRepository: DataRepository,
 ) : ViewModel() {
@@ -57,7 +59,11 @@ class DankChatViewModel(
                     validateUser()
                 }
 
-                chatRepository.connectAndJoin()
+                val initialChannels = chatRepository.channels.value ?: when {
+                    streamsSettingsDataStore.current().onlyLiveChannels && dankChatPreferenceStore.isLoggedIn -> emptyList()
+                    else                                                                                       -> dankChatPreferenceStore.channels
+                }
+                chatRepository.connectAndJoin(initialChannels)
             }
         }
     }

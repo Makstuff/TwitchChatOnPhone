@@ -16,6 +16,7 @@
     <string name="error_dialog_copy">Copy</string>
     <string name="error_dialog_title">Caught exception: %1$s</string>
     <string name="add_channel">Add channel</string>
+    <string name="only_live_channels">Only live channels</string>
     <string name="manage_channels">Manage channels</string>
     <string name="report_channel">Report channel</string>
     <string name="block_channel">Block channel</string>

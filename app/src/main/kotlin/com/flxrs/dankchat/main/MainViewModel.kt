@@ -48,6 +48,7 @@ import com.flxrs.dankchat.domain.GetChannelsUseCase
 import com.flxrs.dankchat.preferences.DankChatPreferenceStore
 import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsDataStore
 import com.flxrs.dankchat.preferences.chat.ChatSettingsDataStore
+import com.flxrs.dankchat.preferences.model.ChannelWithRename
 import com.flxrs.dankchat.preferences.stream.StreamsSettingsDataStore
 import com.flxrs.dankchat.utils.DateTimeUtils
 import com.flxrs.dankchat.utils.extensions.flatMapLatestOrDefault
@@ -121,6 +122,7 @@ class MainViewModel(
     private val isImageUploading = MutableStateFlow(false)
     private val isDataLoading = MutableStateFlow(false)
     private val streamData = MutableStateFlow<List<StreamData>>(emptyList())
+    private val hasFetchedStreams = MutableStateFlow(false)
     private val currentSuggestionChannel = MutableStateFlow<UserName?>(null)
     private val inputSheetState = MutableStateFlow<InputSheetState>(InputSheetState.Closed)
     private val fullScreenSheetState = MutableStateFlow<FullScreenSheetState>(FullScreenSheetState.Closed)
@@ -131,6 +133,38 @@ class MainViewModel(
     private val isScrolling = MutableStateFlow(false)
     private val chipsExpanded = MutableStateFlow(false)
     private val repeatedSend = MutableStateFlow(RepeatedSendData(enabled = false, message = ""))
+
+    val onlyLiveChannels: StateFlow<Boolean> = streamsSettingsDataStore.onlyLiveChannels
+        .stateIn(viewModelScope, SharingStarted.Eagerly, streamsSettingsDataStore.current().onlyLiveChannels)
+
+    val configuredChannels: StateFlow<List<UserName>> = dankChatPreferenceStore.getChannelsWithRenamesFlow()
+        .map { it.map(ChannelWithRename::channel) }
+        .distinctUntilChanged()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, dankChatPreferenceStore.channels)
+
+    val visibleChannelsWithRenames: StateFlow<List<ChannelWithRename>> = combine(
+        dankChatPreferenceStore.getChannelsWithRenamesFlow(),
+        onlyLiveChannels,
+        streamData,
+        hasFetchedStreams,
+    ) { allChannels, onlyLive, streams, fetched ->
+        when {
+            !onlyLive || !dankChatPreferenceStore.isLoggedIn -> allChannels
+            !fetched                                         -> emptyList()
+            else                                             -> {
+                val liveSet = streams.map { it.channel.lowercase() }.toSet()
+                allChannels.filter { it.channel.lowercase() in liveSet }
+            }
+        }
+    }.distinctUntilChanged()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = when {
+                streamsSettingsDataStore.current().onlyLiveChannels && dankChatPreferenceStore.isLoggedIn -> emptyList()
+                else                                                                                       -> dankChatPreferenceStore.getChannelsWithRenames()
+            }
+        )
 
     private val emotes = currentSuggestionChannel
         .flatMapLatestOrDefault(Emotes()) { dataRepository.getEmotes(it) }
@@ -239,6 +273,36 @@ class MainViewModel(
                         event.updated.forEach { chatRepository.makeAndPostSystemMessage(ChannelSevenTVEmoteRenamed(event.actorName, it.oldName, it.name), channel) }
                         event.removed.forEach { chatRepository.makeAndPostSystemMessage(ChannelSevenTVEmoteRemoved(event.actorName, it.name), channel) }
                     }
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            combine(
+                visibleChannelsWithRenames,
+                chatRepository.channels.map { it != null }.distinctUntilChanged(),
+            ) { visible, isInitialized ->
+                visible to isInitialized
+            }.collect { (visible, isInitialized) ->
+                if (!isInitialized) return@collect
+                val targetChannels = visible.map(ChannelWithRename::channel)
+                val currentChannels = chatRepository.channels.value ?: return@collect
+                if (currentChannels == targetChannels) {
+                    return@collect
+                }
+
+                val addedChannels = targetChannels - currentChannels.toSet()
+                addedChannels.forEach { channel ->
+                    chatRepository.joinChannel(channel)
+                }
+
+                val removedChannels = chatRepository.updateChannels(targetChannels)
+                if (removedChannels.isNotEmpty()) {
+                    dataRepository.removeChannels(removedChannels)
+                }
+
+                if (addedChannels.isNotEmpty() && started && dankChatPreferenceStore.hasMessageHistoryAcknowledged) {
+                    loadData(addedChannels)
                 }
             }
         }
@@ -425,6 +489,16 @@ class MainViewModel(
             val channel = currentSuggestionChannel.value ?: return null
             return channelRepository.getRoomState(channel)
         }
+
+    fun toggleOnlyLiveChannels() {
+        viewModelScope.launch {
+            val newValue = !onlyLiveChannels.value
+            streamsSettingsDataStore.update { it.copy(onlyLiveChannels = newValue) }
+            if (newValue) {
+                fetchStreamData()
+            }
+        }
+    }
 
     fun cancelDataLoad() {
         lastDataLoadingJob?.cancel()
@@ -638,6 +712,9 @@ class MainViewModel(
 
     fun closeAndReconnect() {
         chatRepository.closeAndReconnect()
+        if (dankChatPreferenceStore.isLoggedIn) {
+            fetchStreamData()
+        }
         loadData()
     }
 
@@ -712,28 +789,46 @@ class MainViewModel(
         }
     }
 
-    fun fetchStreamData(channels: List<UserName>? = this.channels.value) {
+    fun fetchStreamData(channels: List<UserName>? = dankChatPreferenceStore.channels) {
         cancelStreamData()
-        channels?.ifEmpty { null } ?: return
+        val initialChannels = channels ?: dankChatPreferenceStore.channels
+        if (initialChannels.isEmpty()) {
+            streamData.value = emptyList()
+            hasFetchedStreams.value = true
+            return
+        }
 
         viewModelScope.launch {
             val settings = streamsSettingsDataStore.settings.first()
-            if (!dankChatPreferenceStore.isLoggedIn || !settings.fetchStreams) {
+            if (!dankChatPreferenceStore.isLoggedIn || (!settings.fetchStreams && !settings.onlyLiveChannels)) {
                 return@launch
             }
 
             fetchTimerJob = timer(STREAM_REFRESH_RATE) {
-                val data = dataRepository.getStreams(channels)?.map {
-                    val uptime = DateTimeUtils.calculateUptime(it.startedAt)
-                    val category = it.category
-                        ?.takeIf { settings.showStreamCategory }
-                        ?.ifBlank { null }
-                    val formatted = dankChatPreferenceStore.formatViewersString(it.viewerCount, uptime, category)
+                val currentChannels = dankChatPreferenceStore.channels
+                if (currentChannels.isEmpty()) {
+                    streamData.value = emptyList()
+                    hasFetchedStreams.value = true
+                    return@timer
+                }
 
-                    StreamData(channel = it.userLogin, formattedData = formatted)
-                }.orEmpty()
+                val rawStreams = dataRepository.getStreams(currentChannels)
+                if (rawStreams != null) {
+                    val data = rawStreams.map {
+                        val uptime = DateTimeUtils.calculateUptime(it.startedAt)
+                        val category = it.category
+                            ?.takeIf { settings.showStreamCategory }
+                            ?.ifBlank { null }
+                        val formatted = dankChatPreferenceStore.formatViewersString(it.viewerCount, uptime, category)
 
-                streamData.value = data
+                        StreamData(channel = it.userLogin, formattedData = formatted)
+                    }
+
+                    streamData.value = data
+                    hasFetchedStreams.value = true
+                } else if (!hasFetchedStreams.value) {
+                    hasFetchedStreams.value = true
+                }
             }
         }
     }
@@ -741,7 +836,6 @@ class MainViewModel(
     fun cancelStreamData() {
         fetchTimerJob?.cancel()
         fetchTimerJob = null
-        streamData.value = emptyList()
     }
 
     fun setCurrentStream(value: UserName?) {
@@ -900,6 +994,8 @@ class MainViewModel(
 
         dankChatPreferenceStore.clearLogin()
         userStateRepository.clear()
+        streamData.value = emptyList()
+        hasFetchedStreams.value = false
 
         closeAndReconnect()
         clearIgnores()

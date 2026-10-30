@@ -65,6 +65,9 @@ class StreamsSettingsDataStore(
     val pipEnabled = settings
         .map { it.fetchStreams && it.preventStreamReloads && it.enablePiP }
         .distinctUntilChanged()
+    val onlyLiveChannels = settings
+        .map { it.onlyLiveChannels }
+        .distinctUntilChanged()
 
     fun current() = currentSettings.value
 

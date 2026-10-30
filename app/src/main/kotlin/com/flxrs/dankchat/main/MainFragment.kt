@@ -204,21 +204,34 @@ class MainFragment : Fragment() {
                 val isLoggedIn = dankChatPreferences.isLoggedIn
                 val shouldShowProgress = mainViewModel.shouldShowUploadProgress.value
                 val hasChannels = mainViewModel.getChannels().isNotEmpty()
+                val hasConfiguredChannels = dankChatPreferences.channels.isNotEmpty()
                 val mentionIconColor = when (mainViewModel.shouldColorNotification.value) {
                     true -> R.attr.colorError
                     else -> R.attr.colorControlHighlight
                 }
+                val onlyLiveIconColor = when (mainViewModel.onlyLiveChannels.value) {
+                    true -> R.attr.colorPrimary
+                    else -> R.attr.colorControlHighlight
+                }
                 findItem(R.id.menu_login)?.isVisible = !isLoggedIn
                 findItem(R.id.menu_account)?.isVisible = isLoggedIn
-                findItem(R.id.menu_manage)?.isVisible = hasChannels
+                findItem(R.id.menu_manage)?.isVisible = hasConfiguredChannels
                 findItem(R.id.menu_channel)?.isVisible = hasChannels
                 findItem(R.id.menu_open_channel)?.isVisible = hasChannels
                 findItem(R.id.menu_block_channel)?.isVisible = isLoggedIn
                 findItem(R.id.menu_mentions)?.apply {
-                    isVisible = hasChannels
+                    isVisible = hasConfiguredChannels
                     context?.let {
                         val fallback = ContextCompat.getColor(it, android.R.color.white)
                         val color = MaterialColors.getColor(it, mentionIconColor, fallback)
+                        icon?.setTintList(ColorStateList.valueOf(color))
+                    }
+                }
+                findItem(R.id.menu_only_live)?.apply {
+                    isVisible = hasConfiguredChannels
+                    context?.let {
+                        val fallback = ContextCompat.getColor(it, android.R.color.white)
+                        val color = MaterialColors.getColor(it, onlyLiveIconColor, fallback)
                         icon?.setTintList(ColorStateList.valueOf(color))
                     }
                 }
@@ -244,6 +257,7 @@ class MainFragment : Fragment() {
                 R.id.menu_logout                   -> showLogoutConfirmationDialog()
                 R.id.menu_add                      -> navigateSafe(R.id.action_mainFragment_to_addChannelDialogFragment).also { closeInputSheets() }
                 R.id.menu_mentions                 -> openMentionSheet()
+                R.id.menu_only_live                -> mainViewModel.toggleOnlyLiveChannels()
                 R.id.menu_open_channel             -> openChannel()
                 R.id.menu_remove_channel           -> removeChannel()
                 R.id.menu_report_channel           -> reportChannel()
@@ -445,9 +459,10 @@ class MainFragment : Fragment() {
             collectFlow(shouldShowStreamToggle) { binding.toggleStream.isVisible = it }
             collectFlow(hasModInChannel) { binding.changeRoomstate.isVisible = it }
             collectFlow(shouldShowViewPager) {
+                val hasConfiguredChannels = dankChatPreferences.channels.isNotEmpty()
                 binding.chatViewpager.isVisible = it && !isInPictureInPictureMode
-                binding.addChannelsText.isVisible = !it
-                binding.addChannelsButton.isVisible = !it
+                binding.addChannelsText.isVisible = !it && !hasConfiguredChannels
+                binding.addChannelsButton.isVisible = !it && !hasConfiguredChannels
             }
             collectFlow(shouldShowEmoteMenuIcon) { showEmoteMenuIcon ->
                 when {
@@ -465,7 +480,9 @@ class MainFragment : Fragment() {
             collectFlow(channelMentionCount, ::updateChannelMentionBadges)
             collectFlow(unreadMessagesMap, ::updateUnreadChannelTabColors)
             collectFlow(shouldColorNotification) { activity?.invalidateMenu() }
-            collectFlow(channels, mainViewModel::fetchStreamData)
+            collectFlow(onlyLiveChannels) { activity?.invalidateMenu() }
+            collectFlow(configuredChannels, mainViewModel::fetchStreamData)
+            collectFlow(visibleChannelsWithRenames, ::syncVisibleChannels)
             collectFlow(currentStreamedChannel) {
                 val isActive = it != null
                 binding.streamWebviewWrapper.isVisible = isActive
@@ -551,9 +568,8 @@ class MainFragment : Fragment() {
             dankChatPreferences.userIdString = "${dankChatPreferences.userId}".toUserId()
         }
 
-        val channels = dankChatPreferences.channels
-        val withRenames = dankChatPreferences.getChannelsWithRenames(channels)
-        tabAdapter.updateFragments(withRenames)
+        val initialVisible = mainViewModel.visibleChannelsWithRenames.value
+        tabAdapter.updateFragments(initialVisible)
 //        Setting a custom limit completely breaks the chat when in landscape, rtl and the split is moved around
 //        Use the default caching mechanism instead but limit the cache size of the underlying recyclerview
 //        binding.chatViewpager.offscreenPageLimit = OFFSCREEN_PAGE_LIMIT
@@ -639,7 +655,7 @@ class MainFragment : Fragment() {
                 if (!dankChatPreferences.hasMessageHistoryAcknowledged) {
                     navigateSafe(R.id.action_mainFragment_to_messageHistoryDisclaimerDialogFragment)
                 } else {
-                    mainViewModel.loadData(channels)
+                    mainViewModel.loadData(initialVisible.map(ChannelWithRename::channel))
                 }
             }
         }
@@ -671,6 +687,7 @@ class MainFragment : Fragment() {
         super.onResume()
         changeActionBarVisibility(mainViewModel.isFullscreenFlow.value)
         bindingRef?.updatePictureInPictureVisibility()
+        mainViewModel.fetchStreamData()
 
         (activity as? MainActivity)?.apply {
             val channel = channelToOpen
@@ -925,18 +942,23 @@ class MainFragment : Fragment() {
 
     private fun addChannel(channel: String) {
         val lowerCaseChannel = channel.lowercase().removePrefix("#").toUserName()
-        var newTabIndex = mainViewModel.getChannels().indexOf(lowerCaseChannel)
-        if (newTabIndex == -1) {
-            val updatedChannels = mainViewModel.joinChannel(lowerCaseChannel)
-            newTabIndex = updatedChannels.lastIndex
-            mainViewModel.loadData(channelList = listOf(lowerCaseChannel))
-            dankChatPreferences.channels = updatedChannels
-
-            tabAdapter.addFragment(lowerCaseChannel)
+        val currentConfigured = dankChatPreferences.channels
+        if (lowerCaseChannel !in currentConfigured) {
+            dankChatPreferences.channels = currentConfigured + lowerCaseChannel
         }
-        binding.chatViewpager.setCurrentItem(newTabIndex, false)
-
-        mainViewModel.setActiveChannel(lowerCaseChannel)
+        if (!mainViewModel.onlyLiveChannels.value || !dankChatPreferences.isLoggedIn) {
+            var newTabIndex = tabAdapter.indexOfChannel(lowerCaseChannel)
+            if (newTabIndex == -1) {
+                mainViewModel.joinChannel(lowerCaseChannel)
+                mainViewModel.loadData(channelList = listOf(lowerCaseChannel))
+                tabAdapter.addFragment(lowerCaseChannel)
+                newTabIndex = tabAdapter.itemCount - 1
+            }
+            binding.chatViewpager.setCurrentItem(newTabIndex, false)
+            mainViewModel.setActiveChannel(lowerCaseChannel)
+        } else {
+            mainViewModel.fetchStreamData()
+        }
         activity?.invalidateMenu()
     }
 
@@ -1221,7 +1243,7 @@ class MainFragment : Fragment() {
 
     private fun openManageChannelsDialog() {
         closeInputSheets()
-        val direction = MainFragmentDirections.actionMainFragmentToChannelsDialogFragment(channels = mainViewModel.getChannels().toTypedArray())
+        val direction = MainFragmentDirections.actionMainFragmentToChannelsDialogFragment(channels = dankChatPreferences.channels.toTypedArray())
         navigateSafe(direction)
     }
 
@@ -1275,10 +1297,26 @@ class MainFragment : Fragment() {
     }
 
     private fun updateChannels(updatedChannelsWithRenames: List<ChannelWithRename>) {
+        dankChatPreferences.channels = updatedChannelsWithRenames.map(ChannelWithRename::channel)
+        if (!mainViewModel.onlyLiveChannels.value || !dankChatPreferences.isLoggedIn) {
+            syncVisibleChannels(updatedChannelsWithRenames)
+            mainViewModel.updateChannels(updatedChannelsWithRenames.map(ChannelWithRename::channel))
+        }
+    }
+
+    private fun syncVisibleChannels(updatedChannelsWithRenames: List<ChannelWithRename>) {
         val updatedChannels = updatedChannelsWithRenames.map(ChannelWithRename::channel)
-        val oldChannels = mainViewModel.getChannels()
+        if (tabAdapter.currentChannels == updatedChannelsWithRenames) {
+            if (mainViewModel.getActiveChannel() == null && updatedChannels.isNotEmpty()) {
+                val currentIndex = binding.chatViewpager.currentItem.coerceIn(0, updatedChannels.lastIndex)
+                mainViewModel.setActiveChannel(updatedChannels.getOrNull(currentIndex))
+            }
+            activity?.invalidateMenu()
+            return
+        }
+
         val oldIndex = binding.chatViewpager.currentItem
-        val oldActiveChannel = oldChannels.getOrNull(oldIndex)
+        val oldActiveChannel = tabAdapter[oldIndex] ?: mainViewModel.getActiveChannel()
 
         val index = updatedChannelsWithRenames
             .indexOfFirst { it.channel == oldActiveChannel }
@@ -1286,12 +1324,13 @@ class MainFragment : Fragment() {
         val activeChannel = updatedChannels.getOrNull(index)
 
         tabAdapter.updateFragments(updatedChannelsWithRenames)
-        mainViewModel.updateChannels(updatedChannels)
         mainViewModel.setActiveChannel(activeChannel)
 
-        binding.chatViewpager.setCurrentItem(index, false)
-        binding.root.postDelayed(TAB_SCROLL_DELAY_MS) {
-            binding.tabs.setScrollPosition(index, 0f, false)
+        if (updatedChannels.isNotEmpty()) {
+            binding.chatViewpager.setCurrentItem(index, false)
+            binding.root.postDelayed(TAB_SCROLL_DELAY_MS) {
+                bindingRef?.tabs?.setScrollPosition(index, 0f, false)
+            }
         }
 
         activity?.invalidateMenu()

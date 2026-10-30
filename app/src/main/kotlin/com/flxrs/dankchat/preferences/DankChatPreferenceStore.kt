@@ -137,7 +137,7 @@ class DankChatPreferenceStore(
         send(getChannelsWithRenames())
 
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            if (key == RENAME_KEY || key == CHANNELS_AS_STRING_KEY) {
+            if (key == RENAME_KEY || key == CHANNELS_AS_STRING_KEY || key == LOGGED_IN_KEY) {
                 trySend(getChannelsWithRenames())
             }
         }
