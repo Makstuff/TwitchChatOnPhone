@@ -7,16 +7,7 @@
         'prime', 'turbo', 'login', 'signup', 'activate', 'embed', 'products'
     ]);
 
-    // Minimum interval before re-announcing the exact same channel (30 minutes)
-    const SAME_CHANNEL_TTL_MS = 30 * 60 * 1000;
     let debounceTimer = null;
-
-    function generateSyncId(length = 16) {
-        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-        const values = new Uint8Array(length);
-        crypto.getRandomValues(values);
-        return Array.from(values, (v) => chars[v % chars.length]).join('');
-    }
 
     function extractChannel(pathname) {
         const parts = pathname.split('/').filter(Boolean);
@@ -38,40 +29,9 @@
         const channel = extractChannel(window.location.pathname);
         if (!channel) return;
 
-        chrome.storage.local.get(['syncId', 'lastSyncedChannel', 'lastSyncedTime'], (items) => {
-            let syncId = items.syncId;
-            if (!syncId) {
-                syncId = generateSyncId(16);
-                chrome.storage.local.set({ syncId });
-            }
-
-            const now = Date.now();
-            const sameChannel =
-                items.lastSyncedChannel &&
-                items.lastSyncedChannel.toLowerCase() === channel.toLowerCase();
-            const recentlySent =
-                items.lastSyncedTime && (now - items.lastSyncedTime) < SAME_CHANNEL_TTL_MS;
-
-            // Skip network request if this channel is already the active synced channel
-            if (sameChannel && recentlySent) {
-                return;
-            }
-
-            chrome.storage.local.set({
-                lastSyncedChannel: channel,
-                lastSyncedTime: now
-            });
-
-            const topic = 'tcop-' + syncId.trim();
-            fetch('https://ntfy.sh/' + encodeURIComponent(topic), {
-                method: 'POST',
-                body: channel,
-                headers: {
-                    'Content-Type': 'text/plain;charset=UTF-8',
-                    'Title': 'Twitch Chat on Phone'
-                }
-            }).catch(() => {});
-        });
+        try {
+            chrome.runtime.sendMessage({ type: 'SYNC_CHANNEL', channel });
+        } catch (_) {}
     }
 
     function scheduleSync() {
