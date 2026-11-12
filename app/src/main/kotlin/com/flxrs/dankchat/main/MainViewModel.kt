@@ -664,8 +664,8 @@ class MainViewModel(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), false)
 
     val shouldShowEmoteMenuIcon: StateFlow<Boolean> =
-        combine(canType, sendIconState, fullScreenSheetState) { canType, sendIconState, chatSheetState ->
-            canType && sendIconState != SendIconState.Blocked && !chatSheetState.isMentionSheet
+        combine(canType, fullScreenSheetState) { canType, chatSheetState ->
+            canType && !chatSheetState.isMentionSheet
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), false)
 
     val suggestions: StateFlow<Triple<List<Suggestion.UserSuggestion>, List<Suggestion.EmoteSuggestion>, List<Suggestion.CommandSuggestion>>> = combine(

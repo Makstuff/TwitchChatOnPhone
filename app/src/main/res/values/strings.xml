@@ -53,11 +53,11 @@
     <string name="hint_restriction_banned">Banned</string>
     <string name="hint_restriction_timed_out">Timed Out</string>
     <string name="hint_restriction_timed_out_duration">Timed Out (%1$s remaining)</string>
-    <string name="hint_restriction_subscribers_only">Subscribers-Only Chat</string>
-    <string name="hint_restriction_followers_only">Followers-Only Chat</string>
-    <string name="hint_restriction_followers_only_duration">Followers-Only Chat (%1$s)</string>
-    <string name="hint_restriction_followers_only_remaining">Followers-Only Chat (%1$s remaining)</string>
-    <string name="hint_restriction_emote_only">Emote-Only Chat</string>
+    <string name="hint_restriction_subscribers_only">Subscribers-Only</string>
+    <string name="hint_restriction_followers_only">Followers-Only</string>
+    <string name="hint_restriction_followers_only_duration">Followers-Only (%1$s)</string>
+    <string name="hint_restriction_followers_only_remaining">Followers-Only (%1$s remaining)</string>
+    <string name="hint_restriction_emote_only">Emote-Only</string>
     <string name="hint_restriction_slow_mode">Slow Mode (%1$s)</string>
     <string name="hint_restriction_phone_verification">Phone Verification Required</string>
     <string name="hint_restriction_email_verification">Email Verification Required</string>
