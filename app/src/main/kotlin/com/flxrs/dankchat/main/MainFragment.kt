@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.InputType
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.util.LayoutDirection
@@ -48,6 +49,7 @@ import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
+import androidx.core.view.children
 import androidx.core.view.WindowInsetsAnimationCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type
@@ -206,6 +208,7 @@ class MainFragment : Fragment() {
                 val shouldShowProgress = mainViewModel.shouldShowUploadProgress.value
                 val hasChannels = mainViewModel.getChannels().isNotEmpty()
                 val isLocked = mainViewModel.isSyncLocked.value
+                val canGoBack = mainViewModel.canGoBack.value
                 val canGoForward = mainViewModel.canGoForward.value
 
                 findItem(R.id.menu_login)?.isVisible = !isLoggedIn
@@ -213,19 +216,8 @@ class MainFragment : Fragment() {
                 findItem(R.id.menu_channel)?.isVisible = hasChannels
                 findItem(R.id.menu_open_channel)?.isVisible = hasChannels
                 findItem(R.id.menu_block_channel)?.isVisible = isLoggedIn
-                findItem(R.id.menu_next_channel)?.apply {
-                    isEnabled = canGoForward
-                    context?.let {
-                        val fallback = ContextCompat.getColor(it, android.R.color.white)
-                        val baseColor = MaterialColors.getColor(it, R.attr.colorOnSurface, fallback)
-                        val color = if (canGoForward) {
-                            baseColor
-                        } else {
-                            (baseColor and 0x00FFFFFF) or (0x4D shl 24)
-                        }
-                        icon?.mutate()?.setTintList(ColorStateList.valueOf(color))
-                    }
-                }
+                findItem(R.id.menu_previous_channel)?.applyEnabledTint(canGoBack)
+                findItem(R.id.menu_next_channel)?.applyEnabledTint(canGoForward)
                 findItem(R.id.menu_lock_sync)?.apply {
                     setIcon(if (isLocked) R.drawable.ic_lock else R.drawable.ic_lock_open)
                     context?.let {
@@ -250,7 +242,6 @@ class MainFragment : Fragment() {
                 R.id.menu_previous_channel         -> mainViewModel.navigateToPreviousChannel()
                 R.id.menu_next_channel             -> mainViewModel.navigateToNextChannel()
                 R.id.menu_lock_sync                -> mainViewModel.toggleSyncLock()
-                R.id.menu_sync                     -> syncToRecentStream()
                 R.id.menu_pick_channel             -> navigateSafe(R.id.action_mainFragment_to_addChannelDialogFragment).also { closeInputSheets() }
                 R.id.menu_sync_config              -> showPcSyncConfigDialog()
                 R.id.menu_extension_chrome         -> openBrowserUrl(CHROME_EXTENSION_URL)
@@ -437,6 +428,7 @@ class MainFragment : Fragment() {
             collectFlow(activeChannelTitle) { title ->
                 binding.toolbar.title = title
                 (activity as? AppCompatActivity)?.supportActionBar?.title = title
+                enforceToolbarEllipsize(binding.toolbar)
             }
             collectFlow(activeChannel) { channel ->
                 channel ?: return@collectFlow
@@ -481,6 +473,7 @@ class MainFragment : Fragment() {
             collectFlow(shouldColorNotification) { activity?.invalidateMenu() }
             collectFlow(onlyLiveChannels) { activity?.invalidateMenu() }
             collectFlow(isSyncLocked) { activity?.invalidateMenu() }
+            collectFlow(canGoBack) { activity?.invalidateMenu() }
             collectFlow(canGoForward) { activity?.invalidateMenu() }
             collectFlow(configuredChannels, mainViewModel::fetchStreamData)
             collectFlow(visibleChannelsWithRenames, ::syncVisibleChannels)
@@ -587,6 +580,7 @@ class MainFragment : Fragment() {
             val initialTitle = mainViewModel.activeChannelTitle.value
             supportActionBar?.title = initialTitle
             binding.toolbar.title = initialTitle
+            enforceToolbarEllipsize(binding.toolbar)
             onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
 
             ViewCompat.setOnApplyWindowInsetsListener(binding.showChips) { v, insets ->
@@ -963,12 +957,25 @@ class MainFragment : Fragment() {
         activity?.invalidateMenu()
     }
 
-    private fun syncToRecentStream() {
-        lifecycleScope.launch {
-            val synced = mainViewModel.syncLatestStream()
-            if (synced == null) {
-                showSnackBar(getString(R.string.snackbar_sync_failed))
+    private fun MenuItem.applyEnabledTint(enabled: Boolean) {
+        isEnabled = enabled
+        context?.let {
+            val fallback = ContextCompat.getColor(it, android.R.color.white)
+            val baseColor = MaterialColors.getColor(it, R.attr.colorOnSurface, fallback)
+            val color = if (enabled) {
+                baseColor
+            } else {
+                (baseColor and 0x00FFFFFF) or (0x4D shl 24)
             }
+            icon?.mutate()?.setTintList(ColorStateList.valueOf(color))
+        }
+    }
+
+    private fun enforceToolbarEllipsize(toolbar: ViewGroup) {
+        toolbar.children.filterIsInstance<TextView>().forEach {
+            it.isSingleLine = true
+            it.ellipsize = TextUtils.TruncateAt.END
+            it.isSelected = false
         }
     }
 

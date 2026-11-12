@@ -138,6 +138,8 @@ class MainViewModel(
     private val _isSyncLocked = MutableStateFlow(false)
     val isSyncLocked: StateFlow<Boolean> = _isSyncLocked.asStateFlow()
     private val viewedChannelHistory = ArrayDeque<UserName>()
+    private val _canGoBack = MutableStateFlow(false)
+    val canGoBack: StateFlow<Boolean> = _canGoBack.asStateFlow()
     private val forwardChannelHistory = ArrayDeque<UserName>()
     private val _canGoForward = MutableStateFlow(false)
     val canGoForward: StateFlow<Boolean> = _canGoForward.asStateFlow()
@@ -330,6 +332,7 @@ class MainViewModel(
     fun navigateToPreviousChannel(): UserName? {
         while (viewedChannelHistory.isNotEmpty()) {
             val previous = viewedChannelHistory.removeLast()
+            _canGoBack.value = viewedChannelHistory.isNotEmpty()
             val current = activeChannel.value ?: dankChatPreferenceStore.channels.lastOrNull()
             if (previous != current) {
                 if (current != null) {
@@ -341,6 +344,7 @@ class MainViewModel(
                 return previous
             }
         }
+        _canGoBack.value = false
         return null
     }
 
@@ -353,6 +357,7 @@ class MainViewModel(
                 if (current != null) {
                     viewedChannelHistory.remove(current)
                     viewedChannelHistory.addLast(current)
+                    _canGoBack.value = viewedChannelHistory.isNotEmpty()
                 }
                 switchToSingleChannel(next, recordPrevious = false, clearForward = false)
                 return next
@@ -372,6 +377,7 @@ class MainViewModel(
             viewedChannelHistory.remove(current)
             viewedChannelHistory.addLast(current)
             viewedChannelHistory.remove(channel)
+            _canGoBack.value = viewedChannelHistory.isNotEmpty()
         }
         dankChatPreferenceStore.recordOpenedChannel(channel)
         viewModelScope.launch {

@@ -21,12 +21,6 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_sync"
-        android:icon="@drawable/ic_refresh"
-        android:title="@string/sync_stream"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/menu_pick_channel"
         android:title="@string/pick_channel"
         app:showAsAction="never" />
