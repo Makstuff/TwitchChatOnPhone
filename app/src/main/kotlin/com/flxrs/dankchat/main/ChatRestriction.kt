@@ -53,10 +53,6 @@ sealed interface ChatRestriction {
     data class SlowMode(val seconds: Int) : ChatRestriction {
         override val blocksSending = false
     }
-
-    data object UniqueChat : ChatRestriction {
-        override val blocksSending = false
-    }
 }
 
 enum class SendIconState {

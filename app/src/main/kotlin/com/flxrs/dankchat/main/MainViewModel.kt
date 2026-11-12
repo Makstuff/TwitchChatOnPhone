@@ -565,7 +565,6 @@ class MainViewModel(
             }
 
             if (roomState.isEmoteMode) add(ChatRestriction.EmoteOnly)
-            if (roomState.isUniqueChatMode) add(ChatRestriction.UniqueChat)
             if (isEmpty()) {
                 roomState.slowModeWaitTime?.let { add(ChatRestriction.SlowMode(it)) }
             }

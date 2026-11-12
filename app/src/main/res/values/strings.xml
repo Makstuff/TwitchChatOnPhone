@@ -59,7 +59,6 @@
     <string name="hint_restriction_followers_only_remaining">Followers-Only Chat (%1$s remaining)</string>
     <string name="hint_restriction_emote_only">Emote-Only Chat</string>
     <string name="hint_restriction_slow_mode">Slow Mode (%1$s)</string>
-    <string name="hint_restriction_unique_chat">Unique Chat</string>
     <string name="hint_restriction_phone_verification">Phone Verification Required</string>
     <string name="hint_restriction_email_verification">Email Verification Required</string>
     <string name="hint_restriction_channel_suspended">Channel Suspended</string>

@@ -1487,7 +1487,6 @@ class MainFragment : Fragment() {
 
         ChatRestriction.EmoteOnly                 -> getString(R.string.hint_restriction_emote_only)
         is ChatRestriction.SlowMode               -> getString(R.string.hint_restriction_slow_mode, formatDurationSeconds(restriction.seconds.toLong()))
-        ChatRestriction.UniqueChat                -> getString(R.string.hint_restriction_unique_chat)
         ChatRestriction.PhoneVerificationRequired -> getString(R.string.hint_restriction_phone_verification)
         ChatRestriction.EmailVerificationRequired -> getString(R.string.hint_restriction_email_verification)
         ChatRestriction.ChannelSuspended          -> getString(R.string.hint_restriction_channel_suspended)
@@ -1546,8 +1545,7 @@ class MainFragment : Fragment() {
                 ChatRestriction.EmailVerificationRequired -> getString(R.string.toast_restriction_email_verification)
                 ChatRestriction.ChannelSuspended          -> getString(R.string.toast_restriction_channel_suspended)
                 ChatRestriction.EmoteOnly,
-                is ChatRestriction.SlowMode,
-                ChatRestriction.UniqueChat                -> null
+                is ChatRestriction.SlowMode               -> null
             }
         }
 
