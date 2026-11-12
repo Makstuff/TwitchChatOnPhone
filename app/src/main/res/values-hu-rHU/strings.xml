@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">Üzenet id másolva</string>
     <string name="snackbar_error_copied">Másolt hibainformáció</string>
     <string name="notification_stop">Leállítás</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">A DankChat a háttérben fut</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">A Twitch Chat on Phone a háttérben fut</string>
     <string name="emote_menu_hint">A hangulatjel menü megnyitása</string>
     <string name="login_title">Bejelentkezés a Twitch.tv-be</string>
     <string name="hint_connected">Csevegés elkezdése</string>
@@ -85,7 +85,7 @@
     <string name="multi_entry_add_entry">Bejegyzés hozzáadása</string>
     <string name="login_expired">Bejelentkezés lejárt! Próbálj meg újra bejelentkezni.</string>
     <string name="message_history_disclaimer_title">Üzenet előzmények felelősségkizárása</string>
-    <string name="message_history_disclaimer_message">A DankChat betölti az üzenet előzményeket egy harmadik féltől származó szolgáltatásból induláskor.\nAz üzenetek megszerzésére, a DankChat elküldi a csatorna neveit amik meg vannak nyitva a szolgáltatóhoz.\nA szolgáltatás ideiglenesen eltárolja az üzeneteket a csatornákhoz amiket te (és mások) látogatnak hogy biztosítsa a szolgáltatást.\n\n- Hogy ezt a funkciót ne használja, kattintson a beleegyezés visszavonására lent vagy kapcsolja ki az üzenet előzmények betöltését a beállításokban később.\n- Többet megtudhat a szolgáltatásról és kikapcsolhatja az üzenet előzményeket a saját csatornáján ha megtekinti a https://recent-messages.robotty.de/ oldalt</string>
+    <string name="message_history_disclaimer_message">A Twitch Chat on Phone betölti az üzenet előzményeket egy harmadik féltől származó szolgáltatásból induláskor.\nAz üzenetek megszerzésére, a Twitch Chat on Phone elküldi a csatorna neveit amik meg vannak nyitva a szolgáltatóhoz.\nA szolgáltatás ideiglenesen eltárolja az üzeneteket a csatornákhoz amiket te (és mások) látogatnak hogy biztosítsa a szolgáltatást.\n\n- Hogy ezt a funkciót ne használja, kattintson a beleegyezés visszavonására lent vagy kapcsolja ki az üzenet előzmények betöltését a beállításokban később.\n- Többet megtudhat a szolgáltatásról és kikapcsolhatja az üzenet előzményeket a saját csatornáján ha megtekinti a https://recent-messages.robotty.de/ oldalt</string>
     <string name="dialog_optin">Beleegyezés</string>
     <string name="dialog_optout">Beleegyezés visszavonása</string>
     <string name="more">Több</string>
@@ -120,7 +120,7 @@
     <string name="uploader_headers">Fejlécek</string>
     <string name="uploader_image_link">Média link minta</string>
     <string name="uploader_deletion_link">Törlési link minta</string>
-    <string name="uploader_description">Egy egyéni hosztot állíthat be a média feltöltésére, pl imgur.com vagy s-ul.eu. DankChat ugyanazt a konfigurációt használja mint a Chatterino.\nTekintse meg ezt az útmutatót a segítségért: https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">Egy egyéni hosztot állíthat be a média feltöltésére, pl imgur.com vagy s-ul.eu. Twitch Chat on Phone ugyanazt a konfigurációt használja mint a Chatterino.\nTekintse meg ezt az útmutatót a segítségért: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Teljes képernyőre váltás</string>
     <string name="toggle_stream">Élő adás kapcsolása</string>
     <string name="account">Fiók</string>
@@ -166,7 +166,7 @@
     <string name="custom_login_show_scopes">Mutassa a kötelező változókat</string>
     <string name="custom_login_required_scopes">Kötelező változók</string>
     <string name="custom_login_missing_scopes_title">Hiányzó változók</string>
-    <string name="custom_login_missing_scopes_text">Néhány változó ami szükséges a DankChat által hiányzik a tokenben és néhány funkcionalitás nem a várt módon fog működni. Akarja folytatni ezzel a tokennel?\nHiányzik: %1$s</string>
+    <string name="custom_login_missing_scopes_text">Néhány változó ami szükséges a Twitch Chat on Phone által hiányzik a tokenben és néhány funkcionalitás nem a várt módon fog működni. Akarja folytatni ezzel a tokennel?\nHiányzik: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Tovább</string>
     <string name="custom_login_error_missing_scopes">Hiányzó változók: %1$s</string>
     <string name="custom_login_error_fallback">Hiba: %1$s</string>
@@ -270,7 +270,7 @@
     <string name="oauth_expired_login_again">Bejelentkezés újra</string>
     <string name="oauth_verify_failed">Nem sikerült a bejelentkezési kulcs hitelesítése, ellenőrizze a kapcsolatát.</string>
     <string name="preference_retain_webview_title">Élő adás újratöltésének megakadályozása</string>
-    <string name="preference_retain_webview_summary">Engedélyezi a kísérleti megakadályozását az élő adásnak miután az orientáció megváltozik vagy újranyitja a DankChat-et.</string>
+    <string name="preference_retain_webview_summary">Engedélyezi a kísérleti megakadályozását az élő adásnak miután az orientáció megváltozik vagy újranyitja a Twitch Chat on Phone-et.</string>
     <string name="preference_show_changelogs">Változtatások mutatása a frissítés után</string>
     <string name="preference_whats_new_header">Újdonságok</string>
     <string name="preference_custom_login_title">Egyéni bejelentkezés</string>
@@ -367,7 +367,7 @@
     <string name="emote_sheet_created_by">Létrehozta %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Zéró szélességű)</string>
     <string name="emote_copied">Hangulatjel másolva</string>
-    <string name="changelog_sheet_title">A DankChat frissítve lett!</string>
+    <string name="changelog_sheet_title">A Twitch Chat on Phone frissítve lett!</string>
     <string name="changelog_sheet_subtitle">Újdonságok a v%1$s</string>
     <string name="confirm_login_cancel_title">A bejelentkezés megszakításának megerősítése</string>
     <string name="confirm_login_cancel_message">Biztosan megszakítja a bejelentkezési folyamatot?</string>

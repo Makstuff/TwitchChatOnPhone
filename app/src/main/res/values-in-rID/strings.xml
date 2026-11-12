@@ -36,8 +36,8 @@
     <string name="snackbar_message_copied">Pesan disalin</string>
     <string name="snackbar_error_copied">Informasi error disalin</string>
     <string name="notification_stop">Berhenti</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat berjalan di belakang layar</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone berjalan di belakang layar</string>
     <string name="emote_menu_hint">Buka menu emotikon</string>
     <string name="login_title">Masuk ke Twitch.tv</string>
     <string name="hint_connected">Mulai chatting</string>

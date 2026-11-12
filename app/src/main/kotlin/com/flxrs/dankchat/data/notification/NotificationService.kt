@@ -186,7 +186,6 @@ class NotificationService : Service(), CoroutineScope {
     }
 
     private fun startForeground() {
-        val title = getString(R.string.notification_title)
         val message = getString(R.string.notification_message)
 
         val pendingStartActivityIntent = Intent(this, MainActivity::class.java).let {
@@ -201,7 +200,6 @@ class NotificationService : Service(), CoroutineScope {
         val notification = NotificationCompat.Builder(this, CHANNEL_ID_LOW)
             .setSound(null)
             .setVibrate(null)
-            .setContentTitle(title)
             .setContentText(message)
             .addAction(R.drawable.ic_clear, getString(R.string.notification_stop), pendingStopIntent).apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

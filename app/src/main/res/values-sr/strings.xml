@@ -31,8 +31,8 @@
     <string name="snackbar_message_copied">Poruka kopirana</string>
     <string name="snackbar_error_copied">Informacije o grešci kopirane</string>
     <string name="notification_stop">Stani</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat radi u pozadini</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone radi u pozadini</string>
     <string name="emote_menu_hint">Otvori meni sa emotovima</string>
     <string name="login_title">Uloguj se na Twitch.tv</string>
     <string name="hint_connected">Počni ćaskanje</string>
@@ -62,8 +62,8 @@
     <string name="multi_entry_add_entry">Dodajte unos</string>
     <string name="login_expired">Prijava istekla! Prijavite se ponovo.</string>
     <string name="message_history_disclaimer_title">Odricanje odgovornosti za istoriju poruka</string>
-    <string name="message_history_disclaimer_message">DankChat učitava istoriju poruka sa nezavisnih servisa.
-Da bi dobio poruke DankChat šalje imena kanala koje ste otvori tom servisu.
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone učitava istoriju poruka sa nezavisnih servisa.
+Da bi dobio poruke Twitch Chat on Phone šalje imena kanala koje ste otvori tom servisu.
 Servis privremeno čuva poruke za kanal koji vi (i drugi) posetite kako bi pružio uslogu. 
 
 Kako biste isključili ovu uslogu, pritisnite odustati ispod ili onemogućiti učitavanje poruke iz istorije u podešavanju kasnije.
@@ -98,7 +98,7 @@ Kako biste isključili ovu uslogu, pritisnite odustati ispod ili onemogućiti u�
     <string name="uploader_headers">Hederi</string>
     <string name="uploader_image_link">Obrazac za link slike</string>
     <string name="uploader_deletion_link">Obrazac za brisanje slike</string>
-    <string name="uploader_description">Možete da podestie host za uplodovanje slika, kao sto je imgur.com ili s-ul.eu. DankChat koristi isti format za konfiguraciju kao chatteriono.
+    <string name="uploader_description">Možete da podestie host za uplodovanje slika, kao sto je imgur.com ili s-ul.eu. Twitch Chat on Phone koristi isti format za konfiguraciju kao chatteriono.
 Pogledajte ovaj guide za pomoć https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Režim celog ekrana</string>
     <string name="toggle_stream">Režim strima</string>

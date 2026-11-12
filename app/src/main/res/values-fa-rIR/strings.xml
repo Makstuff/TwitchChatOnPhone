@@ -37,8 +37,8 @@
     <string name="snackbar_message_id_copied">ای دی پیام کپی شد</string>
     <string name="snackbar_error_copied">اطلاعات خطا کپی شد</string>
     <string name="notification_stop">توقف</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat در پس‌زمینه در حال اجرا است</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone در پس‌زمینه در حال اجرا است</string>
     <string name="emote_menu_hint">منوی ایموت‌ها را باز کنید</string>
     <string name="login_title">ورود به Twitch.tv</string>
     <string name="hint_connected">شروع چت کردن</string>
@@ -84,7 +84,7 @@
     <string name="multi_entry_add_entry">اضافه کردن ورودی</string>
     <string name="login_expired">زمان ورود منقضی شده است! دوباره وارد شوید.</string>
     <string name="message_history_disclaimer_title">راهنمای اخطار تاریخچه پیام</string>
-    <string name="message_history_disclaimer_message">DankChat پیام‌های تاریخی را از یک سرویس شخص ثالث هنگام راه‌اندازی بارگذاری می‌کند.\nبرای دریافت پیام‌ها، DankChat نام کانال‌هایی که باز کرده‌اید را به آن سرویس ارسال می‌کند.\nاین سرویس به‌طور موقت پیام‌ها را برای کانال‌هایی که شما (و دیگران) بازدید می‌کنید ذخیره می‌کند تا این خدمات را ارائه دهد.\n\n- برای استفاده نکردن از این ویژگی، پایین روی \"Opt-Out\" کلیک کنید یا بارگذاری تاریخچه پیام را در تنظیمات غیرفعال کنید.\n- شما می‌توانید درباره این سرویس بیشتر بدانید و تاریخچه پیام را برای کانال خود غیرفعال کنید با مراجعه به https://recent-messages.robotty.de/</string>
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone پیام‌های تاریخی را از یک سرویس شخص ثالث هنگام راه‌اندازی بارگذاری می‌کند.\nبرای دریافت پیام‌ها، Twitch Chat on Phone نام کانال‌هایی که باز کرده‌اید را به آن سرویس ارسال می‌کند.\nاین سرویس به‌طور موقت پیام‌ها را برای کانال‌هایی که شما (و دیگران) بازدید می‌کنید ذخیره می‌کند تا این خدمات را ارائه دهد.\n\n- برای استفاده نکردن از این ویژگی، پایین روی \"Opt-Out\" کلیک کنید یا بارگذاری تاریخچه پیام را در تنظیمات غیرفعال کنید.\n- شما می‌توانید درباره این سرویس بیشتر بدانید و تاریخچه پیام را برای کانال خود غیرفعال کنید با مراجعه به https://recent-messages.robotty.de/</string>
     <string name="dialog_optin">شرکت کردن</string>
     <string name="dialog_optout">کناره گیری کردن</string>
     <string name="more">بیشتر</string>
@@ -119,7 +119,7 @@
     <string name="uploader_headers">سربرگ‌ها</string>
     <string name="uploader_image_link">الگوی لینک رسانه</string>
     <string name="uploader_deletion_link">الگوی لینک حذف</string>
-    <string name="uploader_description">می‌توانید یک میزبان سفارشی برای آپلود رسانه‌ها مانند imgur.com یا s-ul.eu تعیین کنید. DankChat از همان فرمت پیکربندی Chatterino استفاده می‌کند.
+    <string name="uploader_description">می‌توانید یک میزبان سفارشی برای آپلود رسانه‌ها مانند imgur.com یا s-ul.eu تعیین کنید. Twitch Chat on Phone از همان فرمت پیکربندی Chatterino استفاده می‌کند.
 برای کمک به راهنمایی، این راهنما را بررسی کنید: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">تغییر به تمام صفحه</string>
     <string name="toggle_stream">تغییر به حالت استریم</string>
@@ -166,7 +166,7 @@
     <string name="custom_login_show_scopes">نمایش دامنه‌های مورد نیاز</string>
     <string name="custom_login_required_scopes">نمایش دامنه‌های مورد نیاز</string>
     <string name="custom_login_missing_scopes_title">دامنه‌های گم‌شده</string>
-    <string name="custom_login_missing_scopes_text">بعضی از دامنه‌های مورد نیاز توسط DankChat در توکن گم شده‌اند و برخی از عملکردها ممکن است به‌طور مطلوب کار نکنند. آیا می‌خواهید ادامه دهید و از این توکن استفاده کنید؟\nگم شده: %1$s</string>
+    <string name="custom_login_missing_scopes_text">بعضی از دامنه‌های مورد نیاز توسط Twitch Chat on Phone در توکن گم شده‌اند و برخی از عملکردها ممکن است به‌طور مطلوب کار نکنند. آیا می‌خواهید ادامه دهید و از این توکن استفاده کنید؟\nگم شده: %1$s</string>
     <string name="custom_login_missing_scopes_continue">ادامه</string>
     <string name="custom_login_error_missing_scopes">دامنه‌های گم‌شده: %1$s</string>
     <string name="custom_login_error_fallback">خطا: %1$s</string>
@@ -269,7 +269,7 @@
     <string name="oauth_expired_login_again">ورود دوباره</string>
     <string name="oauth_verify_failed">تأیید توکن ورود ناموفق بود، اتصال خود را بررسی کنید.</string>
     <string name="preference_retain_webview_title">جلوگیری از بارگیری مجدد استریم</string>
-    <string name="preference_retain_webview_summary">اجازه دادن آزمایشی برای جلوگیری از بارگذاری مجدد استریم پس از تغییر دادن جهت یا باز کردن مجدد DankChat.</string>
+    <string name="preference_retain_webview_summary">اجازه دادن آزمایشی برای جلوگیری از بارگذاری مجدد استریم پس از تغییر دادن جهت یا باز کردن مجدد Twitch Chat on Phone.</string>
     <string name="preference_show_changelogs">نمایش لاگ‌های تغییرات پس از به‌روزرسانی</string>
     <string name="preference_whats_new_header">ویژگی های جدید</string>
     <string name="preference_custom_login_title">ورود سفارشی</string>
@@ -366,7 +366,7 @@
     <string name="emote_sheet_created_by">ایجاد شده توسط %1$s</string>
     <string name="emote_sheet_zero_width_emote">(عرض صفر)</string>
     <string name="emote_copied">اموت کپی شد</string>
-    <string name="changelog_sheet_title">DankChat به‌روز رسانی شد!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone به‌روز رسانی شد!</string>
     <string name="changelog_sheet_subtitle">چه چیزی در v%1$s جدید است؟</string>
     <string name="confirm_login_cancel_title">لغو ورود را تایید کنید</string>
     <string name="confirm_login_cancel_message">آیا اطمینان دارید که می‌خواهید فرآیند ورود را لغو کنید؟</string>

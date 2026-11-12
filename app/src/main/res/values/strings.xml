@@ -41,8 +41,8 @@
     <string name="snackbar_message_id_copied">Message id copied</string>
     <string name="snackbar_error_copied">Error information copied</string>
     <string name="notification_stop">Stop</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat running in the background</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone running in the background</string>
     <string name="emote_menu_hint">Open the emote menu</string>
     <string name="login_title">Login to Twitch.tv</string>
     <string name="hint_connected">Start chatting</string>
@@ -88,7 +88,7 @@
     <string name="multi_entry_add_entry">Add an entry</string>
     <string name="login_expired">Login expired! Try logging in again.</string>
     <string name="message_history_disclaimer_title">Message history disclaimer</string>
-    <string name="message_history_disclaimer_message">DankChat loads historical messages from a third-party service on startup.\nTo get the messages, DankChat sends the names of the channels you have open to that service.\nThe service temporarily stores messages for channels you (and others) visit to provide the service.\n\n- To not use this feature, click Opt-Out below or disable message history loading in the settings later.\n- You can learn more about the service and disable message history for your own channel by visiting https://recent-messages.robotty.de/</string>
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone loads historical messages from a third-party service on startup.\nTo get the messages, Twitch Chat on Phone sends the names of the channels you have open to that service.\nThe service temporarily stores messages for channels you (and others) visit to provide the service.\n\n- To not use this feature, click Opt-Out below or disable message history loading in the settings later.\n- You can learn more about the service and disable message history for your own channel by visiting https://recent-messages.robotty.de/</string>
     <string name="dialog_optin">Opt-in</string>
     <string name="dialog_optout">Opt-out</string>
     <string name="more">More</string>
@@ -169,7 +169,7 @@
     <string name="custom_login_show_scopes">Show required scopes</string>
     <string name="custom_login_required_scopes">Required scopes</string>
     <string name="custom_login_missing_scopes_title">Missing scopes</string>
-    <string name="custom_login_missing_scopes_text">Some scopes required by DankChat are missing in the token and some functionality might not work as expected. Do you want to continue using this token?\nMissing: %1$s</string>
+    <string name="custom_login_missing_scopes_text">Some scopes required by Twitch Chat on Phone are missing in the token and some functionality might not work as expected. Do you want to continue using this token?\nMissing: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Continue</string>
     <string name="custom_login_error_missing_scopes">Missing scopes: %1$s</string>
     <string name="custom_login_error_fallback">Error: %1$s</string>
@@ -200,8 +200,8 @@
     <string name="preference_general_header">General</string>
     <string name="preference_about_header">About</string>
     <string name="preference_appearance_header">Appearance</string>
-    <string name="preference_about_tcop" translatable="false">Twitch Chat on Phone %1$s</string>
-    <string name="preference_about_summary">Based on DankChat by @flex3rs and contributors — made 100% with AI.</string>
+    <string name="preference_about_tcop" translatable="false">Twitch Chat on Phone (made 100% with AI)</string>
+    <string name="preference_about_summary">Based on DankChat by @flex3rs and contributors</string>
     <string name="preference_show_input_key" translatable="false">show_input_key</string>
     <string name="preference_show_input_title">Show input</string>
     <string name="preference_show_input_summary">Displays the input field to send messages</string>
@@ -321,7 +321,7 @@
     <string name="oauth_expired_login_again">Login Again</string>
     <string name="oauth_verify_failed">Failed to verify the login token, check your connection.</string>
     <string name="preference_retain_webview_title">Prevent stream reloads</string>
-    <string name="preference_retain_webview_summary">Enables experimental prevention of stream reloads after orientation changes or re-opening DankChat.</string>
+    <string name="preference_retain_webview_summary">Enables experimental prevention of stream reloads after orientation changes or re-opening Twitch Chat on Phone.</string>
     <string name="preference_show_changelogs_key" translatable="false">show_changelogs_key</string>
     <string name="preference_show_changelogs">Show changelogs after update</string>
     <string name="preference_whats_new_header">What\'s new</string>
@@ -435,7 +435,7 @@
     <string name="emote_sheet_created_by">Created by %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Zero Width)</string>
     <string name="emote_copied">Emote copied</string>
-    <string name="changelog_sheet_title">DankChat has been updated!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone has been updated!</string>
     <string name="changelog_sheet_subtitle">What\'s new in v%1$s:</string>
     <string name="confirm_login_cancel_title">Confirm login cancellation</string>
     <string name="confirm_login_cancel_message">Are you sure you want to cancel the login process?</string>

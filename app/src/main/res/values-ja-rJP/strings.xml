@@ -37,8 +37,8 @@
     <string name="snackbar_message_id_copied">メッセージIDをコピーしました</string>
     <string name="snackbar_error_copied">エラー情報をコピーしました</string>
     <string name="notification_stop">停止</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChatはバックグラウンドで実行中</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phoneはバックグラウンドで実行中</string>
     <string name="emote_menu_hint">エモートメニューを開く</string>
     <string name="login_title">Twitch.tvにログイン</string>
     <string name="hint_connected">チャットを開始</string>
@@ -84,7 +84,7 @@
     <string name="multi_entry_add_entry">エントリを追加</string>
     <string name="login_expired">ログインの有効期限が切れました！ もう一度ログインしてください。</string>
     <string name="message_history_disclaimer_title">メッセージ履歴の免責事項</string>
-    <string name="message_history_disclaimer_message">DankChatは起動時にサードパーティサービスの履歴メッセージをロードします。\nメッセージの取得のため、DankChatはそのサービスに対してチャンネル名を送信します。\nサービスはそのサービスの提供のため、アクセスしたチャンネルのメッセージを一時的に保存します。\n\nこの機能を利用しない場合は、下のオプトアウトをクリックするか、あとで設定のメッセージ履歴の読み込みを無効にしてください。\nサービスの詳細については、https://recent-messages.robotty.de/ をご確認ください。自分のチャンネルのメッセージ履歴を無効にすることができます。</string>
+    <string name="message_history_disclaimer_message">Twitch Chat on Phoneは起動時にサードパーティサービスの履歴メッセージをロードします。\nメッセージの取得のため、Twitch Chat on Phoneはそのサービスに対してチャンネル名を送信します。\nサービスはそのサービスの提供のため、アクセスしたチャンネルのメッセージを一時的に保存します。\n\nこの機能を利用しない場合は、下のオプトアウトをクリックするか、あとで設定のメッセージ履歴の読み込みを無効にしてください。\nサービスの詳細については、https://recent-messages.robotty.de/ をご確認ください。自分のチャンネルのメッセージ履歴を無効にすることができます。</string>
     <string name="dialog_optin">オプトイン</string>
     <string name="dialog_optout">オプトアウト</string>
     <string name="more">もっと見る</string>
@@ -119,7 +119,7 @@
     <string name="uploader_headers">ヘッダー</string>
     <string name="uploader_image_link">メディアリンクのパターン</string>
     <string name="uploader_deletion_link">削除リンクのパターン</string>
-    <string name="uploader_description">imgur.com や s-ul.eu のようなメディアをアップロードするためのカスタムホストを設定できます。DankChatはChatterinoと同じ設定形式を使用します。\nこちらのガイドをご確認ください: https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">imgur.com や s-ul.eu のようなメディアをアップロードするためのカスタムホストを設定できます。Twitch Chat on PhoneはChatterinoと同じ設定形式を使用します。\nこちらのガイドをご確認ください: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">全画面表示に切り替え</string>
     <string name="toggle_stream">ストリームの切り替え</string>
     <string name="account">アカウント</string>
@@ -165,7 +165,7 @@
     <string name="custom_login_show_scopes">必要なスコープを表示</string>
     <string name="custom_login_required_scopes">必要なスコープ</string>
     <string name="custom_login_missing_scopes_title">スコープがありません</string>
-    <string name="custom_login_missing_scopes_text">DankChatに必要なスコープがトークンに存在しないため、一部の機能が期待どおりに動作しない可能性があります。 このトークンを引き続き使用しますか？\n不足: %1$s</string>
+    <string name="custom_login_missing_scopes_text">Twitch Chat on Phoneに必要なスコープがトークンに存在しないため、一部の機能が期待どおりに動作しない可能性があります。 このトークンを引き続き使用しますか？\n不足: %1$s</string>
     <string name="custom_login_missing_scopes_continue">続行</string>
     <string name="custom_login_error_missing_scopes">スコープがありません：%1$s</string>
     <string name="custom_login_error_fallback">エラー：%1$s</string>
@@ -269,7 +269,7 @@
     <string name="oauth_expired_login_again">再ログイン</string>
     <string name="oauth_verify_failed">ログイントークンの確認に失敗しました。接続を確認してください。</string>
     <string name="preference_retain_webview_title">ストリームのリロードを防止</string>
-    <string name="preference_retain_webview_summary">オリエンテーションの変更またはDankChatの再開後に、実験的にストリームのリロード防止を有効にします。</string>
+    <string name="preference_retain_webview_summary">オリエンテーションの変更またはTwitch Chat on Phoneの再開後に、実験的にストリームのリロード防止を有効にします。</string>
     <string name="preference_show_changelogs">更新後に更新履歴を表示</string>
     <string name="preference_whats_new_header">新着情報</string>
     <string name="preference_custom_login_title">カスタムログイン</string>
@@ -366,7 +366,7 @@
     <string name="emote_sheet_created_by">%1$sが作成</string>
     <string name="emote_sheet_zero_width_emote">(Zero Width)</string>
     <string name="emote_copied">エモートをコピー</string>
-    <string name="changelog_sheet_title">DankChatが更新されました！</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phoneが更新されました！</string>
     <string name="changelog_sheet_subtitle">v%1$sの新機能：</string>
     <string name="confirm_login_cancel_title">ログインのキャンセルを確認</string>
     <string name="confirm_login_cancel_message">ログインをキャンセルしてもよろしいですか？</string>

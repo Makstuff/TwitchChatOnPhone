@@ -37,8 +37,8 @@
     <string name="snackbar_message_id_copied">تم نسخ معرف الرسالة</string>
     <string name="snackbar_error_copied">Error information copied</string>
     <string name="notification_stop">Stop</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat running in the background</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone running in the background</string>
     <string name="emote_menu_hint">فتح قائمة الايموتات</string>
     <string name="login_title">Twitch.tv تسجيل الدخول الى</string>
     <string name="hint_connected">ابدأ الدردشة</string>
@@ -82,8 +82,8 @@
     <string name="multi_entry_add_entry">أضف إدخالاً </string>
     <string name="login_expired">نتهت صلاحية تسجيل الدخول! حاول تسجيل الدخول مرة أخرى.</string>
     <string name="message_history_disclaimer_title">إخلاء مسؤولية سجل الرسائل </string>
-    <string name="message_history_disclaimer_message">DankChat loads historical messages from a third-party service on startup.
-To get the messages, DankChat sends the names of the channels you have open to that service.
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone loads historical messages from a third-party service on startup.
+To get the messages, Twitch Chat on Phone sends the names of the channels you have open to that service.
 The service temporarily stores messages for channels you (and others) visit to provide the service.
 
 - To not use this feature, click Opt-Out below or disable message history loading in the settings later.
@@ -122,7 +122,7 @@ The service temporarily stores messages for channels you (and others) visit to p
     <string name="uploader_headers">الرؤوس</string>
     <string name="uploader_image_link">نمط رابط الوسائط</string>
     <string name="uploader_deletion_link">نمط رابط الحذف</string>
-    <string name="uploader_description">يمكنك تعيين مضيف مخصص لتحميل الوسائط، مثل imgur.com أو s-ul.eu. يستخدم DankChat نفس تنسيق التكوين الذي يستخدمه Chatterino.\nتحقق من هذا الدليل للحصول على المساعدة: https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">يمكنك تعيين مضيف مخصص لتحميل الوسائط، مثل imgur.com أو s-ul.eu. يستخدم Twitch Chat on Phone نفس تنسيق التكوين الذي يستخدمه Chatterino.\nتحقق من هذا الدليل للحصول على المساعدة: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">تبديل ملء الشاشة الكاملة</string>
     <string name="toggle_stream">تبديل الدفق</string>
     <string name="account">الحساب</string>
@@ -167,7 +167,7 @@ The service temporarily stores messages for channels you (and others) visit to p
     <string name="custom_login_show_scopes">إظهار النطاقات المطلوبة</string>
     <string name="custom_login_required_scopes">النطاقات المطلوبة</string>
     <string name="custom_login_missing_scopes_title">النطاقات المفقودة</string>
-    <string name="custom_login_missing_scopes_text">بعض النطاقات المطلوبة من قبل DankChat مفقودة في الرمز المميز وقد لا تعمل بعض الوظائف كما هو متوقع. هل تريد الاستمرار في استخدام هذا الرمز المميز؟\nمفقود: %1$s</string>
+    <string name="custom_login_missing_scopes_text">بعض النطاقات المطلوبة من قبل Twitch Chat on Phone مفقودة في الرمز المميز وقد لا تعمل بعض الوظائف كما هو متوقع. هل تريد الاستمرار في استخدام هذا الرمز المميز؟\nمفقود: %1$s</string>
     <string name="custom_login_missing_scopes_continue">تابع</string>
     <string name="custom_login_error_missing_scopes">النطاقات المفقودة: %1$s</string>
     <string name="custom_login_error_fallback">الخطأ: %1$s</string>
@@ -270,7 +270,7 @@ The service temporarily stores messages for channels you (and others) visit to p
     <string name="oauth_expired_login_again">تسجيل الدخول مرة أخرى</string>
     <string name="oauth_verify_failed">فشل التحقق من الرمز المميز لتسجيل الدخول، تحقق من الاتصال.</string>
     <string name="preference_retain_webview_title">منع إعادة تحميل البث</string>
-    <string name="preference_retain_webview_summary">تمكين المنع التجريبي لإعادة تحميل الدفق بعد تغيير الاتجاه أو إعادة فتح DankChat.</string>
+    <string name="preference_retain_webview_summary">تمكين المنع التجريبي لإعادة تحميل الدفق بعد تغيير الاتجاه أو إعادة فتح Twitch Chat on Phone.</string>
     <string name="preference_show_changelogs">إظهار سجلات التغيير بعد التحديث</string>
     <string name="preference_whats_new_header">ما الجديد</string>
     <string name="preference_custom_login_title">تسجيل الدخول المخصص</string>
@@ -364,7 +364,7 @@ The service temporarily stores messages for channels you (and others) visit to p
     <string name="emote_sheet_created_by">تم إنشاؤها بواسطة %1$s</string>
     <string name="emote_sheet_zero_width_emote">(عرض الصفر)</string>
     <string name="emote_copied">تم نسخ التعبير عن المشاعر</string>
-    <string name="changelog_sheet_title">تم تحديث DankChat!</string>
+    <string name="changelog_sheet_title">تم تحديث Twitch Chat on Phone!</string>
     <string name="changelog_sheet_subtitle">ما الجديد في v%1$s:</string>
     <string name="confirm_login_cancel_title">تأكيد إلغاء تسجيل الدخول</string>
     <string name="confirm_login_cancel_message">هل أنت متأكد من رغبتك في إلغاء عملية تسجيل الدخول؟</string>

@@ -37,8 +37,8 @@
     <string name="snackbar_message_id_copied">Id messaggio copiato</string>
     <string name="snackbar_error_copied">Informazioni sull\'errore copiate</string>
     <string name="notification_stop">Interrompi</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat in esecuzione in background </string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone in esecuzione in background </string>
     <string name="emote_menu_hint">Apri il menu delle emote</string>
     <string name="login_title">Accedi su Twitch.tv</string>
     <string name="hint_connected">Inizia a chattare</string>
@@ -84,7 +84,7 @@
     <string name="multi_entry_add_entry">Aggiungi una voce</string>
     <string name="login_expired">Sessione scaduta! Prova ad accedere nuovamente.</string>
     <string name="message_history_disclaimer_title">Avvertenza cronologia dei messaggi</string>
-    <string name="message_history_disclaimer_message">DankChat carica i messaggi precedenti da un servizio di terze parti, all\'avvio.\nPer visualizzare i messaggi, DankChat invia i nomi dei canali aperti a tale servizio.\nIl servizio memorizza temporaneamente i messaggi per i canali che tu (e altri utenti) visiti, per fornire il servizio.\n\n- Per non utilizzare questa funzionalità, clicca Rifiuta di seguito o disabilita il caricamento della cronologia dei messaggi nelle impostazioni.\n- Puoi scoprire di più sul servizio e disabilitare lo storico dei messaggi per il tuo canale, visitando https://recent-messages.robotty.de/</string>
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone carica i messaggi precedenti da un servizio di terze parti, all\'avvio.\nPer visualizzare i messaggi, Twitch Chat on Phone invia i nomi dei canali aperti a tale servizio.\nIl servizio memorizza temporaneamente i messaggi per i canali che tu (e altri utenti) visiti, per fornire il servizio.\n\n- Per non utilizzare questa funzionalità, clicca Rifiuta di seguito o disabilita il caricamento della cronologia dei messaggi nelle impostazioni.\n- Puoi scoprire di più sul servizio e disabilitare lo storico dei messaggi per il tuo canale, visitando https://recent-messages.robotty.de/</string>
     <string name="dialog_optin">Accetta</string>
     <string name="dialog_optout">Rifiuta</string>
     <string name="more">Altro</string>
@@ -119,7 +119,7 @@
     <string name="uploader_headers">Intestazioni</string>
     <string name="uploader_image_link">Modello link multimediale</string>
     <string name="uploader_deletion_link">Modello di eliminazione del link</string>
-    <string name="uploader_description">Puoi impostare un host personalizzato per caricare file multimediali, come imgur.com o s-ul.eu. DankChat utilizza lo stesso formato di configurazione di Chatterino.\nDai un\'occhiata a questa guida per assistenza: https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">Puoi impostare un host personalizzato per caricare file multimediali, come imgur.com o s-ul.eu. Twitch Chat on Phone utilizza lo stesso formato di configurazione di Chatterino.\nDai un\'occhiata a questa guida per assistenza: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Attiva/Disattiva schermo intero</string>
     <string name="toggle_stream">Attiva/Disattiva la live</string>
     <string name="account">Profilo</string>
@@ -165,7 +165,7 @@
     <string name="custom_login_show_scopes">Mostra gli ambiti richiesti</string>
     <string name="custom_login_required_scopes">Ambiti richiesti</string>
     <string name="custom_login_missing_scopes_title">Ambiti mancanti</string>
-    <string name="custom_login_missing_scopes_text">Alcuni ambiti richiesti da DankChat sono mancanti nel token e alcune funzionalità potrebbero non funzionare come previsto. Desideri comunque continuare a usare questo token?\nAmbiti mancanti: %1$s</string>
+    <string name="custom_login_missing_scopes_text">Alcuni ambiti richiesti da Twitch Chat on Phone sono mancanti nel token e alcune funzionalità potrebbero non funzionare come previsto. Desideri comunque continuare a usare questo token?\nAmbiti mancanti: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Continua</string>
     <string name="custom_login_error_missing_scopes">Ambiti mancanti: %1$s</string>
     <string name="custom_login_error_fallback">Errore: %1$s</string>
@@ -269,7 +269,7 @@
     <string name="oauth_expired_login_again">Accedi di nuovo</string>
     <string name="oauth_verify_failed">Impossibile verificare il token d\'accesso, controlla la tua connessione.</string>
     <string name="preference_retain_webview_title">Impedisci ricaricamento live</string>
-    <string name="preference_retain_webview_summary">Abilita la prevenzione sperimentale dei ricaricamenti della live, al cambiamento di orientamento o riapertura di DankChat.</string>
+    <string name="preference_retain_webview_summary">Abilita la prevenzione sperimentale dei ricaricamenti della live, al cambiamento di orientamento o riapertura di Twitch Chat on Phone.</string>
     <string name="preference_show_changelogs">Mostra i changelog dopo l\'aggiornamento</string>
     <string name="preference_whats_new_header">Novità</string>
     <string name="preference_custom_login_title">Login personalizzato</string>
@@ -366,7 +366,7 @@
     <string name="emote_sheet_created_by">Creato da %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Zero Width)</string>
     <string name="emote_copied">Emote copiata</string>
-    <string name="changelog_sheet_title">DankChat è stato aggiornato!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone è stato aggiornato!</string>
     <string name="changelog_sheet_subtitle">Cosa c\'è di nuovo in v%1$s:</string>
     <string name="confirm_login_cancel_title">Conferma la cancellazione del login</string>
     <string name="confirm_login_cancel_message">Sei sicuro di voler annullare il processo di login?</string>

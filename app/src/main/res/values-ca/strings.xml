@@ -36,8 +36,8 @@
     <string name="snackbar_message_copied">Missatge copiat</string>
     <string name="snackbar_error_copied">Error informació copiada</string>
     <string name="notification_stop">Parar</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat obert en segon pla</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone obert en segon pla</string>
     <string name="emote_menu_hint">Obrir el menú d\'emotes</string>
     <string name="login_title">Iniciar sessió a Twitch.tv</string>
     <string name="hint_connected">Comença a xatejar</string>
@@ -77,8 +77,8 @@
     <string name="multi_entry_add_entry">Afegeix una entrada</string>
     <string name="login_expired">L\'inici de sessió ha expirat! Intenta iniciar sessió de nou</string>
     <string name="message_history_disclaimer_title">Exempció de responsabilitat de l\'historial de missatges</string>
-    <string name="message_history_disclaimer_message">DankChat carrega un historial de missatges des d\'un servei de tercers a l\'iniciar.
-Per a obtenir aquests missatges, DankChat envia els noms dels canals que tens oberts en aquest servei.
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone carrega un historial de missatges des d\'un servei de tercers a l\'iniciar.
+Per a obtenir aquests missatges, Twitch Chat on Phone envia els noms dels canals que tens oberts en aquest servei.
 El servei emmagatzema temporalment missatges per a canals que tu (i altres) visiten per tal de proporcionar el servei.
 
 - Per a no fer ús d\'aquesta característica, clica Opt-Out a baix o desactiva la càrrega de l\'historial de missatges des de la configuració més tard.
@@ -115,7 +115,7 @@ El servei emmagatzema temporalment missatges per a canals que tu (i altres) visi
     <string name="uploader_headers">Capçaleres</string>
     <string name="uploader_image_link">Patró del link de media</string>
     <string name="uploader_deletion_link">Patró del link per eliminar</string>
-    <string name="uploader_description">Pots establir un host personalitzar per pujar contingut com ara imgur.com o s-ul.eu. DankChat utilitza el mateix format de configuració que Chatterino.
+    <string name="uploader_description">Pots establir un host personalitzar per pujar contingut com ara imgur.com o s-ul.eu. Twitch Chat on Phone utilitza el mateix format de configuració que Chatterino.
 Mira aquesta guia per a més ajuda: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Alternar pantalla completa</string>
     <string name="toggle_stream">Alternar stream</string>
@@ -242,7 +242,7 @@ Mira aquesta guia per a més ajuda: https://wiki.chatterino.com/Image%20Uploader
     <string name="oauth_expired_title">Inici de sessió expirat!</string>
     <string name="oauth_expired_message">L\'inici de sessió ha expirat! Si us plau, accediu de nou.</string>
     <string name="oauth_expired_login_again">Tornar a iniciar sessió</string>
-    <string name="preference_retain_webview_summary">Permet la prevenció experimental de les recàrregues de l\'emissió després del canvi d\'orientació o tornant a obrir DankChat.</string>
+    <string name="preference_retain_webview_summary">Permet la prevenció experimental de les recàrregues de l\'emissió després del canvi d\'orientació o tornant a obrir Twitch Chat on Phone.</string>
     <string name="reset_media_uploader_dialog_positive">Reinicia</string>
     <string name="clear_recent_uploads_dialog_title">Esborrar pujades recents</string>
     <string name="clear_recent_uploads_dialog_message">Voleu esborrar l\'historial de pujada? Els arxius pujats no seran eliminats.</string>

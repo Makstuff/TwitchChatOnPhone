@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">Skopiowano id wiadomości</string>
     <string name="snackbar_error_copied">Skopiowano wiadomość błędu</string>
     <string name="notification_stop">Stop</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat działa w tle</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone działa w tle</string>
     <string name="emote_menu_hint">Otwórz menu emotek</string>
     <string name="login_title">Zaloguj się do Twitch.tv</string>
     <string name="hint_connected">Napisz wiadomość</string>
@@ -85,8 +85,8 @@
     <string name="multi_entry_add_entry">Dodaj wpis</string>
     <string name="login_expired">Logowanie wygasło! Spróbuj zalogować się ponownie.</string>
     <string name="message_history_disclaimer_title">Informacja o historii wiadomości</string>
-    <string name="message_history_disclaimer_message">Podczas startu aplikacji, DankChat ładuje historię wiadomości z zewnętrznego serwisu.
-Aby pobrać wiadomości, DankChat wysyła nazwy otwartych kanałów do tego serwisu.
+    <string name="message_history_disclaimer_message">Podczas startu aplikacji, Twitch Chat on Phone ładuje historię wiadomości z zewnętrznego serwisu.
+Aby pobrać wiadomości, Twitch Chat on Phone wysyła nazwy otwartych kanałów do tego serwisu.
 Aby zapewnić tą usługę, wspomniany serwis tymczasowo przechowuje wiadomości odwiedzanych kanałów przez Ciebie (oraz innych).
 
 - Aby nie używać tej funkcji, kliknij Zrezygnuj poniżej lub później wyłącz ładowanie historii wiadomości w ustawieniach.
@@ -125,7 +125,7 @@ Aby zapewnić tą usługę, wspomniany serwis tymczasowo przechowuje wiadomości
     <string name="uploader_headers">Nagłówki</string>
     <string name="uploader_image_link">Szablon linku</string>
     <string name="uploader_deletion_link">Szablon linku do usunięcia</string>
-    <string name="uploader_description">Możesz ustawić niestandardowego hosta do przesyłania obrazów jak imgur.com lub s-ul.eu. DankChat używa tego samego formatu konfiguracji co Chatterino.\nSprawdź ten link, aby uzyskać pomoc i wskazówki: https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">Możesz ustawić niestandardowego hosta do przesyłania obrazów jak imgur.com lub s-ul.eu. Twitch Chat on Phone używa tego samego formatu konfiguracji co Chatterino.\nSprawdź ten link, aby uzyskać pomoc i wskazówki: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Przełącz pełny ekran</string>
     <string name="toggle_stream">Przełącz stream</string>
     <string name="account">Konto</string>
@@ -171,7 +171,7 @@ Aby zapewnić tą usługę, wspomniany serwis tymczasowo przechowuje wiadomości
     <string name="custom_login_show_scopes">Pokaż wymagane zakresy</string>
     <string name="custom_login_required_scopes">Wymagane zakresy</string>
     <string name="custom_login_missing_scopes_title">Brakujące zakresy</string>
-    <string name="custom_login_missing_scopes_text">W tokenie brakuje niektórych zakresów wymaganych przez DankChat, a niektóre funkcje mogą nie działać zgodnie z oczekiwaniami. Czy chcesz nadal używać tego tokena?\nBrakuje: %1$s</string>
+    <string name="custom_login_missing_scopes_text">W tokenie brakuje niektórych zakresów wymaganych przez Twitch Chat on Phone, a niektóre funkcje mogą nie działać zgodnie z oczekiwaniami. Czy chcesz nadal używać tego tokena?\nBrakuje: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Kontynuuj</string>
     <string name="custom_login_error_missing_scopes">Brakujące zakresy: %1$s</string>
     <string name="custom_login_error_fallback">Błąd: %1$s</string>
@@ -275,7 +275,7 @@ Aby zapewnić tą usługę, wspomniany serwis tymczasowo przechowuje wiadomości
     <string name="oauth_expired_login_again">Zaloguj się ponownie</string>
     <string name="oauth_verify_failed">Nie udało się zweryfikować tokena logowania, sprawdź swoje połączenie internetowe.</string>
     <string name="preference_retain_webview_title">Zapobiegaj przeładowaniu transmisji</string>
-    <string name="preference_retain_webview_summary">Umożliwia eksperymentalne zapobieganie przeładowaniu transmisji po zmianie ustawień lub ponownym otwarciu DankChat.</string>
+    <string name="preference_retain_webview_summary">Umożliwia eksperymentalne zapobieganie przeładowaniu transmisji po zmianie ustawień lub ponownym otwarciu Twitch Chat on Phone.</string>
     <string name="preference_show_changelogs">Pokaż dziennik zmian po aktualizacji</string>
     <string name="preference_whats_new_header">Co nowego</string>
     <string name="preference_custom_login_title">Niestandardowy login</string>
@@ -375,7 +375,7 @@ Aby zapewnić tą usługę, wspomniany serwis tymczasowo przechowuje wiadomości
     <string name="emote_sheet_created_by">Stworzone przez %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Zerowa Szerokość)</string>
     <string name="emote_copied">Skopiowano emotkę</string>
-    <string name="changelog_sheet_title">DankChat został zaktualizowany!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone został zaktualizowany!</string>
     <string name="changelog_sheet_subtitle">Co nowego w v%1$s:</string>
     <string name="confirm_login_cancel_title">Potwierdź anulowanie loginu</string>
     <string name="confirm_login_cancel_message">Czy na pewno chcesz anulować proces logowania?</string>

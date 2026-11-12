@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">Хабарламадың id көшіріп алды</string>
     <string name="snackbar_error_copied">Қате туралы ақпарат көшірілді</string>
     <string name="notification_stop">Тоқта</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat фондық тәртібіде істейді</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone фондық тәртібіде істейді</string>
     <string name="emote_menu_hint">Эмодзилерді мәзір ашу</string>
     <string name="login_title">Twitch.tv кіру</string>
     <string name="hint_connected">Әңгімеге кірісу</string>
@@ -85,7 +85,7 @@
     <string name="multi_entry_add_entry">Жазба қосу</string>
     <string name="login_expired">Кіру мерзімі аяқталды! Жүйеге қайта кіріп көріңіз.</string>
     <string name="message_history_disclaimer_title">Хабарлама тарихынан бас тарту</string>
-    <string name="message_history_disclaimer_message">DankChat іске қосылған кезде үшінші тарап қызметінен тарихи хабарларды жүктейді.\nХабарларды алу үшін DankChat сол қызметке ашылған арналардың атауларын жібереді.\nҚызмет көрсету үшін сіз (және басқалар) баратын арналар үшін хабарларды уақытша сақтайды.\n\n- Бұл мүмкіндікті пайдаланбау үшін төменде \"Бастау\" түймесін басыңыз немесе кейінірек хабарды жүктеп алу тарихын өшіруіңізге болады. https://recent-messages.robotty.de/ сайтына кіру арқылы өз арнаңыздың хабарлар тарихын өшіріңіз.</string>
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone іске қосылған кезде үшінші тарап қызметінен тарихи хабарларды жүктейді.\nХабарларды алу үшін Twitch Chat on Phone сол қызметке ашылған арналардың атауларын жібереді.\nҚызмет көрсету үшін сіз (және басқалар) баратын арналар үшін хабарларды уақытша сақтайды.\n\n- Бұл мүмкіндікті пайдаланбау үшін төменде \"Бастау\" түймесін басыңыз немесе кейінірек хабарды жүктеп алу тарихын өшіруіңізге болады. https://recent-messages.robotty.de/ сайтына кіру арқылы өз арнаңыздың хабарлар тарихын өшіріңіз.</string>
     <string name="dialog_optin">Қосылу</string>
     <string name="dialog_optout">Жалтақтау</string>
     <string name="more">Көбірек</string>
@@ -120,7 +120,7 @@
     <string name="uploader_headers">Үстіңгі деректемелер</string>
     <string name="uploader_image_link">Мультимедиа сілтемесінің үлгісі</string>
     <string name="uploader_deletion_link">Жою сілтемесінің үлгісі</string>
-    <string name="uploader_description">imgur.com немесе s-ul.eu сияқты мультимедиаларды кері жүктеу үшін реттелетін хост орнатуға болады. DankChat анықтама алу үшін Chatterino сияқты конфигурация пішімін пайдаланады.\nCheck бұл нұсқаулықты анықтама үшін пайдаланады: https://wiki.chatterino.com/Image%20Uploader/ </string>
+    <string name="uploader_description">imgur.com немесе s-ul.eu сияқты мультимедиаларды кері жүктеу үшін реттелетін хост орнатуға болады. Twitch Chat on Phone анықтама алу үшін Chatterino сияқты конфигурация пішімін пайдаланады.\nCheck бұл нұсқаулықты анықтама үшін пайдаланады: https://wiki.chatterino.com/Image%20Uploader/ </string>
     <string name="toggle_fullscreen">Толық экранды ажырату</string>
     <string name="toggle_stream">Ағынды ажырату</string>
     <string name="account">Тіркелгі</string>
@@ -166,7 +166,7 @@
     <string name="custom_login_show_scopes">Қажетті аумақтарды көрсетіңіз</string>
     <string name="custom_login_required_scopes">Қажетті аумақтар</string>
     <string name="custom_login_missing_scopes_title">Жетіспейтін аумақтар</string>
-    <string name="custom_login_missing_scopes_text">DankChat талап ететін кейбір аумақтар таңбалауышта жоқ және кейбір функциялар күткендей жұмыс істемеуі мүмкін. Осы таңбалауышты пайдалануды жалғастырғыңыз келе ме?\nЖоқ: %1$s</string>
+    <string name="custom_login_missing_scopes_text">Twitch Chat on Phone талап ететін кейбір аумақтар таңбалауышта жоқ және кейбір функциялар күткендей жұмыс істемеуі мүмкін. Осы таңбалауышты пайдалануды жалғастырғыңыз келе ме?\nЖоқ: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Жалғастыру</string>
     <string name="custom_login_error_missing_scopes">Жетіспейтін аумақтар: %1$s</string>
     <string name="custom_login_error_fallback">Қате: %1$s</string>
@@ -304,7 +304,7 @@
     <string name="emote_sheet_created_by">%1$s арқылы жасалған</string>
     <string name="emote_sheet_zero_width_emote">(Нөл ені)</string>
     <string name="emote_copied">Көшірілген эмоция</string>
-    <string name="changelog_sheet_title">DankChat араны жаңартты!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone араны жаңартты!</string>
     <string name="changelog_sheet_subtitle">V-де%1$s жаңалықтар </string>
     <string name="confirm_login_cancel_title">Кіруден бас тартуды растау</string>
     <string name="confirm_login_cancel_message">Кіру процесінен бас тартқыңыз келетініне сенімдісіз бе?</string>

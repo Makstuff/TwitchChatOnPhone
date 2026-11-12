@@ -36,8 +36,8 @@
     <string name="snackbar_message_copied">Message copied</string>
     <string name="snackbar_error_copied">Error information copied</string>
     <string name="notification_stop">Stop</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat running in the background</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone running in the background</string>
     <string name="emote_menu_hint">Open the emote menu</string>
     <string name="login_title">Login to Twitch.tv</string>
     <string name="hint_connected">Start chatting</string>
@@ -73,8 +73,8 @@
     <string name="multi_entry_add_entry">Add an entry</string>
     <string name="login_expired">Login expired! Try logging in again.</string>
     <string name="message_history_disclaimer_title">Message history disclaimer</string>
-    <string name="message_history_disclaimer_message">DankChat loads historical messages from a third-party service on startup.
-To get the messages, DankChat sends the names of the channels you have open to that service.
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone loads historical messages from a third-party service on startup.
+To get the messages, Twitch Chat on Phone sends the names of the channels you have open to that service.
 The service temporarily stores messages for channels you (and others) visit to provide the service.
 
 - To not use this feature, click Opt-Out below or disable message history loading in the settings later.
@@ -109,7 +109,7 @@ The service temporarily stores messages for channels you (and others) visit to p
     <string name="uploader_headers">Headers</string>
     <string name="uploader_image_link">Media link pattern</string>
     <string name="uploader_deletion_link">Deletion link pattern</string>
-    <string name="uploader_description">You can set a custom host for uploading media, like imgur.com or s-ul.eu. DankChat uses the same configuration format as Chatterino.
+    <string name="uploader_description">You can set a custom host for uploading media, like imgur.com or s-ul.eu. Twitch Chat on Phone uses the same configuration format as Chatterino.
 Check this guide for help: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Toggle fullscreen</string>
     <string name="toggle_stream">Toggle stream</string>

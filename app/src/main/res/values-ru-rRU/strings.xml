@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">ID сообщения скопирован</string>
     <string name="snackbar_error_copied">Информация об ошибке скопирована</string>
     <string name="notification_stop">Стоп</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat работает в фоновом режиме</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone работает в фоновом режиме</string>
     <string name="emote_menu_hint">Открыть меню смайлов</string>
     <string name="login_title">Войти в Twitch.tv</string>
     <string name="hint_connected">Начать чат</string>
@@ -85,8 +85,8 @@
     <string name="multi_entry_add_entry">Добавить запись</string>
     <string name="login_expired">Сеанс входа истёк! Попробуйте войти ещё раз.</string>
     <string name="message_history_disclaimer_title">Примечание об истории сообщений</string>
-    <string name="message_history_disclaimer_message">DankChat загружает историю сообщений, используя сторонний ресурс.
-Чтобы получить сообщения, DankChat отсылает имена открытых каналов этому ресурсу.
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone загружает историю сообщений, используя сторонний ресурс.
+Чтобы получить сообщения, Twitch Chat on Phone отсылает имена открытых каналов этому ресурсу.
 Ресурс временно хранит сообщения каналов, которые вы (и другие пользователи) отсылаете ресурсу.
 
 - Чтобы не использовать эту функцию, нажмите Отклонить, или выключите историю сообщений позже.
@@ -125,7 +125,7 @@
     <string name="uploader_headers">Заголовок</string>
     <string name="uploader_image_link">Шаблон медиа ссылки</string>
     <string name="uploader_deletion_link">Шаблон для удаления ссылки</string>
-    <string name="uploader_description">Вы можете настроить собственный хостинг для загрузки медиа, например imgur.com или s-ul.eu. DankChat использует схожий с Chatterino формат настройки.\nПосмотрите здесь, если хотите узнать подробнее (на английском): https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">Вы можете настроить собственный хостинг для загрузки медиа, например imgur.com или s-ul.eu. Twitch Chat on Phone использует схожий с Chatterino формат настройки.\nПосмотрите здесь, если хотите узнать подробнее (на английском): https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Полноэкранный режим</string>
     <string name="toggle_stream">Вкл/выкл трансляцию</string>
     <string name="account">Аккаунт</string>
@@ -171,7 +171,7 @@
     <string name="custom_login_show_scopes">Показать требуемые области</string>
     <string name="custom_login_required_scopes">Требуемые области</string>
     <string name="custom_login_missing_scopes_title">Пропущенные области</string>
-    <string name="custom_login_missing_scopes_text">Некоторые области, требуемые DankChat, отсутствуют в токене, и некоторые функции могут работать не так, как ожидалось. Вы хотите продолжить использование этого токена?\nПропущено: %1$s</string>
+    <string name="custom_login_missing_scopes_text">Некоторые области, требуемые Twitch Chat on Phone, отсутствуют в токене, и некоторые функции могут работать не так, как ожидалось. Вы хотите продолжить использование этого токена?\nПропущено: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Продолжить</string>
     <string name="custom_login_error_missing_scopes">Пропущенные области: %1$s</string>
     <string name="custom_login_error_fallback">Ошибка: %1$s</string>
@@ -275,7 +275,7 @@
     <string name="oauth_expired_login_again">Войти снова</string>
     <string name="oauth_verify_failed">Не удалось проверить токен входа, проверьте подключение.</string>
     <string name="preference_retain_webview_title">Предотвратить перезагрузку трансляции</string>
-    <string name="preference_retain_webview_summary">Включить экспериментальное предотвращение перезагрузки трансляции после изменения ориентации или повторного открытия DankChat.</string>
+    <string name="preference_retain_webview_summary">Включить экспериментальное предотвращение перезагрузки трансляции после изменения ориентации или повторного открытия Twitch Chat on Phone.</string>
     <string name="preference_show_changelogs">Отображать список изменений после обновления</string>
     <string name="preference_whats_new_header">Список изменений</string>
     <string name="preference_custom_login_title">Пользовательский логин</string>
@@ -372,7 +372,7 @@
     <string name="emote_sheet_created_by">Создан %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Zero Width)</string>
     <string name="emote_copied">Смайл скопирован</string>
-    <string name="changelog_sheet_title">DankChat был обновлён!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone был обновлён!</string>
     <string name="changelog_sheet_subtitle">Что нового в v%1$s:</string>
     <string name="confirm_login_cancel_title">Подтвердить отмену входа</string>
     <string name="confirm_login_cancel_message">Вы уверены, что хотите отменить процесс входа?</string>

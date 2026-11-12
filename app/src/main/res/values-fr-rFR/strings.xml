@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">Message copié</string>
     <string name="snackbar_error_copied">Info sur l\'erreur copiée</string>
     <string name="notification_stop">Stop</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat tourne en arrière plan</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone tourne en arrière plan</string>
     <string name="emote_menu_hint">Ouvrir le menu des émotes</string>
     <string name="login_title">S\'authentifier à Twitch.tv</string>
     <string name="hint_connected">Commencez à discuter</string>
@@ -85,8 +85,8 @@
     <string name="multi_entry_add_entry">Ajouter une entrée</string>
     <string name="login_expired">Authentification expirée! Essayez de vous reconnecter.</string>
     <string name="message_history_disclaimer_title">Notice pour les anciens messages</string>
-    <string name="message_history_disclaimer_message">DankChat charge les anciens messages à partir d\'un service tiers au démarrage.
-Pour charger ces messages, DankChat envoie le nom des chaînes auquelles vous êtes connecté.
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone charge les anciens messages à partir d\'un service tiers au démarrage.
+Pour charger ces messages, Twitch Chat on Phone envoie le nom des chaînes auquelles vous êtes connecté.
 Le service stocke temporairement les messages pour les chaînes que vous (et les autres) visitez sur ce même service.
 
 - Pour ne pas utiliser cette fonction, appuyez sur Ne pas participer ou désactivez l\'option dans les réglages.
@@ -125,7 +125,7 @@ Le service stocke temporairement les messages pour les chaînes que vous (et les
     <string name="uploader_headers">Entêtes</string>
     <string name="uploader_image_link">Modèle de lien vers les médias</string>
     <string name="uploader_deletion_link">Modèle de suppression de lien</string>
-    <string name="uploader_description">Vous pouvez définir un hôte personnalisé de mise en ligne de fichiers , comme imgur.com ou s-ul.eu. DankChat utilise le même format de configuration que Chatterino.\nConsultez ce guide pour obtenir de l\'aide : https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">Vous pouvez définir un hôte personnalisé de mise en ligne de fichiers , comme imgur.com ou s-ul.eu. Twitch Chat on Phone utilise le même format de configuration que Chatterino.\nConsultez ce guide pour obtenir de l\'aide : https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Basculer en plein écran</string>
     <string name="toggle_stream">Activer/désactiver le live</string>
     <string name="account">Compte</string>
@@ -171,7 +171,7 @@ Le service stocke temporairement les messages pour les chaînes que vous (et les
     <string name="custom_login_show_scopes">Afficher les portées requises</string>
     <string name="custom_login_required_scopes">Portées requises</string>
     <string name="custom_login_missing_scopes_title">Portées manquantes</string>
-    <string name="custom_login_missing_scopes_text">Certaines portées requises par DankChat sont manquantes dans le jeton et certaines fonctionnalités peuvent ne pas fonctionner comme prévu. Voulez-vous continuer à utiliser ce jeton ?\nManquant : %1$s</string>
+    <string name="custom_login_missing_scopes_text">Certaines portées requises par Twitch Chat on Phone sont manquantes dans le jeton et certaines fonctionnalités peuvent ne pas fonctionner comme prévu. Voulez-vous continuer à utiliser ce jeton ?\nManquant : %1$s</string>
     <string name="custom_login_missing_scopes_continue">Continuer</string>
     <string name="custom_login_error_missing_scopes">Portées manquantes : %1$s</string>
     <string name="custom_login_error_fallback">Erreur : %1$s</string>
@@ -275,7 +275,7 @@ Le service stocke temporairement les messages pour les chaînes que vous (et les
     <string name="oauth_expired_login_again">Connecter à nouveau</string>
     <string name="oauth_verify_failed">Impossible de vérifier le jeton de connexion, vérifiez votre connexion.</string>
     <string name="preference_retain_webview_title">Empêcher les rechargements du live</string>
-    <string name="preference_retain_webview_summary">Active la prévention expérimentale des recharges du live après changement d\'orientation ou réouverture de DankChat.</string>
+    <string name="preference_retain_webview_summary">Active la prévention expérimentale des recharges du live après changement d\'orientation ou réouverture de Twitch Chat on Phone.</string>
     <string name="preference_show_changelogs">Afficher l\'historique des modifications après la mise à jour</string>
     <string name="preference_whats_new_header">Quoi de neuf</string>
     <string name="preference_custom_login_title">Connexion personnalisée</string>
@@ -372,7 +372,7 @@ Le service stocke temporairement les messages pour les chaînes que vous (et les
     <string name="emote_sheet_created_by">Créé par %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Zero Width)</string>
     <string name="emote_copied">Emote copiée</string>
-    <string name="changelog_sheet_title">DankChat a été mis à jour !</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone a été mis à jour !</string>
     <string name="changelog_sheet_subtitle">Quoi de neuf dans v%1$s:</string>
     <string name="confirm_login_cancel_title">Confirmer l\'annulation de la connexion</string>
     <string name="confirm_login_cancel_message">Êtes-vous sûr de vouloir annuler le processus d\'équilibrage?</string>

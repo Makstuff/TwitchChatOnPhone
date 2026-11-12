@@ -37,8 +37,8 @@
     <string name="snackbar_message_id_copied">ବାର୍ତ୍ତା ID କପି କରାଯାଇଛି |</string>
     <string name="snackbar_error_copied">ତ୍ରୁଟି ସୂଚନା କପି ହୋଇଛି |</string>
     <string name="notification_stop">ବନ୍ଦ କର |</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">ପୃଷ୍ଠଭୂମିରେ ଚାଲୁଥିବା DankChat |</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">ପୃଷ୍ଠଭୂମିରେ ଚାଲୁଥିବା Twitch Chat on Phone |</string>
     <string name="emote_menu_hint">ଇମୋଟ୍ ମେନୁ ଖୋଲ |</string>
     <string name="login_title">Twitch.tv କୁ ଲଗ୍ଇନ୍ କରନ୍ତୁ |</string>
     <string name="hint_connected">ଚାଟିଂ ଆରମ୍ଭ କରନ୍ତୁ |</string>
@@ -119,7 +119,7 @@
     <string name="uploader_headers">ହେଡର୍</string>
     <string name="uploader_image_link">ମିଡିଆ ଲିଙ୍କ୍ pattern ାଞ୍ଚା |</string>
     <string name="uploader_deletion_link">ବିଲୋପ ଲିଙ୍କ୍ ପ୍ୟାଟର୍ |</string>
-    <string name="uploader_description">ମିଡିଆ ଅପଲୋଡ୍ କରିବା ପାଇଁ ଆପଣ ଏକ କଷ୍ଟମ୍ ହୋଷ୍ଟ ସେଟ୍ କରିପାରିବେ, ଯେପରିକି imgur.com କିମ୍ବା s-ul.eu | DankChat ଚାଟେରିନୋ ସହିତ ସମାନ ବିନ୍ୟାସ ଫର୍ମାଟ୍ ବ୍ୟବହାର କରେ |\nସାହାଯ୍ୟ ପାଇଁ ଏହି ଗାଇଡ୍ ଯାଞ୍ଚ କରନ୍ତୁ: https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">ମିଡିଆ ଅପଲୋଡ୍ କରିବା ପାଇଁ ଆପଣ ଏକ କଷ୍ଟମ୍ ହୋଷ୍ଟ ସେଟ୍ କରିପାରିବେ, ଯେପରିକି imgur.com କିମ୍ବା s-ul.eu | Twitch Chat on Phone ଚାଟେରିନୋ ସହିତ ସମାନ ବିନ୍ୟାସ ଫର୍ମାଟ୍ ବ୍ୟବହାର କରେ |\nସାହାଯ୍ୟ ପାଇଁ ଏହି ଗାଇଡ୍ ଯାଞ୍ଚ କରନ୍ତୁ: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">ଫୁଲ୍ ସ୍କ୍ରିନ୍ ଟୋଗଲ୍ କରନ୍ତୁ |</string>
     <string name="toggle_stream">ଷ୍ଟ୍ରିମ୍ ଟୋଗଲ୍ କରନ୍ତୁ |</string>
     <string name="account">ଆକାଉଣ୍ଟ୍</string>
@@ -268,7 +268,7 @@
     <string name="oauth_expired_login_again">ପୁନର୍ବାର ଲଗଇନ୍ କରନ୍ତୁ |</string>
     <string name="oauth_verify_failed">ଲଗଇନ୍ ଟୋକନ୍ ଯାଞ୍ଚ କରିବାରେ ବିଫଳ, ଆପଣଙ୍କର ସଂଯୋଗ ଯାଞ୍ଚ କରନ୍ତୁ |</string>
     <string name="preference_retain_webview_title">ଷ୍ଟ୍ରିମ୍ ପୁନ o ଲୋଡ୍ ରୋକନ୍ତୁ |</string>
-    <string name="preference_retain_webview_summary">ଆଭିମୁଖ୍ୟ ପରିବର୍ତ୍ତନ କିମ୍ବା DankChat ପୁନ-ଖୋଲିବା ପରେ ଷ୍ଟ୍ରିମ୍ ପୁନ o ଲୋଡ୍ ର ପରୀକ୍ଷାମୂଳକ ପ୍ରତିରୋଧକୁ ସକ୍ଷମ କରେ |</string>
+    <string name="preference_retain_webview_summary">ଆଭିମୁଖ୍ୟ ପରିବର୍ତ୍ତନ କିମ୍ବା Twitch Chat on Phone ପୁନ-ଖୋଲିବା ପରେ ଷ୍ଟ୍ରିମ୍ ପୁନ o ଲୋଡ୍ ର ପରୀକ୍ଷାମୂଳକ ପ୍ରତିରୋଧକୁ ସକ୍ଷମ କରେ |</string>
     <string name="preference_show_changelogs">ଅପଡେଟ୍ ପରେ ପରିଵର୍ତ୍ତନ ଲଗ୍ ଦେଖାଇବା</string>
     <string name="preference_whats_new_header">କଣ ସବୁ ନୁଆଁ?</string>
     <string name="preference_custom_login_title">କଷ୍ଟମ୍ ଲଗଇନ୍ |</string>

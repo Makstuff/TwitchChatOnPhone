@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">ID паведамлення скапіяваны</string>
     <string name="snackbar_error_copied">Інфармацыя пра памылку скапіявана</string>
     <string name="notification_stop">Стоп</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat працуе ў фонавым рэжыме</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone працуе ў фонавым рэжыме</string>
     <string name="emote_menu_hint">Адкрыць меню смайлаў</string>
     <string name="login_title">Увайсці ў Twitch.tv</string>
     <string name="hint_connected">Пачаць чат</string>
@@ -85,7 +85,7 @@
     <string name="multi_entry_add_entry">Дадаць запіс</string>
     <string name="login_expired">Сеанс увахода сышоў! Паспрабуйце ўвайсці ізноў.</string>
     <string name="message_history_disclaimer_title">Нататка пра гісторыю паведамленняў</string>
-    <string name="message_history_disclaimer_message">DankChat загружае гісторыю паведамленняў, карыстаючыся пабочным рэсурсам.\nКаб атрымаць паведамлення, DankChat адсылае назвы адкрытых каналаў гэтаму рэсурсу.\nРэсурс часова захоўвае паведамленні каналаў, якія вы (і іншыя карыстальнікі) адсылаеце рэсурсу.\n\n- Каб не карыстацца гэтай фенкцыяй, націсніце Адключыць, або выключыце гісторыю паведамленняў пазней.\n- Падрабязней пра гісторыю паведамленняў, рэсурсе і аб тым, як адключыць вашу гісторыю, вы можаце даведацца тут (на ангельскай): https://recent-messages.robotty.de/</string>
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone загружае гісторыю паведамленняў, карыстаючыся пабочным рэсурсам.\nКаб атрымаць паведамлення, Twitch Chat on Phone адсылае назвы адкрытых каналаў гэтаму рэсурсу.\nРэсурс часова захоўвае паведамленні каналаў, якія вы (і іншыя карыстальнікі) адсылаеце рэсурсу.\n\n- Каб не карыстацца гэтай фенкцыяй, націсніце Адключыць, або выключыце гісторыю паведамленняў пазней.\n- Падрабязней пра гісторыю паведамленняў, рэсурсе і аб тым, як адключыць вашу гісторыю, вы можаце даведацца тут (на ангельскай): https://recent-messages.robotty.de/</string>
     <string name="dialog_optin">Прыняць</string>
     <string name="dialog_optout">Адхіліць</string>
     <string name="more">Больш</string>
@@ -120,7 +120,7 @@
     <string name="uploader_headers">Загаловак</string>
     <string name="uploader_image_link">Шаблон медыя спасылкі</string>
     <string name="uploader_deletion_link">Шаблон для выдалення спасылкі</string>
-    <string name="uploader_description">Вы можаце настроіць уласны хостынг для загрузкі медыя, напрыклад imgur.com або s-ul.eu. DankChat выкарыстоўвае падобны з Chatterino фармат налады.\nПаглядзіце тут, калі хочаце даведацца больш (на ангельскай): https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">Вы можаце настроіць уласны хостынг для загрузкі медыя, напрыклад imgur.com або s-ul.eu. Twitch Chat on Phone выкарыстоўвае падобны з Chatterino фармат налады.\nПаглядзіце тут, калі хочаце даведацца больш (на ангельскай): https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Поўнаэкранны рэжым</string>
     <string name="toggle_stream">Адлюстроўваць трансляцыю</string>
     <string name="account">Акаўнт</string>
@@ -166,7 +166,7 @@
     <string name="custom_login_show_scopes">Паказаць неабходныя дазволы</string>
     <string name="custom_login_required_scopes">Неабходныя дазволы</string>
     <string name="custom_login_missing_scopes_title">Недахоп дазволаў</string>
-    <string name="custom_login_missing_scopes_text">Некаторыя дазволы, неабходныя для DankChat, адсутнічаюць у токене, і некаторая функцыянальнасць можа не працаваць як трэба. Вы хочаце працягнуць выкарыстоўваць гэты токен?\nАдсутнічаюць: %1$s</string>
+    <string name="custom_login_missing_scopes_text">Некаторыя дазволы, неабходныя для Twitch Chat on Phone, адсутнічаюць у токене, і некаторая функцыянальнасць можа не працаваць як трэба. Вы хочаце працягнуць выкарыстоўваць гэты токен?\nАдсутнічаюць: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Працягнуць</string>
     <string name="custom_login_error_missing_scopes">Адсутнічаюць дазволы: %1$s</string>
     <string name="custom_login_error_fallback">Памылка: %1$s</string>
@@ -270,7 +270,7 @@
     <string name="oauth_expired_login_again">Увайдзіце яшчэ раз</string>
     <string name="oauth_verify_failed">Не ўдалося праверыць токен уваходу, праверце падключэнне.</string>
     <string name="preference_retain_webview_title">Перапыніць перазагрузкі стрыма</string>
-    <string name="preference_retain_webview_summary">Уключае эксперыментальнае запабяганне перазагрузкі стрыма пасля змены арыентацыі ці перазапуску DankChat.</string>
+    <string name="preference_retain_webview_summary">Уключае эксперыментальнае запабяганне перазагрузкі стрыма пасля змены арыентацыі ці перазапуску Twitch Chat on Phone.</string>
     <string name="preference_show_changelogs">Паказаць змены пасля абнаўлення</string>
     <string name="preference_whats_new_header">Што змянілася</string>
     <string name="preference_custom_login_title">Індывідуальны лагін</string>
@@ -367,7 +367,7 @@
     <string name="emote_sheet_created_by">Створана %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Zero Width)</string>
     <string name="emote_copied">Эмодзі скапіяваны</string>
-    <string name="changelog_sheet_title">DankChat быў абноўлены!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone быў абноўлены!</string>
     <string name="changelog_sheet_subtitle">Што новага ў версіі %1$s:</string>
     <string name="confirm_login_cancel_title">Пацвердзіце адмену ўваходу</string>
     <string name="confirm_login_cancel_message">Вы ўпэўнены, што хочаце адмяніць працэс уваходу?</string>

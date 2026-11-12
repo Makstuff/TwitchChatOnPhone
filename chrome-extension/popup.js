@@ -1,5 +1,5 @@
 function generateSyncId(length = 16) {
-    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const chars = 'abcdefghijkmnopqrstuvwxyz023456789';
     const values = new Uint8Array(length);
     crypto.getRandomValues(values);
     return Array.from(values, (v) => chars[v % chars.length]).join('');

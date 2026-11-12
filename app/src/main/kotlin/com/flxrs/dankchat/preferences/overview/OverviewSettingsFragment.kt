@@ -183,7 +183,7 @@ private fun OverviewSettings(
                 ) {
                     val context = LocalContext.current
                     val annotated = buildAnnotatedString {
-                        append(context.getString(R.string.preference_about_tcop, BuildConfig.VERSION_NAME))
+                        append(context.getString(R.string.preference_about_tcop))
                         appendLine()
                         withLink(link = buildLinkAnnotation(TCOP_GITHUB_URL)) {
                             append(TCOP_GITHUB_URL)

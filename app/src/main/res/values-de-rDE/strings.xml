@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">Nachrichten-ID kopiert</string>
     <string name="snackbar_error_copied">Inhalt der Fehlernachricht kopiert</string>
     <string name="notification_stop">Stop</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat läuft im Hintergrund</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone läuft im Hintergrund</string>
     <string name="emote_menu_hint">Öffne das Emotemenü</string>
     <string name="login_title">Über Twitch.tv anmelden</string>
     <string name="hint_connected">Beginne zu Chatten</string>
@@ -85,8 +85,8 @@
     <string name="multi_entry_add_entry">Eintrag hinzufügen</string>
     <string name="login_expired">Anmeldung abgelaufen! Melde dich erneut an.</string>
     <string name="message_history_disclaimer_title">Haftungsausschluss zum historischen Chatverlauf</string>
-    <string name="message_history_disclaimer_message">DankChat lädt beim Start historische Nachrichten von einem Drittanbieter-Service.
- Um die Nachrichten zu erhalten sendet DankChat alle geöffneten Kanäle an den Service.
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone lädt beim Start historische Nachrichten von einem Drittanbieter-Service.
+ Um die Nachrichten zu erhalten sendet Twitch Chat on Phone alle geöffneten Kanäle an den Service.
  Der Service speichert temporär Nachrichten der Kanäle und stellt diese den Nutzern zur Verfügung.
 
 - Um dieses Feature nicht zu nutzen, wähle Zustimmung verweigern oder deaktiviere historische Nachrichten in den Einstellungen.
@@ -125,7 +125,7 @@
     <string name="uploader_headers">Headers</string>
     <string name="uploader_image_link">Medienlinkmuster</string>
     <string name="uploader_deletion_link">Löschlinkmuster</string>
-    <string name="uploader_description">Du kannst benutzerdefinierte Medien-Hoster, wie imgur.com oder s-ul.eu verwenden. DankChat benutzt dasselbe Konfigurationsformat wie Chatterino.
+    <string name="uploader_description">Du kannst benutzerdefinierte Medien-Hoster, wie imgur.com oder s-ul.eu verwenden. Twitch Chat on Phone benutzt dasselbe Konfigurationsformat wie Chatterino.
 Für Hilfe, siehe: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Vollbildmodus wechseln</string>
     <string name="toggle_stream">Streammodus wechseln</string>
@@ -173,7 +173,7 @@ Für Hilfe, siehe: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="custom_login_show_scopes">Erforderliche Rechte zeigen</string>
     <string name="custom_login_required_scopes">Erforderliche Rechte</string>
     <string name="custom_login_missing_scopes_title">Fehlende Rechte</string>
-    <string name="custom_login_missing_scopes_text">Einige von DankChat benötigte Rechte fehlen in dem angegebenen Token und einige Funktionen funktionieren möglicherweise nicht wie erwartet. Möchten Sie diesen Token trotzdem verwenden?\nFehlende Rechte: %1$s</string>
+    <string name="custom_login_missing_scopes_text">Einige von Twitch Chat on Phone benötigte Rechte fehlen in dem angegebenen Token und einige Funktionen funktionieren möglicherweise nicht wie erwartet. Möchten Sie diesen Token trotzdem verwenden?\nFehlende Rechte: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Weiter</string>
     <string name="custom_login_error_missing_scopes">Fehlende Rechte: %1$s</string>
     <string name="custom_login_error_fallback">Fehler: %1$s</string>
@@ -277,7 +277,7 @@ Für Hilfe, siehe: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="oauth_expired_login_again">Erneut anmelden</string>
     <string name="oauth_verify_failed">Login-Token konnte nicht verifiziert werden, überprüfe deine Verbindung.</string>
     <string name="preference_retain_webview_title">Neuladen des Streams verhindern</string>
-    <string name="preference_retain_webview_summary">Aktiviert experimentelles Verhindern vom Neuladen des Streams, nachdem sich die Orientierung ändert oder DankChat neu geöffnet wird.</string>
+    <string name="preference_retain_webview_summary">Aktiviert experimentelles Verhindern vom Neuladen des Streams, nachdem sich die Orientierung ändert oder Twitch Chat on Phone neu geöffnet wird.</string>
     <string name="preference_show_changelogs">Changelogs nach Updates anzeigen</string>
     <string name="preference_whats_new_header">Was ist neu</string>
     <string name="preference_custom_login_title">Benutzerdefinierte Anmeldung</string>
@@ -377,7 +377,7 @@ Für Hilfe, siehe: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="emote_sheet_created_by">Erstellt von %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Zero Width)</string>
     <string name="emote_copied">Emote kopiert</string>
-    <string name="changelog_sheet_title">DankChat wurde aktualisiert!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone wurde aktualisiert!</string>
     <string name="changelog_sheet_subtitle">Was ist neu in v%1$s:</string>
     <string name="confirm_login_cancel_title">Anmeldeabbruch bestätigen</string>
     <string name="confirm_login_cancel_message">Möchtest du den Anmeldevorgang wirklich abbrechen?</string>

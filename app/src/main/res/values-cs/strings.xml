@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">ID zprávy zkopírováno</string>
     <string name="snackbar_error_copied">Informace o chybě zkopírovány</string>
     <string name="notification_stop">Stop</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat běží na pozadí</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone běží na pozadí</string>
     <string name="emote_menu_hint">Otevřít nabídku emotikonů</string>
     <string name="login_title">Přihlásit se na Twitch.tv</string>
     <string name="hint_connected">Začít chatovat</string>
@@ -85,8 +85,8 @@
     <string name="multi_entry_add_entry">Přidat položku</string>
     <string name="login_expired">Přihlášení vypršelo! Zkuste se přihlásit znovu.</string>
     <string name="message_history_disclaimer_title">Vyloučení odpovědnosti o historii zpráv</string>
-    <string name="message_history_disclaimer_message">DankChat načítá minulé zprávy ze služby třetí strany při spuštění.
-Chcete-li zprávy získat, odešle DankChat této službě názvy kanálů, které jste otevřeli. 
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone načítá minulé zprávy ze služby třetí strany při spuštění.
+Chcete-li zprávy získat, odešle Twitch Chat on Phone této službě názvy kanálů, které jste otevřeli. 
 Služba dočasně ukládá zprávy pro kanály, které vy (a další) navštívíte, aby je bylo možné využít.
 
 - Chcete-li tuto funkci nepoužívat, klikněte níže na Odhlásit se nebo ji můžete později deaktivovat v nastavení.
@@ -125,7 +125,7 @@ Služba dočasně ukládá zprávy pro kanály, které vy (a další) navštív�
     <string name="uploader_headers">Hlavičky</string>
     <string name="uploader_image_link">Vzor odkazu pro obrázek</string>
     <string name="uploader_deletion_link">Vzor odkazu pro smazání</string>
-    <string name="uploader_description">Můžete nastavit vlastního hostitele pro nahrávání médií, jako je imgur.com nebo s-ul.eu. DankChat používá stejný formát nastavení jako Chatterino.
+    <string name="uploader_description">Můžete nastavit vlastního hostitele pro nahrávání médií, jako je imgur.com nebo s-ul.eu. Twitch Chat on Phone používá stejný formát nastavení jako Chatterino.
 Koukněte na tento návod pro pomoc: https://wiki.chatterino.com/Image%20Uploader</string>
     <string name="toggle_fullscreen">Zapnou plnou obrazovku</string>
     <string name="toggle_stream">Zapnout stream</string>
@@ -173,7 +173,7 @@ Koukněte na tento návod pro pomoc: https://wiki.chatterino.com/Image%20Uploade
     <string name="custom_login_show_scopes">Zobrazit požadovaná pole</string>
     <string name="custom_login_required_scopes">Požadované pole</string>
     <string name="custom_login_missing_scopes_title">Chybějící pole</string>
-    <string name="custom_login_missing_scopes_text">V tokenu chybí některá pole, které DankChat vyžaduje a některé funkce nemusí fungovat podle očekávání. Chcete přesto tento token použít?\n Chybí: %1$s</string>
+    <string name="custom_login_missing_scopes_text">V tokenu chybí některá pole, které Twitch Chat on Phone vyžaduje a některé funkce nemusí fungovat podle očekávání. Chcete přesto tento token použít?\n Chybí: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Pokračovat</string>
     <string name="custom_login_error_missing_scopes">Chybějící pole: %1$s</string>
     <string name="custom_login_error_fallback">Chyba: %1$s</string>
@@ -277,7 +277,7 @@ Koukněte na tento návod pro pomoc: https://wiki.chatterino.com/Image%20Uploade
     <string name="oauth_expired_login_again">Znovu se přihlásit</string>
     <string name="oauth_verify_failed">Nepodařilo se ověřit přihlašovací token, zkontrolujte připojení k internetu.</string>
     <string name="preference_retain_webview_title">Zabránit opětovnému načítání streamu</string>
-    <string name="preference_retain_webview_summary">Zapne experimentální funkci zabránění opětovnému načtení streamu po změně orientace obrazovky nebo opětovném otevření DankChatu.</string>
+    <string name="preference_retain_webview_summary">Zapne experimentální funkci zabránění opětovnému načtení streamu po změně orientace obrazovky nebo opětovném otevření Twitch Chat on Phoneu.</string>
     <string name="preference_show_changelogs">Zobrazit po aktualizaci seznam změn</string>
     <string name="preference_whats_new_header">Co je nového</string>
     <string name="preference_custom_login_title">Vlastní přihlášení</string>
@@ -374,7 +374,7 @@ Koukněte na tento návod pro pomoc: https://wiki.chatterino.com/Image%20Uploade
     <string name="emote_sheet_created_by">Vytvořil %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Nulová šířka)</string>
     <string name="emote_copied">Emotikon zkopírován</string>
-    <string name="changelog_sheet_title">DankChat byl aktualizován!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone byl aktualizován!</string>
     <string name="changelog_sheet_subtitle">Co je nového ve verzi %1$s:</string>
     <string name="confirm_login_cancel_title">Potvrdit zrušení přihlášení</string>
     <string name="confirm_login_cancel_message">Jste si jistí, že chcete zrušit proces přihlášení?</string>

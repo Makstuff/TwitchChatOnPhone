@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">訊息ID已複製</string>
     <string name="snackbar_error_copied">已複製錯誤訊息</string>
     <string name="notification_stop">停止</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat 背景執行中</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone 背景執行中</string>
     <string name="emote_menu_hint">開啟表情符號選單</string>
     <string name="login_title">登入至 Twitch.tv</string>
     <string name="hint_connected">開始聊天</string>
@@ -85,8 +85,8 @@
     <string name="multi_entry_add_entry">新增項目</string>
     <string name="login_expired">登入失敗！請再試一次。</string>
     <string name="message_history_disclaimer_title">聊天歷史紀錄聲明</string>
-    <string name="message_history_disclaimer_message">DankChat 可於啟動時透過第三方服務載入聊天室中的歷史紀錄。
-若要載入這些訊息，DankChat 將會把您所開啟的頻道名稱發送給該服務。
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone 可於啟動時透過第三方服務載入聊天室中的歷史紀錄。
+若要載入這些訊息，Twitch Chat on Phone 將會把您所開啟的頻道名稱發送給該服務。
 該服務將會暫時性地儲存聊天室的內容以供您或他人讀取。
 
 - 若您不想使用此功能，請點擊「不同意」，或稍後在設定中禁用聊天歷史記錄。
@@ -125,7 +125,7 @@
     <string name="uploader_headers">標頭</string>
     <string name="uploader_image_link">媒體連結格式</string>
     <string name="uploader_deletion_link">刪除連結格式</string>
-    <string name="uploader_description">您可以設定一個自訂的主機來用於上傳媒體，例如imgur.com或是s-ul.eu。DankChat使用與Chatterino相同的設定格式。\n若需幫助請查看這則指導文章: https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">您可以設定一個自訂的主機來用於上傳媒體，例如imgur.com或是s-ul.eu。Twitch Chat on Phone使用與Chatterino相同的設定格式。\n若需幫助請查看這則指導文章: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">開啟/關閉全螢幕</string>
     <string name="toggle_stream">開啟/關閉實況</string>
     <string name="account">帳戶</string>
@@ -171,7 +171,7 @@
     <string name="custom_login_show_scopes">指示所需範圍</string>
     <string name="custom_login_required_scopes">所需範圍</string>
     <string name="custom_login_missing_scopes_title">缺失範圍</string>
-    <string name="custom_login_missing_scopes_text">某些DankChat所需的範圍在token裡缺失，且某些功能將可能不會如同預期的執行。
+    <string name="custom_login_missing_scopes_text">某些Twitch Chat on Phone所需的範圍在token裡缺失，且某些功能將可能不會如同預期的執行。
 您還是想要繼續使用這個token嗎?\n缺失: %1$s</string>
     <string name="custom_login_missing_scopes_continue">繼續</string>
     <string name="custom_login_error_missing_scopes">缺失範圍: %1$s</string>
@@ -276,7 +276,7 @@
     <string name="oauth_expired_login_again">重新登入</string>
     <string name="oauth_verify_failed">登入驗證失敗，請確認連線狀態。</string>
     <string name="preference_retain_webview_title">防止實況重新載入</string>
-    <string name="preference_retain_webview_summary">使用實驗性的機制防止在旋轉或重新開啟DankChat時實況重新載入。</string>
+    <string name="preference_retain_webview_summary">使用實驗性的機制防止在旋轉或重新開啟Twitch Chat on Phone時實況重新載入。</string>
     <string name="preference_show_changelogs">更新後顯示變更紀錄</string>
     <string name="preference_whats_new_header">新功能</string>
     <string name="preference_custom_login_title">自訂登入</string>
@@ -373,7 +373,7 @@
     <string name="emote_sheet_created_by">%1$s所創</string>
     <string name="emote_sheet_zero_width_emote">(零寬度)</string>
     <string name="emote_copied">表情符號已複製</string>
-    <string name="changelog_sheet_title">DankChat已更新!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone已更新!</string>
     <string name="changelog_sheet_subtitle">版本%1$s的新功能:</string>
     <string name="confirm_login_cancel_title">確認登入取消</string>
     <string name="confirm_login_cancel_message">您確認要取消登入流程嗎?</string>

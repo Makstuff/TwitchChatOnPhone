@@ -38,8 +38,8 @@
     <string name="snackbar_message_id_copied">ID de mensagem copiado</string>
     <string name="snackbar_error_copied">Informação de erro copiada</string>
     <string name="notification_stop">Parar</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat está rodando em segundo plano</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone está rodando em segundo plano</string>
     <string name="emote_menu_hint">Abrir o menu de emotes</string>
     <string name="login_title">Iniciar sessão no Twitch.tv</string>
     <string name="hint_connected">Envie uma mensagem</string>
@@ -85,7 +85,7 @@
     <string name="multi_entry_add_entry">Adicionar uma entrada</string>
     <string name="login_expired">Sessão expirada! Tente iniciar sessão novamente.</string>
     <string name="message_history_disclaimer_title">Isenção de responsabilidade do histórico de mensagens</string>
-    <string name="message_history_disclaimer_message">DankChat carrega histórico de mensagens de um serviço externo na inicialização.\nPara receber as mensagens, o DankChat envia os nomes dos canais que você abriu para este serviço.\nO serviço armazena temporariamente mensagens para canais que você (e outros) visita para fornecer o serviço.\n\n- Para não usar este recurso, clique em Negar abaixo ou desative o carregamento do histórico de mensagens nas configurações posteriormente.\n- Você pode saber mais sobre o serviço e desativar o histórico de mensagens do seu próprio canal visitando https://recent-messages.robotty.de/</string>
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone carrega histórico de mensagens de um serviço externo na inicialização.\nPara receber as mensagens, o Twitch Chat on Phone envia os nomes dos canais que você abriu para este serviço.\nO serviço armazena temporariamente mensagens para canais que você (e outros) visita para fornecer o serviço.\n\n- Para não usar este recurso, clique em Negar abaixo ou desative o carregamento do histórico de mensagens nas configurações posteriormente.\n- Você pode saber mais sobre o serviço e desativar o histórico de mensagens do seu próprio canal visitando https://recent-messages.robotty.de/</string>
     <string name="dialog_optin">Permitir</string>
     <string name="dialog_optout">Negar</string>
     <string name="more">Mais</string>
@@ -120,7 +120,7 @@
     <string name="uploader_headers">Cabeçalhos</string>
     <string name="uploader_image_link">Padrão de link da mídia</string>
     <string name="uploader_deletion_link">Padrão de link de exclusão</string>
-    <string name="uploader_description">Você pode definir um servidor de hospedagem personalizado para envio de mídia, como imgur.com ou s-ul.eu. DankChat usa o mesmo formato de configuração do Chatterino.\nConsulte este guia para obter ajuda: https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">Você pode definir um servidor de hospedagem personalizado para envio de mídia, como imgur.com ou s-ul.eu. Twitch Chat on Phone usa o mesmo formato de configuração do Chatterino.\nConsulte este guia para obter ajuda: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Alternar tela cheia</string>
     <string name="toggle_stream">Alternar transmissão</string>
     <string name="account">Conta</string>
@@ -166,7 +166,7 @@
     <string name="custom_login_show_scopes">Mostrar campos obrigatórios</string>
     <string name="custom_login_required_scopes">Campos obrigatórios</string>
     <string name="custom_login_missing_scopes_title">Campos faltando</string>
-    <string name="custom_login_missing_scopes_text">Alguns campos necessários para o DankChat estão faltando no token e algumas funcionalidades podem não funcionar como esperado. Você quer continuar usando este token?\nFaltando: %1$s</string>
+    <string name="custom_login_missing_scopes_text">Alguns campos necessários para o Twitch Chat on Phone estão faltando no token e algumas funcionalidades podem não funcionar como esperado. Você quer continuar usando este token?\nFaltando: %1$s</string>
     <string name="custom_login_missing_scopes_continue">Continuar</string>
     <string name="custom_login_error_missing_scopes">Campos faltando: %1$s</string>
     <string name="custom_login_error_fallback">Erro: %1$s</string>
@@ -270,7 +270,7 @@
     <string name="oauth_expired_login_again">Iniciar Sessão Novamente</string>
     <string name="oauth_verify_failed">Falha ao verificar o token de sessão, verifique sua conexão.</string>
     <string name="preference_retain_webview_title">Impedir recargas de transmissão</string>
-    <string name="preference_retain_webview_summary">Permite a prevenção experimental de recargas de stream após mudanças de orientação ou reabertura do DankChat.</string>
+    <string name="preference_retain_webview_summary">Permite a prevenção experimental de recargas de stream após mudanças de orientação ou reabertura do Twitch Chat on Phone.</string>
     <string name="preference_show_changelogs">Mostrar as alterações após atualizar</string>
     <string name="preference_whats_new_header">Novidades</string>
     <string name="preference_custom_login_title">Login customizado</string>
@@ -367,7 +367,7 @@
     <string name="emote_sheet_created_by">Criado por %1$s</string>
     <string name="emote_sheet_zero_width_emote">(Sobreposição)</string>
     <string name="emote_copied">Emote copiado</string>
-    <string name="changelog_sheet_title">DankChat teve uma atualização!</string>
+    <string name="changelog_sheet_title">Twitch Chat on Phone teve uma atualização!</string>
     <string name="changelog_sheet_subtitle">O que há de novo na versão %1$s:</string>
     <string name="confirm_login_cancel_title">Confirmar cancelamento de login</string>
     <string name="confirm_login_cancel_message">Você tem certeza que deseja cancelar o processo de Login?</string>

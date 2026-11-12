@@ -37,8 +37,8 @@
     <string name="snackbar_message_copied">Viesti kopioitu</string>
     <string name="snackbar_error_copied">Virhetiedot kopioitu</string>
     <string name="notification_stop">Pysäytä</string>
-    <string name="notification_title">FeelsDankMan</string>
-    <string name="notification_message">DankChat on käynnissä taustalla</string>
+    <string name="notification_title">Twitch Chat on Phone</string>
+    <string name="notification_message">Twitch Chat on Phone on käynnissä taustalla</string>
     <string name="emote_menu_hint">Avaa hymiö-valikko</string>
     <string name="login_title">Kirjaudu sisään Twitch.tv:hen</string>
     <string name="hint_connected">Aloita chattailu</string>
@@ -80,8 +80,8 @@
     <string name="multi_entry_add_entry">Lisää merkintä</string>
     <string name="login_expired">Sisäänkirjautuminen on vanhentunut! Yritä kirjautua uudelleen.</string>
     <string name="message_history_disclaimer_title">Viestihistoriaa koskeva vastuuvapauslauseke</string>
-    <string name="message_history_disclaimer_message">DankChat lataa historiallisia viestejä kolmannen osapuolen palvelusta käynnistyksen yhteydessä.
-Viestien saamiseksi DankChat lähettää avaamiesi kanavien nimet kyseiselle palvelulle.
+    <string name="message_history_disclaimer_message">Twitch Chat on Phone lataa historiallisia viestejä kolmannen osapuolen palvelusta käynnistyksen yhteydessä.
+Viestien saamiseksi Twitch Chat on Phone lähettää avaamiesi kanavien nimet kyseiselle palvelulle.
 Palvelu tallentaa väliaikaisesti viestejä kanavilta, joilla vierailet palvelun tarjoamiseksi.
 
 Jos et halua käyttää tätä ominaisuutta, napsauta alla olevaa Kieltäydy -painiketta tai poista käytöstä myöhemmin asetuksista.
@@ -119,7 +119,7 @@ Voit oppia lisää palvelusta ja poistaa viestihistorian käytöstä omalla kana
     <string name="uploader_headers">Otsikot</string>
     <string name="uploader_image_link">Media linkin malli</string>
     <string name="uploader_deletion_link">Poistolinkin malli</string>
-    <string name="uploader_description">Voit asettaa mukautetun hostin median lataamiseen, kuten imgur.com tai s-ul.eu. DankChat käyttää samaa rakennetta kuin Chatterino.\nTarkista tästä oppaasta apua: https://wiki.chatterino.com/Image%20Uploader/</string>
+    <string name="uploader_description">Voit asettaa mukautetun hostin median lataamiseen, kuten imgur.com tai s-ul.eu. Twitch Chat on Phone käyttää samaa rakennetta kuin Chatterino.\nTarkista tästä oppaasta apua: https://wiki.chatterino.com/Image%20Uploader/</string>
     <string name="toggle_fullscreen">Vaihda näyttötilaa</string>
     <string name="toggle_stream">Vaihda streami</string>
     <string name="account">Tili</string>
