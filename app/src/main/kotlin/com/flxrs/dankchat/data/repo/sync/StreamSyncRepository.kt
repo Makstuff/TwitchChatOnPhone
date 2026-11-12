@@ -68,7 +68,9 @@ class StreamSyncRepository(
         webSocket?.cancel()
         webSocket = null
 
-        val cleanTopic = topic.trim().ifBlank { DankChatPreferenceStore.DEFAULT_PC_SYNC_TOPIC }
+        if (topic.isBlank()) return
+
+        val cleanTopic = toNtfyTopic(topic)
         if (pollCached) {
             scope.launch {
                 fetchLatestChannel(cleanTopic)?.let { channel ->
@@ -107,21 +109,32 @@ class StreamSyncRepository(
         reconnectJob?.cancel()
         reconnectJob = scope.launch {
             delay(5.seconds)
-            if (isActive && preferenceStore.pcSyncTopic == topic) {
+            if (isActive && preferenceStore.pcSyncTopic.isNotBlank() && toNtfyTopic(preferenceStore.pcSyncTopic) == topic) {
                 connectWebSocket(topic)
             }
         }
     }
 
     suspend fun refreshLatestChannel(): UserName? = withContext(dispatchersProvider.io) {
-        val topic = preferenceStore.pcSyncTopic.trim().ifBlank { DankChatPreferenceStore.DEFAULT_PC_SYNC_TOPIC }
+        val rawId = preferenceStore.pcSyncTopic.trim()
+        if (rawId.isBlank()) return@withContext null
+        val cleanTopic = toNtfyTopic(rawId)
         // Re-ensure WebSocket is connected in case it got stuck
-        connectWebSocket(topic)
-        val latest = fetchLatestChannel(topic)
+        connectWebSocket(rawId)
+        val latest = fetchLatestChannel(cleanTopic)
         if (latest != null) {
             _syncedChannel.tryEmit(latest)
         }
         latest
+    }
+
+    private fun toNtfyTopic(syncId: String): String {
+        val trimmed = syncId.trim()
+        return if (trimmed.startsWith("dankchat-sync-") || trimmed.startsWith("tcop-")) {
+            trimmed
+        } else {
+            "tcop-$trimmed"
+        }
     }
 
     private suspend fun fetchLatestChannel(topic: String): UserName? = withContext(dispatchersProvider.io) {

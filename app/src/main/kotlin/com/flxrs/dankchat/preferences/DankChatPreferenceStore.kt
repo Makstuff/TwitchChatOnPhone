@@ -143,8 +143,8 @@ class DankChatPreferenceStore(
         set(value) = dankChatPreferences.edit { putBoolean(SECRET_DANKER_MODE_KEY, value) }
 
     var pcSyncTopic: String
-        get() = dankChatPreferences.getString(PC_SYNC_TOPIC_KEY, null)?.ifBlank { null } ?: DEFAULT_PC_SYNC_TOPIC
-        set(value) = dankChatPreferences.edit { putString(PC_SYNC_TOPIC_KEY, value.trim().ifBlank { DEFAULT_PC_SYNC_TOPIC }) }
+        get() = dankChatPreferences.getString(PC_SYNC_TOPIC_KEY, null)?.trim().orEmpty()
+        set(value) = dankChatPreferences.edit { putString(PC_SYNC_TOPIC_KEY, value.trim()) }
 
     val pcSyncTopicFlow: Flow<String> = callbackFlow {
         send(pcSyncTopic)

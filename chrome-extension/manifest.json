@@ -14,6 +14,9 @@
     "https://twitch.tv/*",
     "https://ntfy.sh/*"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_title": "Twitch Chat on Phone",
     "default_popup": "popup.html",

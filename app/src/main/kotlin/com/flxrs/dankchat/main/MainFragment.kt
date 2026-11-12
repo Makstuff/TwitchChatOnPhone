@@ -89,7 +89,6 @@ import com.flxrs.dankchat.data.UserId
 import com.flxrs.dankchat.data.UserName
 import com.flxrs.dankchat.data.state.DataLoadingState
 import com.flxrs.dankchat.data.state.ImageUploadState
-import com.flxrs.dankchat.data.repo.sync.StreamSyncRepository
 import com.flxrs.dankchat.data.toUserId
 import com.flxrs.dankchat.data.toUserName
 import com.flxrs.dankchat.data.twitch.badge.Badge
@@ -669,6 +668,9 @@ class MainFragment : Fragment() {
                     navigateSafe(R.id.action_mainFragment_to_messageHistoryDisclaimerDialogFragment)
                 } else {
                     mainViewModel.loadData(initialVisible.map(ChannelWithRename::channel))
+                    if (dankChatPreferences.pcSyncTopic.isBlank()) {
+                        showPcSyncConfigDialog()
+                    }
                 }
             }
         }
@@ -937,6 +939,9 @@ class MainFragment : Fragment() {
             chatSettingsDataStore.update { it.copy(loadMessageHistory = result) }
         }
         mainViewModel.loadData()
+        if (dankChatPreferences.pcSyncTopic.isBlank()) {
+            showPcSyncConfigDialog()
+        }
     }
 
     private fun handleUserPopupResult(result: UserPopupResult) {
@@ -987,18 +992,7 @@ class MainFragment : Fragment() {
             .setView(content.root)
             .setPositiveButton(R.string.save) { dialog, _ ->
                 val newTopic = content.dialogEdit.text?.toString().orEmpty().trim()
-                if (newTopic.isNotBlank()) {
-                    dankChatPreferences.pcSyncTopic = newTopic
-                }
-                dialog.dismiss()
-            }
-            .setNeutralButton(R.string.pc_sync_copy_script) { dialog, _ ->
-                val topic = content.dialogEdit.text?.toString().orEmpty().trim().ifBlank { dankChatPreferences.pcSyncTopic }
-                dankChatPreferences.pcSyncTopic = topic
-                val script = StreamSyncRepository.buildTampermonkeyScript(topic)
-                getSystemService(requireContext(), ClipboardManager::class.java)
-                    ?.setPrimaryClip(ClipData.newPlainText("tampermonkey_script", script))
-                showSnackBar(getString(R.string.pc_sync_script_copied))
+                dankChatPreferences.pcSyncTopic = newTopic
                 dialog.dismiss()
             }
             .setNegativeButton(R.string.dialog_cancel) { dialog, _ -> dialog.dismiss() }

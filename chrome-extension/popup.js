@@ -1,17 +1,19 @@
-const DEFAULT_TOPIC = 'dankchat-sync-mxmln-8f4a92c1';
-const input = document.getElementById('topic');
-const statusEl = document.getElementById('status');
+function generateSyncId(length = 16) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const values = new Uint8Array(length);
+    crypto.getRandomValues(values);
+    return Array.from(values, (v) => chars[v % chars.length]).join('');
+}
 
-chrome.storage.local.get({ syncTopic: DEFAULT_TOPIC }, (items) => {
-    input.value = items.syncTopic || DEFAULT_TOPIC;
+const syncIdEl = document.getElementById('syncId');
+
+chrome.storage.local.get(['syncId'], (items) => {
+    if (items.syncId) {
+        syncIdEl.textContent = items.syncId;
+    } else {
+        const syncId = generateSyncId(16);
+        chrome.storage.local.set({ syncId }, () => {
+            syncIdEl.textContent = syncId;
+        });
+    }
 });
-
-document.getElementById('save').addEventListener('click', () => {
-    const syncTopic = input.value.trim() || DEFAULT_TOPIC;
-    input.value = syncTopic;
-    chrome.storage.local.set({ syncTopic }, () => {
-        statusEl.textContent = 'Saved!';
-        setTimeout(() => { statusEl.textContent = ''; }, 1500);
-    });
-});
-

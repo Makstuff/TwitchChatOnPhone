@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-    const DEFAULT_TOPIC = 'dankchat-sync-mxmln-8f4a92c1';
     const RESERVED = new Set([
         'directory', 'videos', 'settings', 'drops', 'inventory', 'subscriptions',
         'wallet', 'search', 'downloads', 'jobs', 'p', 'u', 'friends', 'messages',
@@ -10,6 +9,24 @@
 
     let lastSentChannel = '';
     let lastSentTime = 0;
+
+    function generateSyncId(length = 16) {
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        const values = new Uint8Array(length);
+        crypto.getRandomValues(values);
+        return Array.from(values, (v) => chars[v % chars.length]).join('');
+    }
+
+    function getOrInitSyncId(callback) {
+        chrome.storage.local.get(['syncId'], (items) => {
+            if (items.syncId) {
+                callback(items.syncId);
+            } else {
+                const syncId = generateSyncId(16);
+                chrome.storage.local.set({ syncId }, () => callback(syncId));
+            }
+        });
+    }
 
     function extractChannel(pathname) {
         const parts = pathname.split('/').filter(Boolean);
@@ -39,9 +56,8 @@
         lastSentChannel = channel;
         lastSentTime = now;
 
-        chrome.storage.local.get({ syncTopic: DEFAULT_TOPIC }, (items) => {
-            const topic = (items.syncTopic || DEFAULT_TOPIC).trim();
-            if (!topic) return;
+        getOrInitSyncId((syncId) => {
+            const topic = 'tcop-' + syncId.trim();
             fetch('https://ntfy.sh/' + encodeURIComponent(topic), {
                 method: 'POST',
                 body: channel,
@@ -72,4 +88,3 @@
 
     syncCurrentChannel(true);
 })();
-

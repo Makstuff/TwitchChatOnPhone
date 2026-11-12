@@ -472,8 +472,8 @@
     <string name="reset_default_highlight_color">Default</string>
     <string name="choose_highlight_color">Choose Color</string>
     <string name="sync_stream">Sync to PC stream</string>
-    <string name="pc_sync_settings">PC Stream Sync</string>
-    <string name="pc_sync_topic_hint">ntfy.sh Sync Topic</string>
+    <string name="pc_sync_settings">Enter Sync ID</string>
+    <string name="pc_sync_topic_hint">Sync ID</string>
     <string name="pc_sync_copy_script">Copy Tampermonkey Script</string>
     <string name="pc_sync_script_copied">Tampermonkey script copied to clipboard</string>
     <string name="snackbar_synced_stream">Synced to %1$s</string>
