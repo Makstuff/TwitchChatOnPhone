@@ -66,6 +66,7 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             manifestPlaceholders["applicationLabel"] = "@string/app_name"
+            applicationIdSuffix = ".custom"
             signingConfig = signingConfigs.getByName("release").takeIf { it.storeFile?.exists() == true } ?: signingConfigs.getByName("debug")
         }
         getByName("debug") {

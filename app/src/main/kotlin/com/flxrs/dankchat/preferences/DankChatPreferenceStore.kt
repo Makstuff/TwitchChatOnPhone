@@ -55,7 +55,64 @@ class DankChatPreferenceStore(
                 .takeIf { it.isNotEmpty() }
                 ?.joinToString(separator = ",")
             dankChatPreferences.edit { putString(CHANNELS_AS_STRING_KEY, channels) }
+            value.forEach { recordOpenedChannel(it) }
         }
+
+    val everOpenedChannelNames: List<String>
+        get() {
+            val stored = dankChatPreferences.getString(EVER_OPENED_CHANNELS_KEY, null)
+                ?.split(',')
+                .orEmpty()
+                .map { it.trim() }
+                .filter { it.isNotBlank() }
+            val combined = stored + channels.map { it.value }
+            return combined
+                .groupBy { it.lowercase() }
+                .map { (_, variants) -> variants.firstOrNull { v -> v.any(Char::isUpperCase) } ?: variants.first() }
+                .sortedBy { it.lowercase() }
+        }
+
+    val everOpenedChannels: List<UserName>
+        get() = everOpenedChannelNames.map { it.lowercase().toUserName() }
+
+    fun getFormattedChannelName(channel: UserName): String {
+        val lower = channel.value.lowercase()
+        return everOpenedChannelNames.firstOrNull { it.lowercase() == lower } ?: channel.value
+    }
+
+    val everOpenedChannelNamesFlow: Flow<List<String>> = callbackFlow {
+        send(everOpenedChannelNames)
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == EVER_OPENED_CHANNELS_KEY || key == CHANNELS_AS_STRING_KEY) {
+                trySend(everOpenedChannelNames)
+            }
+        }
+        dankChatPreferences.registerOnSharedPreferenceChangeListener(listener)
+        awaitClose { dankChatPreferences.unregisterOnSharedPreferenceChangeListener(listener) }
+    }
+
+    fun recordOpenedChannel(channel: UserName, displayName: String? = null) {
+        val stored = dankChatPreferences.getString(EVER_OPENED_CHANNELS_KEY, null)
+            ?.split(',')
+            .orEmpty()
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+        val preferred = displayName?.trim()?.takeIf { it.equals(channel.value, ignoreCase = true) } ?: channel.value
+        val combined = stored + channels.map { it.value } + preferred
+        val updated = combined
+            .groupBy { it.lowercase() }
+            .map { (key, variants) ->
+                if (key == channel.value.lowercase() && preferred.any(Char::isUpperCase)) {
+                    preferred
+                } else {
+                    variants.firstOrNull { v -> v.any(Char::isUpperCase) } ?: variants.first()
+                }
+            }
+            .sortedBy { it.lowercase() }
+        dankChatPreferences.edit {
+            putString(EVER_OPENED_CHANNELS_KEY, updated.joinToString(separator = ","))
+        }
+    }
 
     var userName: UserName?
         get() = dankChatPreferences.getString(NAME_KEY, null)?.ifBlank { null }?.toUserName()
@@ -84,6 +141,21 @@ class DankChatPreferenceStore(
     var isSecretDankerModeEnabled: Boolean
         get() = dankChatPreferences.getBoolean(SECRET_DANKER_MODE_KEY, false)
         set(value) = dankChatPreferences.edit { putBoolean(SECRET_DANKER_MODE_KEY, value) }
+
+    var pcSyncTopic: String
+        get() = dankChatPreferences.getString(PC_SYNC_TOPIC_KEY, null)?.ifBlank { null } ?: DEFAULT_PC_SYNC_TOPIC
+        set(value) = dankChatPreferences.edit { putString(PC_SYNC_TOPIC_KEY, value.trim().ifBlank { DEFAULT_PC_SYNC_TOPIC }) }
+
+    val pcSyncTopicFlow: Flow<String> = callbackFlow {
+        send(pcSyncTopic)
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+            if (key == PC_SYNC_TOPIC_KEY) {
+                trySend(pcSyncTopic)
+            }
+        }
+        dankChatPreferences.registerOnSharedPreferenceChangeListener(listener)
+        awaitClose { dankChatPreferences.unregisterOnSharedPreferenceChangeListener(listener) }
+    }
 
     val secretDankerModeClicks: Int = SECRET_DANKER_MODE_CLICKS
 
@@ -210,7 +282,10 @@ class DankChatPreferenceStore(
         private const val LAST_INSTALLED_VERSION_KEY = "lastInstalledVersionKey"
 
         private const val SECRET_DANKER_MODE_CLICKS = 5
+        private const val PC_SYNC_TOPIC_KEY = "pcSyncTopicKey"
+        private const val EVER_OPENED_CHANNELS_KEY = "everOpenedChannelsKey"
 
         const val DEFAULT_CLIENT_ID = "xu7vd1i6tlr0ak45q1li2wdc0lrma8"
+        const val DEFAULT_PC_SYNC_TOPIC = "dankchat-sync-mxmln-8f4a92c1"
     }
 }

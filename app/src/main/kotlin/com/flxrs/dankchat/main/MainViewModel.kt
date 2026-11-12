@@ -30,6 +30,7 @@ import com.flxrs.dankchat.data.repo.data.DataUpdateEventMessage
 import com.flxrs.dankchat.data.repo.data.toMergedStrings
 import com.flxrs.dankchat.data.repo.emote.EmoteUsageRepository
 import com.flxrs.dankchat.data.repo.emote.Emotes
+import com.flxrs.dankchat.data.repo.sync.StreamSyncRepository
 import com.flxrs.dankchat.data.state.DataLoadingState
 import com.flxrs.dankchat.data.state.ImageUploadState
 import com.flxrs.dankchat.data.twitch.chat.ConnectionState
@@ -106,6 +107,7 @@ class MainViewModel(
     private val appearanceSettingsDataStore: AppearanceSettingsDataStore,
     private val streamsSettingsDataStore: StreamsSettingsDataStore,
     private val getChannelsUseCase: GetChannelsUseCase,
+    private val streamSyncRepository: StreamSyncRepository,
     chatSettingsDataStore: ChatSettingsDataStore,
 ) : ViewModel() {
 
@@ -133,6 +135,19 @@ class MainViewModel(
     private val isScrolling = MutableStateFlow(false)
     private val chipsExpanded = MutableStateFlow(false)
     private val repeatedSend = MutableStateFlow(RepeatedSendData(enabled = false, message = ""))
+    private val _isSyncLocked = MutableStateFlow(false)
+    val isSyncLocked: StateFlow<Boolean> = _isSyncLocked.asStateFlow()
+    private val viewedChannelHistory = ArrayDeque<UserName>()
+    private val forwardChannelHistory = ArrayDeque<UserName>()
+    private val _canGoForward = MutableStateFlow(false)
+    val canGoForward: StateFlow<Boolean> = _canGoForward.asStateFlow()
+
+    val activeChannelTitle: StateFlow<String> = combine(
+        activeChannel,
+        dankChatPreferenceStore.everOpenedChannelNamesFlow,
+    ) { channel, _ ->
+        channel?.let { dankChatPreferenceStore.getFormattedChannelName(it) }.orEmpty()
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, activeChannel.value?.let { dankChatPreferenceStore.getFormattedChannelName(it) }.orEmpty())
 
     val onlyLiveChannels: StateFlow<Boolean> = streamsSettingsDataStore.onlyLiveChannels
         .stateIn(viewModelScope, SharingStarted.Eagerly, streamsSettingsDataStore.current().onlyLiveChannels)
@@ -142,29 +157,15 @@ class MainViewModel(
         .distinctUntilChanged()
         .stateIn(viewModelScope, SharingStarted.Eagerly, dankChatPreferenceStore.channels)
 
-    val visibleChannelsWithRenames: StateFlow<List<ChannelWithRename>> = combine(
-        dankChatPreferenceStore.getChannelsWithRenamesFlow(),
-        onlyLiveChannels,
-        streamData,
-        hasFetchedStreams,
-    ) { allChannels, onlyLive, streams, fetched ->
-        when {
-            !onlyLive || !dankChatPreferenceStore.isLoggedIn -> allChannels
-            !fetched                                         -> emptyList()
-            else                                             -> {
-                val liveSet = streams.map { it.channel.lowercase() }.toSet()
-                allChannels.filter { it.channel.lowercase() in liveSet }
-            }
-        }
-    }.distinctUntilChanged()
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Eagerly,
-            initialValue = when {
-                streamsSettingsDataStore.current().onlyLiveChannels && dankChatPreferenceStore.isLoggedIn -> emptyList()
-                else                                                                                       -> dankChatPreferenceStore.getChannelsWithRenames()
-            }
-        )
+    val visibleChannelsWithRenames: StateFlow<List<ChannelWithRename>> =
+        dankChatPreferenceStore.getChannelsWithRenamesFlow()
+            .map { allChannels -> allChannels.takeLast(1) }
+            .distinctUntilChanged()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.Eagerly,
+                initialValue = dankChatPreferenceStore.getChannelsWithRenames().takeLast(1)
+            )
 
     private val emotes = currentSuggestionChannel
         .flatMapLatestOrDefault(Emotes()) { dataRepository.getEmotes(it) }
@@ -174,9 +175,10 @@ class MainViewModel(
     }
 
     private val roomStateText = combine(
+        appearanceSettingsDataStore.showBottomInfo,
         chatSettingsDataStore.showChatModes,
         currentSuggestionChannel
-    ) { roomStateEnabled, channel -> roomStateEnabled to channel }
+    ) { showBottomInfo, roomStateEnabled, channel -> (showBottomInfo && roomStateEnabled) to channel }
         .flatMapLatest { (enabled, channel) ->
             when {
                 enabled && channel != null -> channelRepository.getRoomStateFlow(channel)
@@ -188,11 +190,12 @@ class MainViewModel(
     private val users = currentSuggestionChannel.flatMapLatestOrDefault(emptySet()) { usersRepository.getUsersFlow(it) }
     private val supibotCommands = currentSuggestionChannel.flatMapLatestOrDefault(emptyList()) { commandRepository.getSupibotCommands(it) }
     private val currentStreamInformation = combine(
+        appearanceSettingsDataStore.showBottomInfo,
         streamsSettingsDataStore.showStreamsInfo,
         activeChannel,
         streamData
-    ) { streamInfoEnabled, activeChannel, streamData ->
-        streamData.find { it.channel == activeChannel }?.formattedData?.takeIf { streamInfoEnabled }
+    ) { showBottomInfo, streamInfoEnabled, activeChannel, streamData ->
+        streamData.find { it.channel == activeChannel }?.formattedData?.takeIf { showBottomInfo && streamInfoEnabled }
     }
 
     private val emoteSuggestions = emotes.mapLatest { emotes ->
@@ -221,12 +224,13 @@ class MainViewModel(
 
     private val shouldShowBottomText: Flow<Boolean> =
         combine(
+            appearanceSettingsDataStore.showBottomInfo,
             chatSettingsDataStore.showChatModes,
             streamsSettingsDataStore.showStreamsInfo,
             fullScreenSheetState,
             currentBottomText
-        ) { roomStateEnabled, streamInfoEnabled, chatSheetState, bottomText ->
-            (roomStateEnabled || streamInfoEnabled) && !chatSheetState.isOpen && bottomText.isNotBlank()
+        ) { showBottomInfo, roomStateEnabled, streamInfoEnabled, chatSheetState, bottomText ->
+            showBottomInfo && (roomStateEnabled || streamInfoEnabled) && !chatSheetState.isOpen && bottomText.isNotBlank()
         }
 
     private val loadingFailures = combine(dataRepository.dataLoadingFailures, chatRepository.chatLoadingFailures) { data, chat ->
@@ -306,6 +310,96 @@ class MainViewModel(
                 }
             }
         }
+
+        viewModelScope.launch {
+            streamSyncRepository.syncedChannel.collect { syncedChannel ->
+                if (!_isSyncLocked.value) {
+                    switchToSingleChannel(syncedChannel, recordPrevious = true)
+                }
+            }
+        }
+    }
+
+    fun toggleSyncLock() {
+        _isSyncLocked.update { !it }
+    }
+
+    fun navigateToPreviousChannel(): UserName? {
+        while (viewedChannelHistory.isNotEmpty()) {
+            val previous = viewedChannelHistory.removeLast()
+            val current = activeChannel.value ?: dankChatPreferenceStore.channels.lastOrNull()
+            if (previous != current) {
+                if (current != null) {
+                    forwardChannelHistory.remove(current)
+                    forwardChannelHistory.addLast(current)
+                    _canGoForward.value = forwardChannelHistory.isNotEmpty()
+                }
+                switchToSingleChannel(previous, recordPrevious = false, clearForward = false)
+                return previous
+            }
+        }
+        return null
+    }
+
+    fun navigateToNextChannel(): UserName? {
+        while (forwardChannelHistory.isNotEmpty()) {
+            val next = forwardChannelHistory.removeLast()
+            _canGoForward.value = forwardChannelHistory.isNotEmpty()
+            val current = activeChannel.value ?: dankChatPreferenceStore.channels.lastOrNull()
+            if (next != current) {
+                if (current != null) {
+                    viewedChannelHistory.remove(current)
+                    viewedChannelHistory.addLast(current)
+                }
+                switchToSingleChannel(next, recordPrevious = false, clearForward = false)
+                return next
+            }
+        }
+        _canGoForward.value = false
+        return null
+    }
+
+    fun switchToSingleChannel(channel: UserName, recordPrevious: Boolean = true, clearForward: Boolean = true) {
+        val current = activeChannel.value ?: dankChatPreferenceStore.channels.lastOrNull()
+        if (clearForward && current != channel) {
+            forwardChannelHistory.clear()
+            _canGoForward.value = false
+        }
+        if (recordPrevious && current != null && current != channel) {
+            viewedChannelHistory.remove(current)
+            viewedChannelHistory.addLast(current)
+            viewedChannelHistory.remove(channel)
+        }
+        dankChatPreferenceStore.recordOpenedChannel(channel)
+        viewModelScope.launch {
+            channelRepository.getChannel(channel)?.let { resolved ->
+                dankChatPreferenceStore.recordOpenedChannel(channel, resolved.displayName.value)
+            }
+        }
+        if (dankChatPreferenceStore.channels != listOf(channel)) {
+            dankChatPreferenceStore.channels = listOf(channel)
+        }
+        if (activeChannel.value != channel) {
+            setActiveChannel(channel)
+        }
+    }
+
+    suspend fun syncLatestStream(): UserName? {
+        val latest = streamSyncRepository.refreshLatestChannel()
+        if (latest != null) {
+            val wasAlreadyActive = activeChannel.value == latest && dankChatPreferenceStore.channels == listOf(latest)
+            switchToSingleChannel(latest)
+            if (wasAlreadyActive) {
+                reconnect()
+                loadData(listOf(latest))
+            }
+        } else {
+            activeChannel.value?.let { current ->
+                reconnect()
+                loadData(listOf(current))
+            }
+        }
+        return latest ?: activeChannel.value
     }
 
     val events = eventChannel.receiveAsFlow()
@@ -327,9 +421,8 @@ class MainViewModel(
     val shouldShowViewPager: StateFlow<Boolean> = channels.mapLatest { it?.isNotEmpty() != false }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), true)
 
-    val shouldShowTabs: StateFlow<Boolean> = combine(shouldShowViewPager, _isFullscreen, _isLandscape, _currentStreamedChannel) { shouldShowViewPager, isFullscreen, isLandscape, currentStream ->
-        shouldShowViewPager && !isFullscreen && !(isLandscape && currentStream != null)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), true)
+    val shouldShowTabs: StateFlow<Boolean> = flowOf(false)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     val shouldShowInput: StateFlow<Boolean> = combine(
         appearanceSettingsDataStore.showInput,
@@ -425,16 +518,11 @@ class MainViewModel(
     val isFullscreenFlow: StateFlow<Boolean> = _isFullscreen.asStateFlow()
     val areChipsExpanded: StateFlow<Boolean> = chipsExpanded.asStateFlow()
 
-    val shouldShowChipToggle: StateFlow<Boolean> = combine(
-        appearanceSettingsDataStore.showChips,
-        isScrolling,
-    ) { shouldShowChips, isScrolling ->
-        shouldShowChips && !isScrolling
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), true)
+    val shouldShowChipToggle: StateFlow<Boolean> = flowOf(false)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
-    val shouldShowExpandedChips: StateFlow<Boolean> = combine(shouldShowChipToggle, chipsExpanded) { shouldShowChips, chipsExpanded ->
-        shouldShowChips && chipsExpanded
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), false)
+    val shouldShowExpandedChips: StateFlow<Boolean> = flowOf(false)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     val shouldShowStreamToggle: StateFlow<Boolean> =
         combine(
@@ -526,6 +614,7 @@ class MainViewModel(
                 async { dataRepository.loadGlobalFFZEmotes() },
                 async { dataRepository.loadGlobalSevenTVEmotes() },
                 *channels.flatMap { (channelId, channel, channelDisplayName) ->
+                    dankChatPreferenceStore.recordOpenedChannel(channel, channelDisplayName.value)
                     chatRepository.createFlowsIfNecessary(channel)
                     listOf(
                         async { dataRepository.loadChannelBadges(channel, channelId) },

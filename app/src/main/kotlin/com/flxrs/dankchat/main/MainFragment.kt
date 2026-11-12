@@ -89,6 +89,7 @@ import com.flxrs.dankchat.data.UserId
 import com.flxrs.dankchat.data.UserName
 import com.flxrs.dankchat.data.state.DataLoadingState
 import com.flxrs.dankchat.data.state.ImageUploadState
+import com.flxrs.dankchat.data.repo.sync.StreamSyncRepository
 import com.flxrs.dankchat.data.toUserId
 import com.flxrs.dankchat.data.toUserName
 import com.flxrs.dankchat.data.twitch.badge.Badge
@@ -204,34 +205,36 @@ class MainFragment : Fragment() {
                 val isLoggedIn = dankChatPreferences.isLoggedIn
                 val shouldShowProgress = mainViewModel.shouldShowUploadProgress.value
                 val hasChannels = mainViewModel.getChannels().isNotEmpty()
-                val hasConfiguredChannels = dankChatPreferences.channels.isNotEmpty()
-                val mentionIconColor = when (mainViewModel.shouldColorNotification.value) {
-                    true -> R.attr.colorError
-                    else -> R.attr.colorControlHighlight
-                }
-                val onlyLiveIconColor = when (mainViewModel.onlyLiveChannels.value) {
-                    true -> R.attr.colorPrimary
-                    else -> R.attr.colorControlHighlight
-                }
+                val isLocked = mainViewModel.isSyncLocked.value
+                val canGoForward = mainViewModel.canGoForward.value
+
                 findItem(R.id.menu_login)?.isVisible = !isLoggedIn
                 findItem(R.id.menu_account)?.isVisible = isLoggedIn
-                findItem(R.id.menu_manage)?.isVisible = hasConfiguredChannels
                 findItem(R.id.menu_channel)?.isVisible = hasChannels
                 findItem(R.id.menu_open_channel)?.isVisible = hasChannels
                 findItem(R.id.menu_block_channel)?.isVisible = isLoggedIn
-                findItem(R.id.menu_mentions)?.apply {
-                    isVisible = hasConfiguredChannels
+                findItem(R.id.menu_next_channel)?.apply {
+                    isEnabled = canGoForward
                     context?.let {
                         val fallback = ContextCompat.getColor(it, android.R.color.white)
-                        val color = MaterialColors.getColor(it, mentionIconColor, fallback)
-                        icon?.setTintList(ColorStateList.valueOf(color))
+                        val baseColor = MaterialColors.getColor(it, R.attr.colorOnSurface, fallback)
+                        val color = if (canGoForward) {
+                            baseColor
+                        } else {
+                            (baseColor and 0x00FFFFFF) or (0x4D shl 24)
+                        }
+                        icon?.mutate()?.setTintList(ColorStateList.valueOf(color))
                     }
                 }
-                findItem(R.id.menu_only_live)?.apply {
-                    isVisible = hasConfiguredChannels
+                findItem(R.id.menu_lock_sync)?.apply {
+                    setIcon(if (isLocked) R.drawable.ic_lock else R.drawable.ic_lock_open)
                     context?.let {
                         val fallback = ContextCompat.getColor(it, android.R.color.white)
-                        val color = MaterialColors.getColor(it, onlyLiveIconColor, fallback)
+                        val color = if (isLocked) {
+                            0xFFFF3B30.toInt()
+                        } else {
+                            MaterialColors.getColor(it, R.attr.colorOnSurface, fallback)
+                        }
                         icon?.setTintList(ColorStateList.valueOf(color))
                     }
                 }
@@ -252,17 +255,19 @@ class MainFragment : Fragment() {
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
+                R.id.menu_previous_channel         -> mainViewModel.navigateToPreviousChannel()
+                R.id.menu_next_channel             -> mainViewModel.navigateToNextChannel()
+                R.id.menu_lock_sync                -> mainViewModel.toggleSyncLock()
+                R.id.menu_sync                     -> syncToRecentStream()
+                R.id.menu_pick_channel             -> navigateSafe(R.id.action_mainFragment_to_addChannelDialogFragment).also { closeInputSheets() }
+                R.id.menu_sync_config              -> showPcSyncConfigDialog()
                 R.id.menu_reconnect                -> mainViewModel.reconnect()
                 R.id.menu_login, R.id.menu_relogin -> openLogin()
                 R.id.menu_logout                   -> showLogoutConfirmationDialog()
-                R.id.menu_add                      -> navigateSafe(R.id.action_mainFragment_to_addChannelDialogFragment).also { closeInputSheets() }
-                R.id.menu_mentions                 -> openMentionSheet()
-                R.id.menu_only_live                -> mainViewModel.toggleOnlyLiveChannels()
                 R.id.menu_open_channel             -> openChannel()
                 R.id.menu_remove_channel           -> removeChannel()
                 R.id.menu_report_channel           -> reportChannel()
                 R.id.menu_block_channel            -> blockChannel()
-                R.id.menu_manage                   -> openManageChannelsDialog()
                 R.id.menu_reload_emotes            -> reloadEmotes()
                 R.id.menu_choose_media             -> showExternalHostingUploadDialogIfNotAcknowledged { requestGalleryMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageAndVideo)) }
                 R.id.menu_capture_image            -> startCameraCapture()
@@ -438,6 +443,10 @@ class MainFragment : Fragment() {
                 binding.inputLayout.isHelperTextEnabled = enabled
                 binding.fullscreenHintText.text = text
             }
+            collectFlow(activeChannelTitle) { title ->
+                binding.toolbar.title = title
+                (activity as? AppCompatActivity)?.supportActionBar?.title = title
+            }
             collectFlow(activeChannel) { channel ->
                 channel ?: return@collectFlow
                 (activity as? MainActivity)?.notificationService?.setActiveChannel(channel) // TODO move
@@ -459,10 +468,9 @@ class MainFragment : Fragment() {
             collectFlow(shouldShowStreamToggle) { binding.toggleStream.isVisible = it }
             collectFlow(hasModInChannel) { binding.changeRoomstate.isVisible = it }
             collectFlow(shouldShowViewPager) {
-                val hasConfiguredChannels = dankChatPreferences.channels.isNotEmpty()
                 binding.chatViewpager.isVisible = it && !isInPictureInPictureMode
-                binding.addChannelsText.isVisible = !it && !hasConfiguredChannels
-                binding.addChannelsButton.isVisible = !it && !hasConfiguredChannels
+                binding.addChannelsText.isVisible = false
+                binding.addChannelsButton.isVisible = false
             }
             collectFlow(shouldShowEmoteMenuIcon) { showEmoteMenuIcon ->
                 when {
@@ -481,6 +489,8 @@ class MainFragment : Fragment() {
             collectFlow(unreadMessagesMap, ::updateUnreadChannelTabColors)
             collectFlow(shouldColorNotification) { activity?.invalidateMenu() }
             collectFlow(onlyLiveChannels) { activity?.invalidateMenu() }
+            collectFlow(isSyncLocked) { activity?.invalidateMenu() }
+            collectFlow(canGoForward) { activity?.invalidateMenu() }
             collectFlow(configuredChannels, mainViewModel::fetchStreamData)
             collectFlow(visibleChannelsWithRenames, ::syncVisibleChannels)
             collectFlow(currentStreamedChannel) {
@@ -583,6 +593,9 @@ class MainFragment : Fragment() {
 
         (requireActivity() as AppCompatActivity).apply {
             setSupportActionBar(binding.toolbar)
+            val initialTitle = mainViewModel.activeChannelTitle.value
+            supportActionBar?.title = initialTitle
+            binding.toolbar.title = initialTitle
             onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
 
             ViewCompat.setOnApplyWindowInsetsListener(binding.showChips) { v, insets ->
@@ -685,6 +698,9 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        val currentTitle = mainViewModel.activeChannelTitle.value
+        bindingRef?.toolbar?.title = currentTitle
+        (activity as? AppCompatActivity)?.supportActionBar?.title = currentTitle
         changeActionBarVisibility(mainViewModel.isFullscreenFlow.value)
         bindingRef?.updatePictureInPictureVisibility()
         mainViewModel.fetchStreamData()
@@ -941,25 +957,52 @@ class MainFragment : Fragment() {
     }
 
     private fun addChannel(channel: String) {
-        val lowerCaseChannel = channel.lowercase().removePrefix("#").toUserName()
-        val currentConfigured = dankChatPreferences.channels
-        if (lowerCaseChannel !in currentConfigured) {
-            dankChatPreferences.channels = currentConfigured + lowerCaseChannel
+        val rawTrimmed = channel.trim().removePrefix("#")
+        val lowerCaseChannel = rawTrimmed.lowercase().toUserName()
+        if (rawTrimmed.any(Char::isUpperCase)) {
+            dankChatPreferences.recordOpenedChannel(lowerCaseChannel, rawTrimmed)
         }
-        if (!mainViewModel.onlyLiveChannels.value || !dankChatPreferences.isLoggedIn) {
-            var newTabIndex = tabAdapter.indexOfChannel(lowerCaseChannel)
-            if (newTabIndex == -1) {
-                mainViewModel.joinChannel(lowerCaseChannel)
-                mainViewModel.loadData(channelList = listOf(lowerCaseChannel))
-                tabAdapter.addFragment(lowerCaseChannel)
-                newTabIndex = tabAdapter.itemCount - 1
-            }
-            binding.chatViewpager.setCurrentItem(newTabIndex, false)
-            mainViewModel.setActiveChannel(lowerCaseChannel)
-        } else {
-            mainViewModel.fetchStreamData()
-        }
+        mainViewModel.switchToSingleChannel(lowerCaseChannel)
         activity?.invalidateMenu()
+    }
+
+    private fun syncToRecentStream() {
+        lifecycleScope.launch {
+            val synced = mainViewModel.syncLatestStream()
+            if (synced == null) {
+                showSnackBar(getString(R.string.snackbar_sync_failed))
+            }
+        }
+    }
+
+    private fun showPcSyncConfigDialog() {
+        val content = EditDialogBinding.inflate(LayoutInflater.from(requireContext()), null, false).apply {
+            dialogEdit.setText(dankChatPreferences.pcSyncTopic)
+            dialogEdit.inputType = InputType.TYPE_CLASS_TEXT
+            dialogEditLayout.setHint(R.string.pc_sync_topic_hint)
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.pc_sync_settings)
+            .setView(content.root)
+            .setPositiveButton(R.string.save) { dialog, _ ->
+                val newTopic = content.dialogEdit.text?.toString().orEmpty().trim()
+                if (newTopic.isNotBlank()) {
+                    dankChatPreferences.pcSyncTopic = newTopic
+                }
+                dialog.dismiss()
+            }
+            .setNeutralButton(R.string.pc_sync_copy_script) { dialog, _ ->
+                val topic = content.dialogEdit.text?.toString().orEmpty().trim().ifBlank { dankChatPreferences.pcSyncTopic }
+                dankChatPreferences.pcSyncTopic = topic
+                val script = StreamSyncRepository.buildTampermonkeyScript(topic)
+                getSystemService(requireContext(), ClipboardManager::class.java)
+                    ?.setPrimaryClip(ClipData.newPlainText("tampermonkey_script", script))
+                showSnackBar(getString(R.string.pc_sync_script_copied))
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.dialog_cancel) { dialog, _ -> dialog.dismiss() }
+            .show()
     }
 
     private fun sendMessage(): Boolean {
@@ -1132,14 +1175,12 @@ class MainFragment : Fragment() {
     }
 
     private fun clear() {
-        val position = binding.tabs.selectedTabPosition
-        val channel = tabAdapter[position] ?: return
+        val channel = mainViewModel.getActiveChannel() ?: tabAdapter[0] ?: return
         mainViewModel.clear(channel)
     }
 
     private fun reloadEmotes() {
-        val position = binding.tabs.selectedTabPosition
-        val channel = tabAdapter[position] ?: return
+        val channel = mainViewModel.getActiveChannel() ?: tabAdapter[0] ?: return
         mainViewModel.reloadEmotes(channel)
     }
 
@@ -1392,6 +1433,7 @@ class MainFragment : Fragment() {
 
     private fun ViewPager2.setup() {
         adapter = tabAdapter
+        isUserInputEnabled = false
         reduceDragSensitivity()
         registerOnPageChangeCallback(pageChangeCallback)
     }
@@ -1456,7 +1498,7 @@ class MainFragment : Fragment() {
             when {
                 behavior.isHidden    -> {
                     mainViewModel.setFullScreenSheetState(FullScreenSheetState.Closed)
-                    val channel = tabAdapter[binding.tabs.selectedTabPosition] ?: return
+                    val channel = mainViewModel.getActiveChannel() ?: tabAdapter[0] ?: return
                     mainViewModel.setSuggestionChannel(channel)
 
                     val existing = childFragmentManager.fragments.filter { it is MentionFragment || it is RepliesFragment }

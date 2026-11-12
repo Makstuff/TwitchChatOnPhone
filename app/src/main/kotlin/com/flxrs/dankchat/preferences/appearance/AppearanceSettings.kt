@@ -12,8 +12,9 @@ data class AppearanceSettings(
     val checkeredMessages: Boolean = false,
     val showInput: Boolean = true,
     val autoDisableInput: Boolean = true,
-    val showChips: Boolean = true,
-    val showChangelogs: Boolean = true,
+    val showChips: Boolean = false,
+    val showBottomInfo: Boolean = false,
+    val showChangelogs: Boolean = false,
 )
 
 enum class ThemePreference { System, Dark, Light }

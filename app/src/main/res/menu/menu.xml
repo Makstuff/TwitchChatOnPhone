@@ -6,34 +6,45 @@
         android:id="@+id/progress"
         android:title="@string/uploading_image"
         android:visible="false"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_previous_channel"
+        android:icon="@drawable/ic_arrow_back"
+        android:title="@string/previous_channel"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_add"
-        android:icon="@drawable/ic_add_box"
-        android:title="@string/add_channel"
+        android:id="@+id/menu_next_channel"
+        android:icon="@drawable/ic_arrow_forward"
+        android:title="@string/next_channel"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_mentions"
-        android:icon="@drawable/ic_notifications_active"
-        android:title="@string/mentions_title"
+        android:id="@+id/menu_lock_sync"
+        android:icon="@drawable/ic_lock_open"
+        android:title="@string/lock_sync"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_only_live"
-        android:icon="@drawable/ic_visibility_off"
-        android:title="@string/only_live_channels"
+        android:id="@+id/menu_sync"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/sync_stream"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_pick_channel"
+        android:title="@string/pick_channel"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_sync_config"
+        android:title="@string/pc_sync_settings"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_login"
         android:title="@string/login"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_manage"
-        android:title="@string/manage_channels"
         app:showAsAction="never" />
 
     <item
@@ -75,7 +86,6 @@
                 app:showAsAction="never" />
         </menu>
     </item>
-
 
     <item
         android:title="@string/upload_media"

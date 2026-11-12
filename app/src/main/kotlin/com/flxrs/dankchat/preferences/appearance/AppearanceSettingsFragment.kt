@@ -58,6 +58,7 @@ import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsInteraction.F
 import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsInteraction.KeepScreenOn
 import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsInteraction.LineSeparator
 import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsInteraction.ShowChangelogs
+import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsInteraction.ShowBottomInfo
 import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsInteraction.ShowChips
 import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsInteraction.ShowInput
 import com.flxrs.dankchat.preferences.appearance.AppearanceSettingsInteraction.Theme
@@ -156,7 +157,7 @@ private fun AppearanceSettings(
             ComponentsCategory(
                 showInput = settings.showInput,
                 autoDisableInput = settings.autoDisableInput,
-                showChips = settings.showChips,
+                showBottomInfo = settings.showBottomInfo,
                 showChangelogs = settings.showChangelogs,
                 onInteraction = onInteraction,
             )
@@ -169,7 +170,7 @@ private fun AppearanceSettings(
 private fun ComponentsCategory(
     showInput: Boolean,
     autoDisableInput: Boolean,
-    showChips: Boolean,
+    showBottomInfo: Boolean,
     showChangelogs: Boolean,
     onInteraction: (AppearanceSettingsInteraction) -> Unit,
 ) {
@@ -189,10 +190,10 @@ private fun ComponentsCategory(
             onClick = { onInteraction(AutoDisableInput(it)) },
         )
         SwitchPreferenceItem(
-            title = stringResource(R.string.preference_show_chip_actions_title),
-            summary = stringResource(R.string.preference_show_chip_actions_summary),
-            isChecked = showChips,
-            onClick = { onInteraction(ShowChips(it)) },
+            title = stringResource(R.string.preference_show_bottom_info_title),
+            summary = stringResource(R.string.preference_show_bottom_info_summary),
+            isChecked = showBottomInfo,
+            onClick = { onInteraction(ShowBottomInfo(it)) },
         )
         SwitchPreferenceItem(
             title = stringResource(R.string.preference_show_changelogs),

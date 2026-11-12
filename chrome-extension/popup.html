@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      width: 280px;
+      margin: 12px;
+      background: #18181b;
+      color: #efeff1;
+    }
+    h3 { margin: 0 0 6px 0; font-size: 15px; }
+    p { margin: 0 0 10px 0; font-size: 12px; color: #adadb8; line-height: 1.4; }
+    label { font-size: 12px; font-weight: 600; display: block; margin-bottom: 4px; }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #3a3a3d;
+      background: #0e0e10;
+      color: #efeff1;
+      margin-bottom: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 7px;
+      background: #9147ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #772ce8; }
+    .status { font-size: 11px; color: #00f593; margin-top: 6px; min-height: 15px; }
+  </style>
+</head>
+<body>
+  <h3>Twitch Chat on Phone</h3>
+  <p>Watch Twitch on PC and automatically open the current channel's chat in the Android app. Based on DankChat; built 100% with AI.</p>
+  <label for="topic">Sync Topic (match in Android app):</label>
+  <input id="topic" type="text" />
+  <button id="save">Save Topic</button>
+  <div id="status" class="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
+

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">DankChat</string>
-    <string name="app_name_dank">DankChat (Dank)</string>
+    <string name="app_name">Twitch Chat on Phone</string>
+    <string name="app_name_dank">Twitch Chat on Phone</string>
     <string name="send_hint">Send a message</string>
     <string name="login">Login</string>
     <string name="reload_emotes">Reload emotes</string>
@@ -471,4 +471,17 @@
     <string name="pick_highlight_color_title">Pick custom highlight color</string>
     <string name="reset_default_highlight_color">Default</string>
     <string name="choose_highlight_color">Choose Color</string>
+    <string name="sync_stream">Sync to PC stream</string>
+    <string name="pc_sync_settings">PC Stream Sync</string>
+    <string name="pc_sync_topic_hint">ntfy.sh Sync Topic</string>
+    <string name="pc_sync_copy_script">Copy Tampermonkey Script</string>
+    <string name="pc_sync_script_copied">Tampermonkey script copied to clipboard</string>
+    <string name="snackbar_synced_stream">Synced to %1$s</string>
+    <string name="snackbar_sync_failed">No recent PC stream found</string>
+    <string name="preference_show_bottom_info_title">Show chat mode &amp; live duration</string>
+    <string name="preference_show_bottom_info_summary">Show room state (e.g. follow (5)) and stream uptime/viewers below the chat input box</string>
+    <string name="previous_channel">Previous channel</string>
+    <string name="next_channel">Next channel</string>
+    <string name="lock_sync">Lock auto-sync</string>
+    <string name="pick_channel">Pick channel</string>
 </resources>

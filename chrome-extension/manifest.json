@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Twitch Chat on Phone",
+  "version": "1.0.0",
+  "description": "Watch Twitch on PC and automatically open the current channel's chat in the Android app. Based on DankChat; built 100% with AI.",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://www.twitch.tv/*",
+    "https://twitch.tv/*",
+    "https://ntfy.sh/*"
+  ],
+  "action": {
+    "default_title": "Twitch Chat on Phone",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.twitch.tv/*",
+        "https://twitch.tv/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
