@@ -238,14 +238,6 @@ class MainFragment : Fragment() {
                         icon?.setTintList(ColorStateList.valueOf(color))
                     }
                 }
-
-                findItem(R.id.progress)?.apply {
-                    isVisible = shouldShowProgress
-                    actionView = ProgressBar(requireContext()).apply {
-                        indeterminateTintList = ColorStateList.valueOf(MaterialColors.getColor(this, R.attr.colorOnSurfaceVariant))
-                        isVisible = shouldShowProgress
-                    }
-                }
             }
         }
 
@@ -271,9 +263,6 @@ class MainFragment : Fragment() {
                 R.id.menu_report_channel           -> reportChannel()
                 R.id.menu_block_channel            -> blockChannel()
                 R.id.menu_reload_emotes            -> reloadEmotes()
-                R.id.menu_choose_media             -> showExternalHostingUploadDialogIfNotAcknowledged { requestGalleryMedia.launch(PickVisualMediaRequest(PickVisualMedia.ImageAndVideo)) }
-                R.id.menu_capture_image            -> startCameraCapture()
-                R.id.menu_capture_video            -> startCameraCapture(captureVideo = true)
                 R.id.menu_clear                    -> clear()
                 R.id.menu_settings                 -> navigateSafe(R.id.action_mainFragment_to_overviewSettingsFragment).also { hideKeyboard() }
                 else                               -> return false
@@ -1625,8 +1614,8 @@ class MainFragment : Fragment() {
         private const val TAB_SCROLL_DELAY_MS = 1000 / 60 * 10L
         private const val OFFSCREEN_PAGE_LIMIT = 2
         private const val CURRENT_STREAM_STATE = "current_stream_state"
-        private const val CHROME_EXTENSION_URL = "https://github.com/Makstuff/TwitchChatOnPhone"
-        private const val FIREFOX_EXTENSION_URL = "https://github.com/Makstuff/TwitchChatOnPhone"
+        private const val CHROME_EXTENSION_URL = "https://chromewebstore.google.com/search/Twitch%20Chat%20on%20Phone"
+        private const val FIREFOX_EXTENSION_URL = "https://addons.mozilla.org/firefox/addon/twitch-chat-on-phone/"
 
         const val LOGOUT_REQUEST_KEY = "logout_key"
         const val LOGIN_REQUEST_KEY = "login_key"

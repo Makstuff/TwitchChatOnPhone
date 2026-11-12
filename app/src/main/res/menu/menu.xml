@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/progress"
-        android:title="@string/uploading_image"
-        android:visible="false"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/menu_previous_channel"
         android:icon="@drawable/ic_arrow_back"
         android:title="@string/previous_channel"
@@ -99,25 +93,6 @@
             <item
                 android:id="@+id/menu_logout"
                 android:title="@string/logout"
-                app:showAsAction="never" />
-        </menu>
-    </item>
-
-    <item
-        android:title="@string/upload_media"
-        app:showAsAction="never">
-        <menu>
-            <item
-                android:id="@+id/menu_capture_image"
-                android:title="@string/take_picture"
-                app:showAsAction="never" />
-            <item
-                android:id="@+id/menu_capture_video"
-                android:title="@string/record_video"
-                app:showAsAction="never" />
-            <item
-                android:id="@+id/menu_choose_media"
-                android:title="@string/choose_media"
                 app:showAsAction="never" />
         </menu>
     </item>

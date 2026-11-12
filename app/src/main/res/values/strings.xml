@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Twitch Chat on Phone</string>
-    <string name="app_name_dank">Twitch Chat on Phone</string>
+    <string name="app_name" translatable="false">Twitch Chat on Phone</string>
+    <string name="app_name_dank" translatable="false">Twitch Chat on Phone</string>
     <string name="send_hint">Send a message</string>
     <string name="login">Login</string>
     <string name="reload_emotes">Reload emotes</string>
@@ -181,7 +181,7 @@
     <string name="badge_tooltip_bits" translatable="false">Twitch cheer %1$s</string>
     <string name="badge_tooltip_predictions">Predicted "%1$s"</string>
     <string name="badge_tooltip_sub_tier">Tier %1$s</string>
-    <string name="shared_preference_key" translatable="false">com.flxrs.dankchat_preferences</string>
+    <string name="shared_preference_key" translatable="false">com.flxrs.dankchat.tcop_preferences</string>
     <string name="preference_timestamp_title">Show timestamps</string>
     <string name="preference_timestamp_key" translatable="false">show_timestamp</string>
     <string name="preference_mention_format_title">Mention format</string>
@@ -200,7 +200,8 @@
     <string name="preference_general_header">General</string>
     <string name="preference_about_header">About</string>
     <string name="preference_appearance_header">Appearance</string>
-    <string name="preference_about_summary">Twitch Chat on Phone %1$s\nBased on DankChat by @flex3rs and contributors — made 100%% with AI.</string>
+    <string name="preference_about_tcop" translatable="false">Twitch Chat on Phone %1$s</string>
+    <string name="preference_about_summary">Based on DankChat by @flex3rs and contributors — made 100% with AI.</string>
     <string name="preference_show_input_key" translatable="false">show_input_key</string>
     <string name="preference_show_input_title">Show input</string>
     <string name="preference_show_input_summary">Displays the input field to send messages</string>

@@ -290,6 +290,9 @@ class MainViewModel(
             }.collect { (visible, isInitialized) ->
                 if (!isInitialized) return@collect
                 val targetChannels = visible.map(ChannelWithRename::channel)
+                if (targetChannels.isEmpty()) {
+                    setActiveChannel(null)
+                }
                 val currentChannels = chatRepository.channels.value ?: return@collect
                 if (currentChannels == targetChannels) {
                     return@collect

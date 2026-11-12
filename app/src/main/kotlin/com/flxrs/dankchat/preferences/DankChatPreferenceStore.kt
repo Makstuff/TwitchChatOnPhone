@@ -32,6 +32,10 @@ class DankChatPreferenceStore(
 ) {
     private val dankChatPreferences: SharedPreferences = context.getSharedPreferences(context.getString(R.string.shared_preference_key), Context.MODE_PRIVATE)
 
+    init {
+        dankChatPreferences.edit { remove(CHANNELS_AS_STRING_KEY) }
+    }
+
     private var channelRenames: String?
         get() = dankChatPreferences.getString(RENAME_KEY, null)
         set(value) = dankChatPreferences.edit { putString(RENAME_KEY, value) }
@@ -144,7 +148,16 @@ class DankChatPreferenceStore(
 
     var pcSyncTopic: String
         get() = dankChatPreferences.getString(PC_SYNC_TOPIC_KEY, null)?.trim().orEmpty()
-        set(value) = dankChatPreferences.edit { putString(PC_SYNC_TOPIC_KEY, value.trim()) }
+        set(value) {
+            val trimmed = value.trim()
+            val old = pcSyncTopic
+            dankChatPreferences.edit {
+                putString(PC_SYNC_TOPIC_KEY, trimmed)
+                if (trimmed.isBlank() || trimmed != old) {
+                    remove(CHANNELS_AS_STRING_KEY)
+                }
+            }
+        }
 
     val pcSyncTopicFlow: Flow<String> = callbackFlow {
         send(pcSyncTopic)

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">DankChat</string>
-    <string name="app_name_dank">DankChat (Dank)</string>
     <string name="send_hint">Invia un messaggio</string>
     <string name="login">Accedi</string>
     <string name="reload_emotes">Ricarica emote</string>
@@ -190,7 +188,6 @@
     <string name="preference_general_header">Generale</string>
     <string name="preference_about_header">Info</string>
     <string name="preference_appearance_header">Aspetto</string>
-    <string name="preference_about_summary">DankChat %1$s, sviluppata da @flex3rs e collaboratori</string>
     <string name="preference_show_input_title">Mostra input</string>
     <string name="preference_show_input_summary">Mostra il campo di inserimento per inviare i messaggi</string>
     <string name="preference_follow_system_title">Sistema di follow predefinito</string>

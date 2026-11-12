@@ -131,8 +131,6 @@ private fun ToolsSettingsScreen(
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {
-            ImageUploaderCategory(hasRecentUploads = settings.hasRecentUploads, onNavToImageUploader = onNavToImageUploader)
-            HorizontalDivider(thickness = Dp.Hairline)
             TextToSpeechCategory(settings, onInteraction, onNavToTTSUserIgnoreList)
             NavigationBarSpacer()
         }
