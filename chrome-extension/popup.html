@@ -22,7 +22,26 @@
       background: #0e0e10;
       color: #ffffff;
       user-select: all;
+      margin-bottom: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid #3a3a3d;
+      border-radius: 6px;
+      background: #26262c;
+      color: #efeff1;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
       margin-bottom: 10px;
+    }
+    button:hover {
+      background: #323239;
+    }
+    button:active {
+      background: #9147ff;
+      border-color: #9147ff;
     }
     p {
       margin: 0;
@@ -41,6 +60,7 @@
 </head>
 <body>
   <div id="syncId" class="sync-id-box">...</div>
+  <button id="regenerateBtn" type="button">Generate New Sync ID</button>
   <p>This is your personal Sync ID, enter it in the <a href="https://github.com/Makstuff/DankChat/raw/develop/Twitch-Chat-on-Phone.apk" target="_blank" rel="noopener noreferrer">Android app</a> to sync your chat.</p>
   <script src="popup.js"></script>
 </body>

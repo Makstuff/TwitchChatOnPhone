@@ -7,25 +7,15 @@
         'prime', 'turbo', 'login', 'signup', 'activate', 'embed', 'products'
     ]);
 
-    let lastSentChannel = '';
-    let lastSentTime = 0;
+    // Minimum interval before re-announcing the exact same channel (30 minutes)
+    const SAME_CHANNEL_TTL_MS = 30 * 60 * 1000;
+    let debounceTimer = null;
 
     function generateSyncId(length = 16) {
         const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
         const values = new Uint8Array(length);
         crypto.getRandomValues(values);
         return Array.from(values, (v) => chars[v % chars.length]).join('');
-    }
-
-    function getOrInitSyncId(callback) {
-        chrome.storage.local.get(['syncId'], (items) => {
-            if (items.syncId) {
-                callback(items.syncId);
-            } else {
-                const syncId = generateSyncId(16);
-                chrome.storage.local.set({ syncId }, () => callback(syncId));
-            }
-        });
     }
 
     function extractChannel(pathname) {
@@ -43,20 +33,35 @@
         return first;
     }
 
-    function syncCurrentChannel(force = false) {
+    function syncCurrentChannel() {
         if (document.visibilityState === 'hidden') return;
         const channel = extractChannel(window.location.pathname);
         if (!channel) return;
 
-        const now = Date.now();
-        if (!force && channel.toLowerCase() === lastSentChannel.toLowerCase() && (now - lastSentTime) < 1500) {
-            return;
-        }
+        chrome.storage.local.get(['syncId', 'lastSyncedChannel', 'lastSyncedTime'], (items) => {
+            let syncId = items.syncId;
+            if (!syncId) {
+                syncId = generateSyncId(16);
+                chrome.storage.local.set({ syncId });
+            }
 
-        lastSentChannel = channel;
-        lastSentTime = now;
+            const now = Date.now();
+            const sameChannel =
+                items.lastSyncedChannel &&
+                items.lastSyncedChannel.toLowerCase() === channel.toLowerCase();
+            const recentlySent =
+                items.lastSyncedTime && (now - items.lastSyncedTime) < SAME_CHANNEL_TTL_MS;
 
-        getOrInitSyncId((syncId) => {
+            // Skip network request if this channel is already the active synced channel
+            if (sameChannel && recentlySent) {
+                return;
+            }
+
+            chrome.storage.local.set({
+                lastSyncedChannel: channel,
+                lastSyncedTime: now
+            });
+
             const topic = 'tcop-' + syncId.trim();
             fetch('https://ntfy.sh/' + encodeURIComponent(topic), {
                 method: 'POST',
@@ -69,22 +74,34 @@
         });
     }
 
+    function scheduleSync() {
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(syncCurrentChannel, 350);
+    }
+
     document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
-            syncCurrentChannel(true);
+            scheduleSync();
         }
     });
-    window.addEventListener('focus', () => syncCurrentChannel(true));
+    window.addEventListener('focus', scheduleSync);
+
+    // If user generates a new Sync ID while on an active Twitch tab, publish immediately
+    chrome.storage.onChanged.addListener((changes, area) => {
+        if (area === 'local' && changes.syncId && document.visibilityState === 'visible') {
+            scheduleSync();
+        }
+    });
 
     let lastHref = window.location.href;
     const observer = new MutationObserver(() => {
         if (window.location.href !== lastHref) {
             lastHref = window.location.href;
-            syncCurrentChannel(false);
+            scheduleSync();
         }
     });
     observer.observe(document.documentElement, { childList: true, subtree: true });
-    window.addEventListener('popstate', () => syncCurrentChannel(false));
+    window.addEventListener('popstate', scheduleSync);
 
-    syncCurrentChannel(true);
+    scheduleSync();
 })();

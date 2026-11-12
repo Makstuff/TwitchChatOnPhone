@@ -6,6 +6,7 @@ function generateSyncId(length = 16) {
 }
 
 const syncIdEl = document.getElementById('syncId');
+const regenerateBtn = document.getElementById('regenerateBtn');
 
 chrome.storage.local.get(['syncId'], (items) => {
     if (items.syncId) {
@@ -16,4 +17,15 @@ chrome.storage.local.get(['syncId'], (items) => {
             syncIdEl.textContent = syncId;
         });
     }
+});
+
+regenerateBtn.addEventListener('click', () => {
+    const syncId = generateSyncId(16);
+    chrome.storage.local.set({
+        syncId,
+        lastSyncedChannel: '',
+        lastSyncedTime: 0
+    }, () => {
+        syncIdEl.textContent = syncId;
+    });
 });
