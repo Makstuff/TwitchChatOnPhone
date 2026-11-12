@@ -33,6 +33,7 @@ import android.view.inputmethod.EditorInfo
 import android.webkit.MimeTypeMap
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.BackEventCompat
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
@@ -160,6 +161,7 @@ class MainFragment : Fragment() {
 
     private var inputBottomSheetBehavior: BottomSheetBehavior<FragmentContainerView>? = null
     private var fullscreenBottomSheetBehavior: BottomSheetBehavior<FragmentContainerView>? = null
+    private var blockedToast: Toast? = null
     private val onBackPressedCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
             when {
@@ -404,9 +406,25 @@ class MainFragment : Fragment() {
             collectFlow(canType) {
                 binding.inputLayout.isEnabled = it
                 binding.input.isEnabled = it
-                when {
-                    it   -> binding.inputLayout.setupSendButton()
-                    else -> with(binding.inputLayout) {
+            }
+            collectFlow(sendIconState) { state ->
+                val isBlocked = state == SendIconState.Blocked
+                with(binding.input) {
+                    isFocusable = !isBlocked
+                    isFocusableInTouchMode = !isBlocked
+                    isCursorVisible = !isBlocked
+                    if (isBlocked) {
+                        clearFocus()
+                        hideKeyboard()
+                        setOnClickListener { showBlockedToast() }
+                    } else {
+                        setOnClickListener(null)
+                    }
+                }
+                when (state) {
+                    SendIconState.Send    -> binding.inputLayout.setupSendButton()
+                    SendIconState.Blocked -> binding.inputLayout.setupSendButton(blocked = true)
+                    SendIconState.Hidden  -> with(binding.inputLayout) {
                         endIconDrawable = null
                         setEndIconTouchListener(null)
                         setEndIconOnClickListener(null)
@@ -416,10 +434,11 @@ class MainFragment : Fragment() {
             }
             collectFlow(inputState) { state ->
                 binding.inputLayout.hint = when (state) {
-                    InputState.Default      -> getString(R.string.hint_connected)
-                    InputState.Replying     -> getString(R.string.hint_replying)
-                    InputState.NotLoggedIn  -> getString(R.string.hint_not_logged_int)
-                    InputState.Disconnected -> getString(R.string.hint_disconnected)
+                    InputState.Default         -> getString(R.string.hint_connected)
+                    InputState.Replying        -> getString(R.string.hint_replying)
+                    InputState.NotLoggedIn     -> getString(R.string.hint_not_logged_int)
+                    InputState.Disconnected    -> getString(R.string.hint_disconnected)
+                    is InputState.Restricted   -> formatRestrictions(state.restrictions)
                 }
             }
             collectFlow(bottomTextState) { (enabled, text) ->
@@ -1443,8 +1462,111 @@ class MainFragment : Fragment() {
         registerOnPageChangeCallback(pageChangeCallback)
     }
 
-    private fun DankChatInputLayout.setupSendButton() {
+    private fun formatRestrictions(restrictions: List<ChatRestriction>): String {
+        // a blocking restriction is shown on its own, otherwise all (non-blocking) restrictions are combined
+        val blocking = restrictions.firstOrNull { it.blocksSending }
+        return when (blocking) {
+            null -> restrictions.joinToString(separator = getString(R.string.hint_restriction_separator)) { formatRestriction(it) }
+            else -> formatRestriction(blocking)
+        }
+    }
+
+    private fun formatRestriction(restriction: ChatRestriction): String = when (restriction) {
+        ChatRestriction.Banned                    -> getString(R.string.hint_restriction_banned)
+        is ChatRestriction.TimedOut               -> when (val seconds = restriction.remainingSeconds) {
+            null -> getString(R.string.hint_restriction_timed_out)
+            else -> getString(R.string.hint_restriction_timed_out_duration, formatDurationSeconds(seconds))
+        }
+
+        ChatRestriction.SubscribersOnly           -> getString(R.string.hint_restriction_subscribers_only)
+        is ChatRestriction.FollowersOnly          -> when {
+            restriction.minutes == 0L -> getString(R.string.hint_restriction_followers_only)
+            restriction.isFollowing   -> getString(R.string.hint_restriction_followers_only_remaining, formatDurationMinutes(restriction.minutes))
+            else                      -> getString(R.string.hint_restriction_followers_only_duration, formatDurationMinutes(restriction.minutes))
+        }
+
+        ChatRestriction.EmoteOnly                 -> getString(R.string.hint_restriction_emote_only)
+        is ChatRestriction.SlowMode               -> getString(R.string.hint_restriction_slow_mode, formatDurationSeconds(restriction.seconds.toLong()))
+        ChatRestriction.UniqueChat                -> getString(R.string.hint_restriction_unique_chat)
+        ChatRestriction.PhoneVerificationRequired -> getString(R.string.hint_restriction_phone_verification)
+        ChatRestriction.EmailVerificationRequired -> getString(R.string.hint_restriction_email_verification)
+        ChatRestriction.ChannelSuspended          -> getString(R.string.hint_restriction_channel_suspended)
+    }
+
+    /** Seconds below one minute are shown as seconds, everything else is rounded up to minutes. */
+    private fun formatDurationSeconds(seconds: Long): String = when {
+        seconds < 60 -> getString(R.string.duration_seconds_short, seconds.toInt())
+        else         -> formatDurationMinutes((seconds + 59) / 60)
+    }
+
+    private fun formatDurationMinutes(minutes: Long): String {
+        val days = minutes / (60 * 24)
+        val hours = (minutes / 60) % 24
+        val mins = minutes % 60
+        return when {
+            minutes < 60 -> getString(R.string.duration_minutes_short, minutes.toInt())
+            days == 0L   -> when (mins) {
+                0L   -> getString(R.string.duration_hours_short, hours.toInt())
+                else -> getString(R.string.duration_hours_minutes_short, hours.toInt(), mins.toInt())
+            }
+
+            else         -> when (hours) {
+                0L   -> getString(R.string.duration_days_short, days.toInt())
+                else -> getString(R.string.duration_days_hours_short, days.toInt(), hours.toInt())
+            }
+        }
+    }
+
+    private fun showBlockedToast() {
+        val message = formatBlockedAdvice(mainViewModel.inputState.value) ?: return
+        blockedToast?.cancel()
+        blockedToast = Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).apply { show() }
+    }
+
+    private fun formatBlockedAdvice(state: InputState): String? = when (state) {
+        InputState.NotLoggedIn    -> getString(R.string.toast_restriction_not_logged_in)
+        InputState.Disconnected   -> getString(R.string.toast_restriction_disconnected)
+        is InputState.Restricted  -> {
+            val restriction = state.restrictions.firstOrNull { it.blocksSending } ?: return null
+            when (restriction) {
+                ChatRestriction.Banned                    -> getString(R.string.toast_restriction_banned)
+                is ChatRestriction.TimedOut               -> when (val seconds = restriction.remainingSeconds) {
+                    null -> getString(R.string.toast_restriction_timed_out)
+                    else -> getString(R.string.toast_restriction_timed_out_duration, formatDurationSeconds(seconds))
+                }
+
+                ChatRestriction.SubscribersOnly           -> getString(R.string.toast_restriction_subscribers_only)
+                is ChatRestriction.FollowersOnly          -> when {
+                    restriction.minutes == 0L -> getString(R.string.toast_restriction_followers_only)
+                    restriction.isFollowing   -> getString(R.string.toast_restriction_followers_only_remaining, formatDurationMinutes(restriction.minutes))
+                    else                      -> getString(R.string.toast_restriction_followers_only_duration, formatDurationMinutes(restriction.minutes))
+                }
+
+                ChatRestriction.PhoneVerificationRequired -> getString(R.string.toast_restriction_phone_verification)
+                ChatRestriction.EmailVerificationRequired -> getString(R.string.toast_restriction_email_verification)
+                ChatRestriction.ChannelSuspended          -> getString(R.string.toast_restriction_channel_suspended)
+                ChatRestriction.EmoteOnly,
+                is ChatRestriction.SlowMode,
+                ChatRestriction.UniqueChat                -> null
+            }
+        }
+
+        InputState.Default,
+        InputState.Replying       -> null
+    }
+
+    private fun DankChatInputLayout.setupSendButton(blocked: Boolean = false) {
+        if (blocked) {
+            setEndIconDrawable(R.drawable.ic_block)
+            endIconContentDescription = getString(R.string.send_blocked_description)
+            setEndIconTouchListener(null)
+            setEndIconOnClickListener { showBlockedToast() }
+            setEndIconOnLongClickListener(null)
+            return
+        }
+
         setEndIconDrawable(R.drawable.ic_send)
+        endIconContentDescription = getString(R.string.send_hint)
         val touchListenerAdded = when {
             developerSettingsDataStore.current().repeatedSending -> {
                 setEndIconOnClickListener { } // for ripple effects

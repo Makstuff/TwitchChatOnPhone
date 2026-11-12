@@ -11,6 +11,7 @@ import com.flxrs.dankchat.chat.InputSheetState
 import com.flxrs.dankchat.chat.emotemenu.EmoteMenuTab
 import com.flxrs.dankchat.chat.emotemenu.EmoteMenuTabItem
 import com.flxrs.dankchat.chat.suggestion.Suggestion
+import com.flxrs.dankchat.data.UserId
 import com.flxrs.dankchat.data.UserName
 import com.flxrs.dankchat.data.api.ApiException
 import com.flxrs.dankchat.data.repo.IgnoresRepository
@@ -18,6 +19,10 @@ import com.flxrs.dankchat.data.repo.channel.ChannelRepository
 import com.flxrs.dankchat.data.repo.chat.ChatLoadingFailure
 import com.flxrs.dankchat.data.repo.chat.ChatLoadingStep
 import com.flxrs.dankchat.data.repo.chat.ChatRepository
+import com.flxrs.dankchat.data.repo.chat.ChatRestrictionRepository
+import com.flxrs.dankchat.data.repo.chat.FollowStatus
+import com.flxrs.dankchat.data.repo.chat.ModerationRestriction
+import com.flxrs.dankchat.data.repo.chat.UserState
 import com.flxrs.dankchat.data.repo.chat.UserStateRepository
 import com.flxrs.dankchat.data.repo.chat.UsersRepository
 import com.flxrs.dankchat.data.repo.chat.toMergedStrings
@@ -80,9 +85,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.joinAll
@@ -108,6 +115,7 @@ class MainViewModel(
     private val streamsSettingsDataStore: StreamsSettingsDataStore,
     private val getChannelsUseCase: GetChannelsUseCase,
     private val streamSyncRepository: StreamSyncRepository,
+    private val chatRestrictionRepository: ChatRestrictionRepository,
     chatSettingsDataStore: ChatSettingsDataStore,
 ) : ViewModel() {
 
@@ -444,10 +452,134 @@ class MainViewModel(
         isUploading || isDataLoading
     }.stateIn(viewModelScope, started = SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), false)
 
-    val inputState: StateFlow<InputState> = combine(connectionState, fullScreenSheetState, inputSheetState) { connectionState, chatSheetState, inputSheetState ->
+    private val activeRoomState: Flow<RoomState?> = activeChannel.flatMapLatest { channel ->
+        when (channel) {
+            null -> flowOf(null)
+            else -> channelRepository.getRoomStateFlow(channel)
+                .map<RoomState, RoomState?> { it }
+                .onStart { emit(channelRepository.getRoomState(channel)) }
+        }
+    }.distinctUntilChanged()
+
+    private data class RestrictionInput(
+        val channel: UserName?,
+        val connectionState: ConnectionState,
+        val roomState: RoomState?,
+        val userState: UserState,
+        val moderation: ModerationRestriction?,
+        val followStatus: FollowStatus?,
+    )
+
+    private val restrictionInput: Flow<RestrictionInput> = combine(
+        combine(activeChannel, connectionState, activeRoomState, ::Triple),
+        userStateRepository.userState,
+        chatRestrictionRepository.moderation,
+        chatRestrictionRepository.followStatus,
+    ) { (channel, connectionState, roomState), userState, moderation, followStatus ->
+        RestrictionInput(
+            channel = channel,
+            connectionState = connectionState,
+            roomState = roomState?.takeIf { channel != null && it.channel == channel },
+            userState = userState,
+            moderation = channel?.let { moderation[it] },
+            followStatus = channel?.let { followStatus[it] },
+        )
+    }
+
+    /** Restrictions for the current user in the active channel, re-evaluated every second while time based restrictions are active. */
+    val chatRestrictions: StateFlow<List<ChatRestriction>> = restrictionInput
+        .transformLatest { input ->
+            while (true) {
+                val (restrictions, isTimeDependent) = computeRestrictions(input, System.currentTimeMillis())
+                emit(restrictions)
+                if (!isTimeDependent) break
+                delay(1.seconds)
+            }
+        }
+        .distinctUntilChanged()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), emptyList())
+
+    private fun computeRestrictions(input: RestrictionInput, now: Long): Pair<List<ChatRestriction>, Boolean> {
+        val channel = input.channel ?: return emptyList<ChatRestriction>() to false
+        if (input.connectionState != ConnectionState.CONNECTED) return emptyList<ChatRestriction>() to false
+        val self = dankChatPreferenceStore.userName
+        if (self != null && channel.matches(self)) return emptyList<ChatRestriction>() to false // broadcaster can always chat
+
+        var isTimeDependent = false
+        val moderationRestriction = when (val moderation = input.moderation) {
+            ModerationRestriction.Banned                    -> ChatRestriction.Banned
+            ModerationRestriction.PhoneVerificationRequired -> ChatRestriction.PhoneVerificationRequired
+            ModerationRestriction.EmailVerificationRequired -> ChatRestriction.EmailVerificationRequired
+            ModerationRestriction.ChannelSuspended          -> ChatRestriction.ChannelSuspended
+            is ModerationRestriction.TimedOut               -> when (val until = moderation.untilMillis) {
+                null -> ChatRestriction.TimedOut(remainingSeconds = null)
+                else -> {
+                    val remainingMs = until - now
+                    if (remainingMs > 0) {
+                        isTimeDependent = true
+                        ChatRestriction.TimedOut(remainingSeconds = (remainingMs + 999) / 1000)
+                    } else null
+                }
+            }
+
+            null                                            -> null
+        }
+        if (moderationRestriction != null) {
+            return listOf(moderationRestriction) to isTimeDependent
+        }
+
+        val roomState = input.roomState ?: return emptyList<ChatRestriction>() to false
+        val userState = input.userState
+        val isPrivileged = channel in userState.moderationChannels || channel in userState.vipChannels
+        if (isPrivileged) {
+            // mods & VIPs are exempt from all room modes
+            return emptyList<ChatRestriction>() to false
+        }
+
+        val restrictions = buildList {
+            if (roomState.isSubscriberMode && channel !in userState.subscriberChannels) {
+                add(ChatRestriction.SubscribersOnly)
+            }
+
+            val followDuration = roomState.followerModeDuration?.toLong()
+            if (followDuration != null) {
+                when (val status = input.followStatus) {
+                    is FollowStatus.Following    -> {
+                        val remainingMs = status.followedAtMillis + followDuration * MILLIS_PER_MINUTE - now
+                        if (remainingMs > 0) {
+                            isTimeDependent = true
+                            add(
+                                ChatRestriction.FollowersOnly(
+                                    minutes = (remainingMs + MILLIS_PER_MINUTE - 1) / MILLIS_PER_MINUTE,
+                                    isCertain = true,
+                                    isFollowing = true,
+                                )
+                            )
+                        }
+                    }
+
+                    is FollowStatus.NotFollowing -> add(ChatRestriction.FollowersOnly(minutes = followDuration, isCertain = true))
+                    is FollowStatus.Unknown,
+                    null                         -> add(ChatRestriction.FollowersOnly(minutes = followDuration, isCertain = false))
+                }
+            }
+
+            if (roomState.isEmoteMode) add(ChatRestriction.EmoteOnly)
+            if (roomState.isUniqueChatMode) add(ChatRestriction.UniqueChat)
+            if (isEmpty()) {
+                roomState.slowModeWaitTime?.let { add(ChatRestriction.SlowMode(it)) }
+            }
+        }
+
+        // blocking restrictions first
+        return restrictions.sortedByDescending { it.blocksSending } to isTimeDependent
+    }
+
+    val inputState: StateFlow<InputState> = combine(connectionState, fullScreenSheetState, inputSheetState, chatRestrictions) { connectionState, chatSheetState, inputSheetState, restrictions ->
         val inputIsReply = inputSheetState is InputSheetState.Replying || (inputSheetState as? InputSheetState.Emotes)?.previousReply != null
         when (connectionState) {
             ConnectionState.CONNECTED               -> when {
+                restrictions.isNotEmpty()                                      -> InputState.Restricted(restrictions)
                 chatSheetState is FullScreenSheetState.Replies || inputIsReply -> InputState.Replying
                 else                                                           -> InputState.Default
             }
@@ -461,6 +593,60 @@ class MainViewModel(
         val canTypeInConnectionState = connectionState == ConnectionState.CONNECTED || !appearanceSettingsDataStore.settings.first().autoDisableInput
         (fullScreenSheetState != FullScreenSheetState.Mention && canTypeInConnectionState)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), false)
+
+    val sendIconState: StateFlow<SendIconState> = combine(canType, inputState) { canType, inputState ->
+        when {
+            !canType -> SendIconState.Hidden
+            else     -> when (inputState) {
+                InputState.NotLoggedIn,
+                InputState.Disconnected   -> SendIconState.Blocked
+
+                is InputState.Restricted  -> when {
+                    inputState.restrictions.any { it.blocksSending } -> SendIconState.Blocked
+                    else                                             -> SendIconState.Send
+                }
+
+                InputState.Default,
+                InputState.Replying       -> SendIconState.Send
+            }
+        }
+    }.distinctUntilChanged().stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), SendIconState.Hidden)
+
+    private data class FollowCheckTarget(val channel: UserName, val channelId: UserId, val userId: UserId)
+    private val followRefreshTrigger = MutableStateFlow(0)
+
+    init {
+        // Keep the follow status of the active channel up to date while followers-only mode is active and it matters for us
+        viewModelScope.launch {
+            val targetFlow = combine(activeChannel, activeRoomState, userStateRepository.userState) { channel, roomState, userState ->
+                when {
+                    channel == null || roomState == null || roomState.channel != channel -> null
+                    !roomState.isFollowMode                                              -> null
+                    !dankChatPreferenceStore.isLoggedIn                                  -> null
+                    dankChatPreferenceStore.userName?.matches(channel) == true           -> null
+                    channel in userState.moderationChannels                              -> null
+                    channel in userState.vipChannels                                     -> null
+                    else                                                                 -> {
+                        val userId = userState.userId ?: dankChatPreferenceStore.userIdString
+                        userId?.let { FollowCheckTarget(channel, roomState.channelId, it) }
+                    }
+                }
+            }.distinctUntilChanged()
+
+            combine(targetFlow, followRefreshTrigger) { target, trigger ->
+                target to trigger
+            }.collectLatest { (target, trigger) ->
+                target ?: return@collectLatest
+                var force = trigger > 0
+                while (isActive) {
+                    chatRestrictionRepository.refreshFollowStatusIfNeeded(target.channel, target.channelId, target.userId, force = force)
+                    force = false
+                    if (chatRestrictionRepository.followStatus.value[target.channel] is FollowStatus.Following) break
+                    delay(FOLLOW_STATUS_RECHECK_RATE)
+                }
+            }
+        }
+    }
 
     data class BottomTextState(val enabled: Boolean = true, val text: String = "")
 
@@ -479,8 +665,8 @@ class MainViewModel(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), false)
 
     val shouldShowEmoteMenuIcon: StateFlow<Boolean> =
-        combine(canType, fullScreenSheetState) { canType, chatSheetState ->
-            canType && !chatSheetState.isMentionSheet
+        combine(canType, sendIconState, fullScreenSheetState) { canType, sendIconState, chatSheetState ->
+            canType && sendIconState != SendIconState.Blocked && !chatSheetState.isMentionSheet
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(stopTimeout = 5.seconds), false)
 
     val suggestions: StateFlow<Triple<List<Suggestion.UserSuggestion>, List<Suggestion.EmoteSuggestion>, List<Suggestion.CommandSuggestion>>> = combine(
@@ -751,6 +937,7 @@ class MainViewModel(
     fun reconnect() = viewModelScope.launch {
         chatRepository.closeAndReconnect()
         dataRepository.reconnect()
+        followRefreshTrigger.update { it + 1 }
     }
 
     fun joinChannel(channel: UserName): List<UserName> = chatRepository.joinChannel(channel)
@@ -1103,5 +1290,7 @@ class MainViewModel(
     companion object {
         private val TAG = MainViewModel::class.java.simpleName
         private val STREAM_REFRESH_RATE = 30.seconds
+        private const val MILLIS_PER_MINUTE = 60_000L
+        private val FOLLOW_STATUS_RECHECK_RATE = 30.seconds
     }
 }

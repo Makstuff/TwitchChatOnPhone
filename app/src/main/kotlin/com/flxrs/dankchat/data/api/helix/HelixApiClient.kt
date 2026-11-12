@@ -71,6 +71,12 @@ class HelixApiClient(private val helixApi: HelixApi, private val json: Json) {
             .body()
     }
 
+    suspend fun getFollowedChannel(userId: UserId, broadcasterUserId: UserId): Result<UserFollowsDto> = runCatching {
+        helixApi.getFollowedChannel(userId, broadcasterUserId)
+            .throwHelixApiErrorOnFailure()
+            .body()
+    }
+
     suspend fun getStreams(channels: List<UserName>): Result<List<StreamDto>> = runCatching {
         channels.chunked(DEFAULT_PAGE_SIZE).flatMap {
             helixApi.getStreams(it)

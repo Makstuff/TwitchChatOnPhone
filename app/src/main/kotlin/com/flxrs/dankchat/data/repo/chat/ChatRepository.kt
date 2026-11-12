@@ -100,6 +100,7 @@ class ChatRepository(
     private val pubSubManager: PubSubManager,
     private val channelRepository: ChannelRepository,
     private val eventSubManager: EventSubManager,
+    private val chatRestrictionRepository: ChatRestrictionRepository,
     @Named(type = ReadConnection::class) private val readConnection: ChatConnection,
     @Named(type = WriteConnection::class) private val writeConnection: ChatConnection,
     dispatchersProvider: DispatchersProvider,
@@ -340,6 +341,7 @@ class ChatRepository(
         pubSubManager.close()
         eventSubManager.close()
         userStateRepository.clear()
+        chatRestrictionRepository.clear()
         handleDisconnect()
     }
 
@@ -351,6 +353,7 @@ class ChatRepository(
         pubSubManager.close()
         eventSubManager.close()
         userStateRepository.clear()
+        chatRestrictionRepository.clearModeration()
         connectAndJoin(channels)
     }
 
@@ -512,6 +515,7 @@ class ChatRepository(
         loadedRecentsInChannels.remove(channel)
         usersRepository.removeChannel(channel)
         userStateRepository.removeChannel(channel)
+        chatRestrictionRepository.removeChannel(channel)
         channelRepository.removeRoomState(channel)
         emoteRepository.removeChannel(channel)
         repliesRepository.cleanupMessageThreadsInChannel(channel)
@@ -581,6 +585,7 @@ class ChatRepository(
             return
         }
 
+        chatRestrictionRepository.handleClearChat(parsed)
         messages[parsed.channel]?.update { current ->
             current.replaceOrAddModerationMessage(parsed, scrollBackLength, ::onMessageRemoved)
         }
@@ -629,6 +634,7 @@ class ChatRepository(
     }
 
     private suspend fun handleMessage(ircMessage: IrcMessage) {
+        chatRestrictionRepository.handleNotice(ircMessage)
         if (ircMessage.command == "NOTICE" && ircMessage.tags["msg-id"] in NoticeMessage.ROOM_STATE_CHANGE_MSG_IDS) {
             val channel = ircMessage.params[0].substring(1).toUserName()
             if (eventSubManager.connectedAndHasModerateTopic(channel)) {
@@ -693,6 +699,7 @@ class ChatRepository(
 
         if (message is PrivMessage) {
             if (message.name == dankChatPreferenceStore.userName) {
+                chatRestrictionRepository.handleOwnMessage(message.channel)
                 val previousLastMessage = lastMessage[message.channel].orEmpty()
                 val lastMessageWasCommand = previousLastMessage.startsWith('.') || previousLastMessage.startsWith('/')
                 if (!lastMessageWasCommand && previousLastMessage.withoutInvisibleChar != message.originalMessage.withoutInvisibleChar) {
@@ -820,6 +827,7 @@ class ChatRepository(
                             ModerationMessage.parseClearChat(parsedIrc)
                         }.getOrNull() ?: continue
 
+                        chatRestrictionRepository.handleClearChat(parsed, isHistoric = true)
                         items.replaceOrAddHistoryModerationMessage(parsed)
                     }
 

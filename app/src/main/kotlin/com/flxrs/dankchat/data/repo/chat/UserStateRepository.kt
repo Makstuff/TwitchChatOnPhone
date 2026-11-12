@@ -65,6 +65,8 @@ class UserStateRepository(private val preferenceStore: DankChatPreferenceStore) 
         val badges = msg.tags["badges"]?.split(",")
         val userType = msg.tags["user-type"]
         val hasModeration = (badges?.any { it.contains("broadcaster") || it.contains("moderator") } == true) || userType == "mod"
+        val hasSubscriber = badges?.any { it.startsWith("subscriber/") || it.startsWith("founder/") } == true
+        val hasVip = badges?.any { it.startsWith("vip/") } == true
         preferenceStore.displayName = name
         _userState.update { current ->
             val followerEmotes = when {
@@ -79,12 +81,26 @@ class UserStateRepository(private val preferenceStore: DankChatPreferenceStore) 
                 else          -> current.moderationChannels
             }
 
+            // USERSTATE always carries the complete badge list, so we can both add and remove here
+            val newSubscriberChannels = when {
+                badges == null -> current.subscriberChannels
+                hasSubscriber  -> current.subscriberChannels + channel
+                else           -> current.subscriberChannels - channel
+            }
+            val newVipChannels = when {
+                badges == null -> current.vipChannels
+                hasVip         -> current.vipChannels + channel
+                else           -> current.vipChannels - channel
+            }
+
             current.copy(
                 userId = id ?: current.userId,
                 color = color ?: current.color,
                 displayName = name ?: current.displayName,
                 followerEmoteSets = newFollowerEmoteSets,
-                moderationChannels = newModerationChannels
+                moderationChannels = newModerationChannels,
+                subscriberChannels = newSubscriberChannels,
+                vipChannels = newVipChannels,
             )
         }
     }
@@ -106,6 +122,7 @@ class UserStateRepository(private val preferenceStore: DankChatPreferenceStore) 
             it.copy(
                 moderationChannels = it.moderationChannels - channel,
                 vipChannels = it.vipChannels - channel,
+                subscriberChannels = it.subscriberChannels - channel,
                 followerEmoteSets = it.followerEmoteSets - channel,
             )
         }

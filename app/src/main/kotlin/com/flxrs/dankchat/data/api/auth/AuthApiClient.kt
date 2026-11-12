@@ -68,6 +68,11 @@ class AuthApiClient(private val authApi: AuthApi, private val json: Json) {
             "whispers:edit",
             "whispers:read",
         )
-        val LOGIN_URL = "$BASE_LOGIN_URL&client_id=${DankChatPreferenceStore.DEFAULT_CLIENT_ID}&redirect_uri=$REDIRECT_URL&scope=${SCOPES.joinToString(separator = "+")}"
+        // Requested on login, but not required: existing logins without these keep working,
+        // features depending on them degrade gracefully (e.g. follower-only remaining time).
+        val OPTIONAL_SCOPES = setOf(
+            "user:read:follows",
+        )
+        val LOGIN_URL = "$BASE_LOGIN_URL&client_id=${DankChatPreferenceStore.DEFAULT_CLIENT_ID}&redirect_uri=$REDIRECT_URL&scope=${(SCOPES + OPTIONAL_SCOPES).joinToString(separator = "+")}"
     }
 }

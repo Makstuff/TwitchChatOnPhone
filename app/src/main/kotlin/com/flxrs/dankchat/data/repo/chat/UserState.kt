@@ -14,6 +14,7 @@ data class UserState(
     val followerEmoteSets: Map<UserName, List<String>> = emptyMap(),
     val moderationChannels: Set<UserName> = emptySet(),
     val vipChannels: Set<UserName> = emptySet(),
+    val subscriberChannels: Set<UserName> = emptySet(),
 ) {
 
     fun getSendDelay(channel: UserName): Duration = when {
