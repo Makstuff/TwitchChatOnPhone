@@ -2,7 +2,7 @@
 
 Watch Twitch on PC and automatically open the current channel's chat in the Android app.
 
-Requires the [Android companion app](https://github.com/Makstuff/DankChat/raw/develop/Twitch-Chat-on-Phone.apk).
+Requires the [Android companion app](https://github.com/Makstuff/TwitchChatOnPhone/raw/develop/Twitch-Chat-on-Phone.apk).
 
 ## Features
 - Automatically opens the channel chat in the app when you change Twitch channel on PC.
