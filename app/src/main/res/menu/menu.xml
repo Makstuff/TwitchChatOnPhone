@@ -43,6 +43,22 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_browser_extension"
+        android:title="@string/browser_extension"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/menu_extension_chrome"
+                android:title="@string/browser_chrome"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_extension_firefox"
+                android:title="@string/browser_firefox"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
+    <item
         android:id="@+id/menu_login"
         android:title="@string/login"
         app:showAsAction="never" />

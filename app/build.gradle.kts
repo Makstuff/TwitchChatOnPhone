@@ -85,7 +85,7 @@ android {
 
     buildOutputs.all {
         (this as? BaseVariantOutputImpl)?.apply {
-            val appName = "DankChat-${name}.apk"
+            val appName = "Twitch-Chat-on-Phone.apk"
             outputFileName = appName
         }
     }
@@ -115,6 +115,30 @@ ksp {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+abstract class CopyApkTask : DefaultTask() {
+    @get:InputFile
+    abstract val apkFile: RegularFileProperty
+
+    @get:OutputFile
+    abstract val targetFile: RegularFileProperty
+
+    @TaskAction
+    fun copy() {
+        apkFile.get().asFile.copyTo(targetFile.get().asFile, overwrite = true)
+    }
+}
+
+tasks.register<CopyApkTask>("copyReleaseApkToRoot") {
+    apkFile.set(layout.buildDirectory.file("outputs/apk/release/Twitch-Chat-on-Phone.apk"))
+    targetFile.set(rootProject.layout.projectDirectory.file("Twitch-Chat-on-Phone.apk"))
+}
+
+tasks.matching { it.name == "assembleRelease" }.configureEach {
+    finalizedBy("copyReleaseApkToRoot")
+    if (false) {
+    }
 }
 
 kotlin {

@@ -185,6 +185,10 @@ private fun OverviewSettings(
                     val annotated = buildAnnotatedString {
                         append(context.getString(R.string.preference_about_summary, BuildConfig.VERSION_NAME))
                         appendLine()
+                        withLink(link = buildLinkAnnotation(TCOP_GITHUB_URL)) {
+                            append(TCOP_GITHUB_URL)
+                        }
+                        appendLine()
                         withLink(link = buildLinkAnnotation(GITHUB_URL)) {
                             append(GITHUB_URL)
                         }
@@ -225,6 +229,7 @@ private fun OverviewSettingsPreview() {
     }
 }
 
+private const val TCOP_GITHUB_URL = "https://github.com/Makstuff/TwitchChatOnPhone"
 private const val GITHUB_URL = "https://github.com/flex3r/dankchat"
 private const val TWITCH_TOS_URL = "https://www.twitch.tv/p/terms-of-service"
 

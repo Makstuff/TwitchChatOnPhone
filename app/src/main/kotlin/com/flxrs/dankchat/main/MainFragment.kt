@@ -45,6 +45,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.core.net.toFile
 import androidx.core.net.toUri
+import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsAnimationCompat
@@ -260,6 +261,8 @@ class MainFragment : Fragment() {
                 R.id.menu_sync                     -> syncToRecentStream()
                 R.id.menu_pick_channel             -> navigateSafe(R.id.action_mainFragment_to_addChannelDialogFragment).also { closeInputSheets() }
                 R.id.menu_sync_config              -> showPcSyncConfigDialog()
+                R.id.menu_extension_chrome         -> openBrowserUrl(CHROME_EXTENSION_URL)
+                R.id.menu_extension_firefox        -> openBrowserUrl(FIREFOX_EXTENSION_URL)
                 R.id.menu_reconnect                -> mainViewModel.reconnect()
                 R.id.menu_login, R.id.menu_relogin -> openLogin()
                 R.id.menu_logout                   -> showLogoutConfirmationDialog()
@@ -980,8 +983,18 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun openBrowserUrl(url: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+    }
+
     private fun showPcSyncConfigDialog() {
         val content = EditDialogBinding.inflate(LayoutInflater.from(requireContext()), null, false).apply {
+            dialogDescription.isVisible = true
+            dialogDescription.text = HtmlCompat.fromHtml(
+                getString(R.string.pc_sync_dialog_description, CHROME_EXTENSION_URL, FIREFOX_EXTENSION_URL),
+                HtmlCompat.FROM_HTML_MODE_LEGACY,
+            )
+            dialogDescription.movementMethod = LinkMovementMethod.getInstance()
             dialogEdit.setText(dankChatPreferences.pcSyncTopic)
             dialogEdit.inputType = InputType.TYPE_CLASS_TEXT
             dialogEditLayout.setHint(R.string.pc_sync_topic_hint)
@@ -1612,6 +1625,8 @@ class MainFragment : Fragment() {
         private const val TAB_SCROLL_DELAY_MS = 1000 / 60 * 10L
         private const val OFFSCREEN_PAGE_LIMIT = 2
         private const val CURRENT_STREAM_STATE = "current_stream_state"
+        private const val CHROME_EXTENSION_URL = "https://github.com/Makstuff/TwitchChatOnPhone"
+        private const val FIREFOX_EXTENSION_URL = "https://github.com/Makstuff/TwitchChatOnPhone"
 
         const val LOGOUT_REQUEST_KEY = "logout_key"
         const val LOGIN_REQUEST_KEY = "login_key"

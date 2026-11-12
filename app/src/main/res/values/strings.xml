@@ -200,7 +200,7 @@
     <string name="preference_general_header">General</string>
     <string name="preference_about_header">About</string>
     <string name="preference_appearance_header">Appearance</string>
-    <string name="preference_about_summary">DankChat %1$s made by @flex3rs and contributors</string>
+    <string name="preference_about_summary">Twitch Chat on Phone %1$s\nBased on DankChat by @flex3rs and contributors — made 100%% with AI.</string>
     <string name="preference_show_input_key" translatable="false">show_input_key</string>
     <string name="preference_show_input_title">Show input</string>
     <string name="preference_show_input_summary">Displays the input field to send messages</string>
@@ -484,4 +484,8 @@
     <string name="next_channel">Next channel</string>
     <string name="lock_sync">Lock auto-sync</string>
     <string name="pick_channel">Pick channel</string>
+    <string name="pc_sync_dialog_description">This is a companion app to a browser addon called \"Twitch Chat on Phone\". It is available for &lt;a href=\"%1$s\"&gt;Chrome&lt;/a&gt; and &lt;a href=\"%2$s\"&gt;Firefox&lt;/a&gt;.</string>
+    <string name="browser_extension">Browser extension</string>
+    <string name="browser_chrome">Chrome</string>
+    <string name="browser_firefox">Firefox</string>
 </resources>
