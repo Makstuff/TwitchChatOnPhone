@@ -10,39 +10,6 @@
       background: #18181b;
       color: #efeff1;
     }
-    .sync-id-box {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-align: center;
-      padding: 10px 8px;
-      border-radius: 6px;
-      border: 1px solid #3a3a3d;
-      background: #0e0e10;
-      color: #ffffff;
-      user-select: all;
-      margin-bottom: 8px;
-    }
-    button {
-      width: 100%;
-      padding: 7px 10px;
-      border: 1px solid #3a3a3d;
-      border-radius: 6px;
-      background: #26262c;
-      color: #efeff1;
-      font-weight: 600;
-      font-size: 12px;
-      cursor: pointer;
-      margin-bottom: 0;
-    }
-    button:hover {
-      background: #323239;
-    }
-    button:active {
-      background: #9147ff;
-      border-color: #9147ff;
-    }
     p {
       margin: 0 0 10px 0;
       font-size: 13px;
@@ -56,12 +23,82 @@
     a:hover {
       color: #d1b3ff;
     }
+    .sync-id-row {
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+      border: 1px solid #3a3a3d;
+      background: #0e0e10;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .sync-id-box {
+      flex: 1;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-align: center;
+      padding: 10px 8px;
+      color: #ffffff;
+      user-select: all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .copy-btn {
+      width: auto;
+      margin: 0;
+      padding: 10px 10px;
+      border: none;
+      border-left: 1px solid #3a3a3d;
+      border-radius: 0;
+      background: transparent;
+      color: #adadb8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      background: #26262c;
+      color: #ffffff;
+    }
+    .copy-btn.copied {
+      color: #00f593;
+    }
+    button.regen-btn {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid #3a3a3d;
+      border-radius: 6px;
+      background: #26262c;
+      color: #efeff1;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      margin-bottom: 0;
+    }
+    button.regen-btn:hover {
+      background: #323239;
+    }
+    button.regen-btn:active {
+      background: #9147ff;
+      border-color: #9147ff;
+    }
   </style>
 </head>
 <body>
   <p>This is your personal Sync ID, enter it in the <a href="https://github.com/Makstuff/DankChat/raw/develop/Twitch-Chat-on-Phone.apk" target="_blank" rel="noopener noreferrer">Android app</a> to sync your chat.</p>
-  <div id="syncId" class="sync-id-box">...</div>
-  <button id="regenerateBtn" type="button">Generate New Sync ID</button>
+  <div class="sync-id-row">
+    <div id="syncId" class="sync-id-box">...</div>
+    <button id="copyBtn" class="copy-btn" type="button" title="Copy Sync ID" aria-label="Copy Sync ID">
+      <svg id="copyIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+    </button>
+  </div>
+  <button id="regenerateBtn" class="regen-btn" type="button">Generate New Sync ID</button>
   <script src="popup.js"></script>
 </body>
 </html>
