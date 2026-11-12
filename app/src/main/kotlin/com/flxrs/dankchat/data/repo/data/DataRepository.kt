@@ -107,6 +107,10 @@ class DataRepository(
     suspend fun getChannelFollowers(broadcasterId: UserId, targetId: UserId): UserFollowsDto? = helixApiClient.getChannelFollowers(broadcasterId, targetId).getOrNull()
     suspend fun getStreams(channels: List<UserName>): List<StreamDto>? = helixApiClient.getStreams(channels).getOrNull()
 
+    fun close() {
+        sevenTVEventApiClient.close()
+    }
+
     suspend fun reconnect() {
         sevenTVEventApiClient.reconnect()
     }

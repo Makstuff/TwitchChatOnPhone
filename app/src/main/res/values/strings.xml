@@ -6,6 +6,7 @@
     <string name="login">Login</string>
     <string name="reload_emotes">Reload emotes</string>
     <string name="reconnect">Reconnect</string>
+    <string name="refresh">Refresh</string>
     <string name="clear_chat">Clear chat</string>
     <string name="add_dialog_title">Add channel</string>
     <string name="edit_dialog_title">Rename channel</string>

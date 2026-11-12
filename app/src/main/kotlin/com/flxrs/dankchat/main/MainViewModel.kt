@@ -749,7 +749,7 @@ class MainViewModel(
     fun clearMentionCount(channel: UserName) = chatRepository.clearMentionCount(channel)
     fun clearUnreadMessage(channel: UserName) = chatRepository.clearUnreadMessage(channel)
     fun reconnect() = viewModelScope.launch {
-        chatRepository.reconnect()
+        chatRepository.closeAndReconnect()
         dataRepository.reconnect()
     }
 

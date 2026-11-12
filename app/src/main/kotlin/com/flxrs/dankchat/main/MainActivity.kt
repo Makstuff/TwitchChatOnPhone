@@ -117,6 +117,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("InlinedApi")
     override fun onStart() {
         super.onStart()
+        notificationService?.cancelBackgroundTimeout()
         val needsNotificationPermission = isAtLeastTiramisu && hasPermission(Manifest.permission.POST_NOTIFICATIONS)
         when {
             needsNotificationPermission -> requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)

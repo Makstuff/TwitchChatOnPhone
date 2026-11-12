@@ -218,6 +218,7 @@ class MainFragment : Fragment() {
                 findItem(R.id.menu_block_channel)?.isVisible = isLoggedIn
                 findItem(R.id.menu_previous_channel)?.applyEnabledTint(canGoBack)
                 findItem(R.id.menu_next_channel)?.applyEnabledTint(canGoForward)
+                findItem(R.id.menu_refresh)?.isVisible = hasChannels
                 findItem(R.id.menu_lock_sync)?.apply {
                     setIcon(if (isLocked) R.drawable.ic_lock else R.drawable.ic_lock_open)
                     context?.let {
@@ -242,6 +243,7 @@ class MainFragment : Fragment() {
                 R.id.menu_previous_channel         -> mainViewModel.navigateToPreviousChannel()
                 R.id.menu_next_channel             -> mainViewModel.navigateToNextChannel()
                 R.id.menu_lock_sync                -> mainViewModel.toggleSyncLock()
+                R.id.menu_refresh                  -> mainViewModel.reconnect()
                 R.id.menu_pick_channel             -> navigateSafe(R.id.action_mainFragment_to_addChannelDialogFragment).also { closeInputSheets() }
                 R.id.menu_sync_config              -> showPcSyncConfigDialog()
                 R.id.menu_extension_chrome         -> openBrowserUrl(CHROME_EXTENSION_URL)

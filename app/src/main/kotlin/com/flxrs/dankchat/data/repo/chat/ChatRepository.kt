@@ -334,6 +334,15 @@ class ChatRepository(
         messages[channel]?.value = emptyList()
     }
 
+    fun close() = scope.launch {
+        readConnection.close()
+        writeConnection.close()
+        pubSubManager.close()
+        eventSubManager.close()
+        userStateRepository.clear()
+        handleDisconnect()
+    }
+
     fun closeAndReconnect() = scope.launch {
         val channels = channels.value.orEmpty()
 

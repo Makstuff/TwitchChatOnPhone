@@ -34,6 +34,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -41,6 +42,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.util.Locale
 import kotlin.coroutines.CoroutineContext
+import kotlin.time.Duration.Companion.minutes
 
 class NotificationService : Service(), CoroutineScope {
 
@@ -69,6 +71,7 @@ class NotificationService : Service(), CoroutineScope {
 
     private var activeTTSChannel: UserName? = null
     private var shouldNotifyOnMention = false
+    private var backgroundTimeoutJob: Job? = null
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO + Job()
@@ -78,6 +81,8 @@ class NotificationService : Service(), CoroutineScope {
     override fun onBind(intent: Intent?): IBinder = binder
 
     override fun onDestroy() {
+        backgroundTimeoutJob?.cancel()
+        backgroundTimeoutJob = null
         coroutineContext.cancelChildren()
         manager.cancelAll()
         shutdownTTS()
@@ -143,7 +148,38 @@ class NotificationService : Service(), CoroutineScope {
     }
 
     fun enableNotifications() {
+        startBackgroundTimeout()
+    }
+
+    fun startBackgroundTimeout() {
         shouldNotifyOnMention = true
+        backgroundTimeoutJob?.cancel()
+        backgroundTimeoutJob = launch {
+            Log.d(TAG, "Starting $BACKGROUND_TIMEOUT background timeout...")
+            delay(BACKGROUND_TIMEOUT)
+            Log.i(TAG, "Background timeout reached ($BACKGROUND_TIMEOUT). Disconnecting chats and stopping service to save battery.")
+            disconnectAndStop()
+        }
+    }
+
+    fun cancelBackgroundTimeout() {
+        shouldNotifyOnMention = false
+        if (backgroundTimeoutJob != null) {
+            Log.d(TAG, "Cancelling background timeout")
+            backgroundTimeoutJob?.cancel()
+            backgroundTimeoutJob = null
+        }
+    }
+
+    private fun disconnectAndStop() {
+        chatRepository.close()
+        dataRepository.close()
+        manager.cancel(SUMMARY_NOTIFICATION_ID)
+        manager.cancelAll()
+        shutdownTTS()
+
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
+        stopSelf()
     }
 
     private suspend fun setTTSEnabled(enabled: Boolean) = when {
@@ -214,7 +250,7 @@ class NotificationService : Service(), CoroutineScope {
     }
 
     fun checkForNotification() {
-        shouldNotifyOnMention = false
+        cancelBackgroundTimeout()
 
         notificationsJob?.cancel()
         notificationsJob = launch {
@@ -344,6 +380,7 @@ class NotificationService : Service(), CoroutineScope {
 
     companion object {
         private val TAG = NotificationService::class.simpleName
+        private val BACKGROUND_TIMEOUT = 30.minutes
 
         private const val CHANNEL_ID_LOW = "com.flxrs.dankchat.dank_id"
         private const val CHANNEL_ID_DEFAULT = "com.flxrs.dankchat.very_dank_id"
