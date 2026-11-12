@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      width: 280px;
+      margin: 14px;
+      background: #18181b;
+      color: #efeff1;
+    }
+    .sync-id-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-align: center;
+      padding: 10px 8px;
+      border-radius: 6px;
+      border: 1px solid #3a3a3d;
+      background: #0e0e10;
+      color: #ffffff;
+      user-select: all;
+      margin-bottom: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid #3a3a3d;
+      border-radius: 6px;
+      background: #26262c;
+      color: #efeff1;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background: #323239;
+    }
+    button:active {
+      background: #9147ff;
+      border-color: #9147ff;
+    }
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: #dedee3;
+      line-height: 1.45;
+    }
+    a {
+      color: #bf94ff;
+      text-decoration: underline;
+    }
+    a:hover {
+      color: #d1b3ff;
+    }
+  </style>
+</head>
+<body>
+  <div id="syncId" class="sync-id-box">...</div>
+  <button id="regenerateBtn" type="button">Generate New Sync ID</button>
+  <p>This is your personal Sync ID, enter it in the <a href="https://github.com/Makstuff/DankChat/raw/develop/Twitch-Chat-on-Phone.apk" target="_blank" rel="noopener noreferrer">Android app</a> to sync your chat.</p>
+  <script src="popup.js"></script>
+</body>
+</html>
