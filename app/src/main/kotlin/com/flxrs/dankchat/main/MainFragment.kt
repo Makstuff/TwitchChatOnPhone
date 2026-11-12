@@ -1614,7 +1614,7 @@ class MainFragment : Fragment() {
         private const val TAB_SCROLL_DELAY_MS = 1000 / 60 * 10L
         private const val OFFSCREEN_PAGE_LIMIT = 2
         private const val CURRENT_STREAM_STATE = "current_stream_state"
-        private const val CHROME_EXTENSION_URL = "https://chromewebstore.google.com/search/Twitch%20Chat%20on%20Phone"
+        private const val CHROME_EXTENSION_URL = "https://chromewebstore.google.com/detail/twitch-chat-on-phone/jaccededoheoggkgonljfajegfpdeheo"
         private const val FIREFOX_EXTENSION_URL = "https://addons.mozilla.org/firefox/addon/twitch-chat-on-phone/"
 
         const val LOGOUT_REQUEST_KEY = "logout_key"

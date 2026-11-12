@@ -29,3 +29,4 @@ This Privacy Policy applies to the **Twitch Chat on Phone** browser extension (f
 
 If you have any questions about this Privacy Policy, please contact:
 **contact.makstuff@outlook.com**
+
