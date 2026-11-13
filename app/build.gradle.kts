@@ -22,11 +22,11 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.flxrs.dankchat"
+        applicationId = "com.makstuff.twitchchatonphone"
         minSdk = 23
         targetSdk = 35
-        versionCode = 31111
-        versionName = "3.11.11"
+        versionCode = 1
+        versionName = "1.0.0"
     }
 
     androidResources {
@@ -36,7 +36,9 @@ android {
     val localProperties = gradleLocalProperties(rootDir, providers)
     signingConfigs {
         create("release") {
-            storeFile = file("keystore/DankChat.jks").takeIf { it.exists() } ?: File(System.getProperty("user.home") + "/dankchat/DankChat.jks")
+            storeFile = file("keystore/upload.jks").takeIf { it.exists() }
+                ?: file("keystore/DankChat.jks").takeIf { it.exists() }
+                ?: File(System.getProperty("user.home") + "/dankchat/DankChat.jks")
             storePassword = localProperties.getProperty("SIGNING_STORE_PASSWORD") ?: System.getenv("SIGNING_STORE_PASSWORD")
             keyAlias = localProperties.getProperty("SIGNING_KEY_ALIAS") ?: System.getenv("SIGNING_KEY_ALIAS")
             keyPassword = localProperties.getProperty("SIGNING_KEY_PASSWORD") ?: System.getenv("SIGNING_KEY_PASSWORD")
@@ -66,7 +68,6 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             manifestPlaceholders["applicationLabel"] = "@string/app_name"
-            applicationIdSuffix = ".custom"
             signingConfig = signingConfigs.getByName("release").takeIf { it.storeFile?.exists() == true } ?: signingConfigs.getByName("debug")
         }
         getByName("debug") {
